@@ -1,0 +1,10 @@
+Gemma is provided under and subject to the Gemma Terms of Use found at ai.google.dev/gemma/terms
+
+The bundled TranslateGemma 4B GGUF is a Q4_K_M quantization of Google's
+TranslateGemma 4B instruction model by the bullerwins Hugging Face repository.
+The GGUF file is bundled under the original Gemma Terms of Use and Gemma
+Prohibited Use Policy. Use and redistribution of the model are conditional
+on those terms, including the restrictions in Section 3.2.
+
+The application integrates the model into a Minecraft translation mod.
+It does not claim Google endorsement.

@@ -1,0 +1,7 @@
+{
+  "required": true,
+  "package": "local.chattranslate.mixin",
+  "compatibilityLevel": "JAVA_25",
+  "client": ["ChatComponentMixin", "ContainerTooltipMixin"],
+  "injectors": { "defaultRequire": 1 }
+}

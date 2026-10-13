@@ -1,0 +1,115 @@
+plugins {
+    id 'net.fabricmc.fabric-loom' version "${loom_version}"
+}
+
+import groovy.json.JsonOutput
+import java.security.MessageDigest
+
+base {
+    archivesName = 'localchattranslate'
+}
+
+repositories {
+    maven { url = 'https://maven.terraformersmc.com/releases/' }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${minecraft_version}"
+    implementation "net.fabricmc:fabric-loader:${loader_version}"
+    implementation "net.fabricmc.fabric-api:fabric-api:${fabric_api_version}"
+    compileOnly "com.terraformersmc:modmenu:${modmenu_version}"
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.release = 25
+    options.encoding = 'UTF-8'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_25
+    targetCompatibility = JavaVersion.VERSION_25
+}
+
+tasks.named('jar', Jar) {
+    zip64 = true
+}
+
+tasks.register('generateBundleManifest') {
+    group = 'build'
+    description = 'Hashes the bundled llama.cpp runtime and GGUF without loading the model into memory.'
+    inputs.dir(layout.projectDirectory.dir('bundle'))
+    outputs.file(layout.buildDirectory.file('generated/bundle/manifest.json'))
+    doLast {
+        def assets = fileTree('bundle').matching {
+            include 'llama.cpp/windows-x64/*.dll', 'llama.cpp/windows-x64/llama-server.exe', 'model/*.gguf'
+        }.files.sort { a, b -> a.path <=> b.path }
+        if (!assets.any { it.name == 'llama-server.exe' } || !assets.any { it.name.endsWith('.gguf') }) {
+            throw new GradleException('Bundled llama-server or GGUF is missing')
+        }
+        def files = assets.collect { asset ->
+            def digest = MessageDigest.getInstance('SHA-256')
+            asset.withInputStream { stream ->
+                byte[] buffer = new byte[1024 * 1024]
+                int count
+                while ((count = stream.read(buffer)) != -1) digest.update(buffer, 0, count)
+            }
+            [resource: 'bundled/' + project.relativePath(asset).replace('\\', '/').replaceFirst('^bundle/', ''),
+             sha256: digest.digest().encodeHex().toString(), size: asset.length()]
+        }
+        def versionDigest = MessageDigest.getInstance('SHA-256')
+        files.each { entry -> versionDigest.update((entry.resource + ':' + entry.sha256 + '\n').getBytes('UTF-8')) }
+        def manifest = [bundleVersion: 'b10964-' + versionDigest.digest().encodeHex().toString().substring(0, 16), files: files]
+        def output = layout.buildDirectory.file('generated/bundle/manifest.json').get().asFile
+        output.parentFile.mkdirs()
+        output.text = JsonOutput.prettyPrint(JsonOutput.toJson(manifest)) + '\n'
+    }
+}
+
+tasks.named('processResources') {
+    dependsOn tasks.named('generateBundleManifest')
+    from('bundle') { into 'bundled' }
+    from(layout.buildDirectory.file('generated/bundle/manifest.json')) { into 'bundled' }
+}
+
+tasks.register('verifyOriginalBehavior', JavaExec) {
+    group = 'verification'
+    description = 'Checks recovered chat parsing and placeholder protection without changing the original mod.'
+    dependsOn tasks.named('testClasses')
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'local.chattranslate.OriginalBehaviorSmokeTest'
+}
+
+tasks.register('verifyRuntimeLifecycle', JavaExec) {
+    group = 'verification'
+    description = 'Starts the bundled server, translates, recovers from child death, and checks shutdown.'
+    dependsOn tasks.named('testClasses')
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'local.chattranslate.RuntimeLifecycleSmokeTest'
+}
+
+tasks.register('runOrphanProbe', JavaExec) {
+    group = 'verification'
+    description = 'Test-only probe for verifying server cleanup after forced JVM termination.'
+    dependsOn tasks.named('testClasses')
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'local.chattranslate.JobOrphanProbe'
+}
+
+tasks.named('test', Test) {
+    // The standalone smoke runner is executed by verifyOriginalBehavior.
+    failOnNoDiscoveredTests = false
+}
+
+tasks.named('check') {
+    dependsOn tasks.named('verifyOriginalBehavior')
+}
+
+fabricApi {
+    configureTests {
+        createSourceSet = true
+        modId = 'localchattranslate-reconstruction-test'
+        enableGameTests = false
+        enableClientGameTests = true
+        eula = true
+    }
+}

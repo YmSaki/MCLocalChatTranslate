@@ -1,0 +1,24 @@
+0.00.149.515 I cmn  common_param: common_params_print_info: verbosity = 3 (adjust with the `-lv N` CLI arg)
+0.00.149.604 I srv          init: The UI is disabled
+0.00.149.604 I srv          init: Use --ui/--no-ui (or deprecated --webui/--no-webui) to enable/disable
+0.00.152.333 I srv    load_model: loading model 'C:\programing\mcmod\LocalChatTranslate-0.4.0+26.1.2\localchattranslate-rebuild\bundle\model\translategemma-4b.gguf'
+0.00.838.169 W load: control-looking token:    212 '</s>' was not control-type; this is probably a bug in the model. its type will be overridden
+0.02.244.246 I cmn          init: llama threadpool init, n_threads = 16
+0.06.312.468 I srv    load_model: initializing, n_slots = 4, n_ctx_slot = 2048, kv_unified = 'true'
+0.06.312.911 I srv  llama_server: model loaded
+0.06.312.915 I srv  llama_server: listening on http://127.0.0.1:38253
+0.06.556.663 I slot get_availabl: id  3 | task -1 | selected slot by LRU, t_last = -1
+0.06.556.693 I slot launch_slot_: id  3 | task 0 | processing task, is_child = 0
+0.12.248.699 I slot print_timing: id  3 | task 0 | prompt processing, n_tokens =     99, progress = 0.96, t =   5.69 s / 17.39 tokens per second
+0.13.576.321 I slot print_timing: id  3 | task 0 | prompt eval time =    6798.04 ms /   103 tokens (   66.00 ms per token,    15.15 tokens per second)
+0.13.576.327 I slot print_timing: id  3 | task 0 |        eval time =     221.54 ms /     6 tokens (   44.31 ms per token,    22.57 tokens per second)
+0.13.576.327 I slot print_timing: id  3 | task 0 |       total time =    7019.58 ms /   109 tokens
+0.13.576.328 I slot print_timing: id  3 | task 0 |    graphs reused =          5
+0.13.576.378 I slot      release: id  3 | task 0 | stop processing: n_tokens = 108, truncated = 0
+0.13.590.305 I slot get_availabl: id  3 | task -1 | selected slot by LCP similarity, f_sim_best = 1.000 (> 0.100 thold), f_keep = 0.954
+0.13.590.434 I slot launch_slot_: id  3 | task 8 | processing task, is_child = 0
+0.13.646.673 I slot print_timing: id  3 | task 8 | prompt eval time =      28.34 ms /     5 tokens (    5.67 ms per token,   176.40 tokens per second)
+0.13.646.679 I slot print_timing: id  3 | task 8 |        eval time =      27.87 ms /     6 tokens (    5.57 ms per token,   179.41 tokens per second)
+0.13.646.680 I slot print_timing: id  3 | task 8 |       total time =      56.21 ms /    11 tokens
+0.13.646.681 I slot print_timing: id  3 | task 8 |    graphs reused =          9
+0.13.646.700 I slot      release: id  3 | task 8 | stop processing: n_tokens = 108, truncated = 0

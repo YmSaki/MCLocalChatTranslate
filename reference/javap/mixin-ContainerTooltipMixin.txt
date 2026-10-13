@@ -1,0 +1,232 @@
+Classfile jar:file:///C:/programing/mcmod/LocalChatTranslate-0.4.0+26.1.2/localchattranslate-rebuild/reference/original/localchattranslate-0.4.0+26.1.2.jar!/local/chattranslate/mixin/ContainerTooltipMixin.class
+  Last modified 1980/02/01; size 3177 bytes
+  SHA-256 checksum a9bacacb6ce6bcaa1c089ad918635d4eb004a435efd3fb5116a002fc305a8dcf
+  Compiled from "ContainerTooltipMixin.java"
+public abstract class local.chattranslate.mixin.ContainerTooltipMixin
+  minor version: 0
+  major version: 69
+  flags: (0x0421) ACC_PUBLIC, ACC_SUPER, ACC_ABSTRACT
+  this_class: #10                         // local/chattranslate/mixin/ContainerTooltipMixin
+  super_class: #2                         // java/lang/Object
+  interfaces: 0, fields: 1, methods: 4, attributes: 2
+Constant pool:
+   #1 = Methodref          #2.#3          // java/lang/Object."<init>":()V
+   #2 = Class              #4             // java/lang/Object
+   #3 = NameAndType        #5:#6          // "<init>":()V
+   #4 = Utf8               java/lang/Object
+   #5 = Utf8               <init>
+   #6 = Utf8               ()V
+   #7 = Class              #8             // net/minecraft/client/gui/screens/Screen
+   #8 = Utf8               net/minecraft/client/gui/screens/Screen
+   #9 = Fieldref           #10.#11        // local/chattranslate/mixin/ContainerTooltipMixin.hoveredSlot:Lnet/minecraft/world/inventory/Slot;
+  #10 = Class              #12            // local/chattranslate/mixin/ContainerTooltipMixin
+  #11 = NameAndType        #13:#14        // hoveredSlot:Lnet/minecraft/world/inventory/Slot;
+  #12 = Utf8               local/chattranslate/mixin/ContainerTooltipMixin
+  #13 = Utf8               hoveredSlot
+  #14 = Utf8               Lnet/minecraft/world/inventory/Slot;
+  #15 = Methodref          #16.#17        // local/chattranslate/LocalChatTranslate.tooltipHover:(Lnet/minecraft/client/gui/screens/Screen;Lnet/minecraft/world/inventory/Slot;)V
+  #16 = Class              #18            // local/chattranslate/LocalChatTranslate
+  #17 = NameAndType        #19:#20        // tooltipHover:(Lnet/minecraft/client/gui/screens/Screen;Lnet/minecraft/world/inventory/Slot;)V
+  #18 = Utf8               local/chattranslate/LocalChatTranslate
+  #19 = Utf8               tooltipHover
+  #20 = Utf8               (Lnet/minecraft/client/gui/screens/Screen;Lnet/minecraft/world/inventory/Slot;)V
+  #21 = Methodref          #16.#22        // local/chattranslate/LocalChatTranslate.tooltipLines:(Ljava/util/List;)Ljava/util/List;
+  #22 = NameAndType        #23:#24        // tooltipLines:(Ljava/util/List;)Ljava/util/List;
+  #23 = Utf8               tooltipLines
+  #24 = Utf8               (Ljava/util/List;)Ljava/util/List;
+  #25 = Methodref          #16.#26        // local/chattranslate/LocalChatTranslate.tooltipKey:(Lnet/minecraft/client/gui/screens/Screen;Lnet/minecraft/world/inventory/Slot;Lnet/minecraft/client/input/KeyEvent;)Z
+  #26 = NameAndType        #27:#28        // tooltipKey:(Lnet/minecraft/client/gui/screens/Screen;Lnet/minecraft/world/inventory/Slot;Lnet/minecraft/client/input/KeyEvent;)Z
+  #27 = Utf8               tooltipKey
+  #28 = Utf8               (Lnet/minecraft/client/gui/screens/Screen;Lnet/minecraft/world/inventory/Slot;Lnet/minecraft/client/input/KeyEvent;)Z
+  #29 = Methodref          #30.#31        // java/lang/Boolean.valueOf:(Z)Ljava/lang/Boolean;
+  #30 = Class              #32            // java/lang/Boolean
+  #31 = NameAndType        #33:#34        // valueOf:(Z)Ljava/lang/Boolean;
+  #32 = Utf8               java/lang/Boolean
+  #33 = Utf8               valueOf
+  #34 = Utf8               (Z)Ljava/lang/Boolean;
+  #35 = Methodref          #36.#37        // org/spongepowered/asm/mixin/injection/callback/CallbackInfoReturnable.setReturnValue:(Ljava/lang/Object;)V
+  #36 = Class              #38            // org/spongepowered/asm/mixin/injection/callback/CallbackInfoReturnable
+  #37 = NameAndType        #39:#40        // setReturnValue:(Ljava/lang/Object;)V
+  #38 = Utf8               org/spongepowered/asm/mixin/injection/callback/CallbackInfoReturnable
+  #39 = Utf8               setReturnValue
+  #40 = Utf8               (Ljava/lang/Object;)V
+  #41 = Utf8               RuntimeVisibleAnnotations
+  #42 = Utf8               Lorg/spongepowered/asm/mixin/Shadow;
+  #43 = Utf8               Code
+  #44 = Utf8               LineNumberTable
+  #45 = Utf8               LocalVariableTable
+  #46 = Utf8               this
+  #47 = Utf8               Llocal/chattranslate/mixin/ContainerTooltipMixin;
+  #48 = Utf8               lct$hover
+  #49 = Utf8               (Lnet/minecraft/client/gui/GuiGraphicsExtractor;IILorg/spongepowered/asm/mixin/injection/callback/CallbackInfo;)V
+  #50 = Utf8               graphics
+  #51 = Utf8               Lnet/minecraft/client/gui/GuiGraphicsExtractor;
+  #52 = Utf8               x
+  #53 = Utf8               I
+  #54 = Utf8               y
+  #55 = Utf8               ci
+  #56 = Utf8               Lorg/spongepowered/asm/mixin/injection/callback/CallbackInfo;
+  #57 = Utf8               Lorg/spongepowered/asm/mixin/injection/Inject;
+  #58 = Utf8               method
+  #59 = Utf8               extractTooltip
+  #60 = Utf8               at
+  #61 = Utf8               Lorg/spongepowered/asm/mixin/injection/At;
+  #62 = Utf8               value
+  #63 = Utf8               HEAD
+  #64 = Utf8               lct$translateTooltip
+  #65 = Utf8               original
+  #66 = Utf8               Ljava/util/List;
+  #67 = Utf8               LocalVariableTypeTable
+  #68 = Utf8               Ljava/util/List<Lnet/minecraft/network/chat/Component;>;
+  #69 = Utf8               Signature
+  #70 = Utf8               (Ljava/util/List<Lnet/minecraft/network/chat/Component;>;)Ljava/util/List<Lnet/minecraft/network/chat/Component;>;
+  #71 = Utf8               Lorg/spongepowered/asm/mixin/injection/ModifyArg;
+  #72 = Utf8               INVOKE
+  #73 = Utf8               target
+  #74 = Utf8               Lnet/minecraft/client/gui/GuiGraphicsExtractor;setTooltipForNextFrame(Lnet/minecraft/client/gui/Font;Ljava/util/List;Ljava/util/Optional;IILnet/minecraft/resources/Identifier;)V
+  #75 = Utf8               index
+  #76 = Integer            1
+  #77 = Utf8               lct$key
+  #78 = Utf8               (Lnet/minecraft/client/input/KeyEvent;Lorg/spongepowered/asm/mixin/injection/callback/CallbackInfoReturnable;)V
+  #79 = Utf8               event
+  #80 = Utf8               Lnet/minecraft/client/input/KeyEvent;
+  #81 = Utf8               cir
+  #82 = Utf8               Lorg/spongepowered/asm/mixin/injection/callback/CallbackInfoReturnable;
+  #83 = Utf8               Lorg/spongepowered/asm/mixin/injection/callback/CallbackInfoReturnable<Ljava/lang/Boolean;>;
+  #84 = Utf8               StackMapTable
+  #85 = Utf8               (Lnet/minecraft/client/input/KeyEvent;Lorg/spongepowered/asm/mixin/injection/callback/CallbackInfoReturnable<Ljava/lang/Boolean;>;)V
+  #86 = Utf8               keyPressed
+  #87 = Utf8               cancellable
+  #88 = Utf8               SourceFile
+  #89 = Utf8               ContainerTooltipMixin.java
+  #90 = Utf8               RuntimeInvisibleAnnotations
+  #91 = Utf8               Lorg/spongepowered/asm/mixin/Mixin;
+  #92 = Utf8               Lnet/minecraft/client/gui/screens/inventory/AbstractContainerScreen;
+{
+  protected net.minecraft.world.inventory.Slot hoveredSlot;
+    descriptor: Lnet/minecraft/world/inventory/Slot;
+    flags: (0x0004) ACC_PROTECTED
+    RuntimeVisibleAnnotations:
+      0: #42()
+        org.spongepowered.asm.mixin.Shadow
+
+  public local.chattranslate.mixin.ContainerTooltipMixin();
+    descriptor: ()V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+         4: return
+      LineNumberTable:
+        line 20: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       5     0  this   Llocal/chattranslate/mixin/ContainerTooltipMixin;
+
+  private void lct$hover(net.minecraft.client.gui.GuiGraphicsExtractor, int, int, org.spongepowered.asm.mixin.injection.callback.CallbackInfo);
+    descriptor: (Lnet/minecraft/client/gui/GuiGraphicsExtractor;IILorg/spongepowered/asm/mixin/injection/callback/CallbackInfo;)V
+    flags: (0x0002) ACC_PRIVATE
+    Code:
+      stack=2, locals=5, args_size=5
+         0: aload_0
+         1: checkcast     #7                  // class net/minecraft/client/gui/screens/Screen
+         4: aload_0
+         5: getfield      #9                  // Field hoveredSlot:Lnet/minecraft/world/inventory/Slot;
+         8: invokestatic  #15                 // Method local/chattranslate/LocalChatTranslate.tooltipHover:(Lnet/minecraft/client/gui/screens/Screen;Lnet/minecraft/world/inventory/Slot;)V
+        11: return
+      LineNumberTable:
+        line 25: 0
+        line 26: 11
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      12     0  this   Llocal/chattranslate/mixin/ContainerTooltipMixin;
+            0      12     1 graphics   Lnet/minecraft/client/gui/GuiGraphicsExtractor;
+            0      12     2     x   I
+            0      12     3     y   I
+            0      12     4    ci   Lorg/spongepowered/asm/mixin/injection/callback/CallbackInfo;
+    RuntimeVisibleAnnotations:
+      0: #57(#58=[s#59],#60=[@#61(#62=s#63)])
+        org.spongepowered.asm.mixin.injection.Inject(
+          method=["extractTooltip"]
+          at=[@org.spongepowered.asm.mixin.injection.At(
+            value="HEAD"
+          )]
+        )
+
+  private java.util.List<net.minecraft.network.chat.Component> lct$translateTooltip(java.util.List<net.minecraft.network.chat.Component>);
+    descriptor: (Ljava/util/List;)Ljava/util/List;
+    flags: (0x0002) ACC_PRIVATE
+    Code:
+      stack=1, locals=2, args_size=2
+         0: aload_1
+         1: invokestatic  #21                 // Method local/chattranslate/LocalChatTranslate.tooltipLines:(Ljava/util/List;)Ljava/util/List;
+         4: areturn
+      LineNumberTable:
+        line 31: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       5     0  this   Llocal/chattranslate/mixin/ContainerTooltipMixin;
+            0       5     1 original   Ljava/util/List;
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0       5     1 original   Ljava/util/List<Lnet/minecraft/network/chat/Component;>;
+    Signature: #70                          // (Ljava/util/List<Lnet/minecraft/network/chat/Component;>;)Ljava/util/List<Lnet/minecraft/network/chat/Component;>;
+    RuntimeVisibleAnnotations:
+      0: #71(#58=[s#59],#60=[@#61(#62=s#72,#73=s#74)],#75=I#76)
+        org.spongepowered.asm.mixin.injection.ModifyArg(
+          method=["extractTooltip"]
+          at=[@org.spongepowered.asm.mixin.injection.At(
+            value="INVOKE"
+            target="Lnet/minecraft/client/gui/GuiGraphicsExtractor;setTooltipForNextFrame(Lnet/minecraft/client/gui/Font;Ljava/util/List;Ljava/util/Optional;IILnet/minecraft/resources/Identifier;)V"
+          )]
+          index=1
+        )
+
+  private void lct$key(net.minecraft.client.input.KeyEvent, org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable<java.lang.Boolean>);
+    descriptor: (Lnet/minecraft/client/input/KeyEvent;Lorg/spongepowered/asm/mixin/injection/callback/CallbackInfoReturnable;)V
+    flags: (0x0002) ACC_PRIVATE
+    Code:
+      stack=3, locals=3, args_size=3
+         0: aload_0
+         1: checkcast     #7                  // class net/minecraft/client/gui/screens/Screen
+         4: aload_0
+         5: getfield      #9                  // Field hoveredSlot:Lnet/minecraft/world/inventory/Slot;
+         8: aload_1
+         9: invokestatic  #25                 // Method local/chattranslate/LocalChatTranslate.tooltipKey:(Lnet/minecraft/client/gui/screens/Screen;Lnet/minecraft/world/inventory/Slot;Lnet/minecraft/client/input/KeyEvent;)Z
+        12: ifeq          23
+        15: aload_2
+        16: iconst_1
+        17: invokestatic  #29                 // Method java/lang/Boolean.valueOf:(Z)Ljava/lang/Boolean;
+        20: invokevirtual #35                 // Method org/spongepowered/asm/mixin/injection/callback/CallbackInfoReturnable.setReturnValue:(Ljava/lang/Object;)V
+        23: return
+      LineNumberTable:
+        line 36: 0
+        line 37: 23
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      24     0  this   Llocal/chattranslate/mixin/ContainerTooltipMixin;
+            0      24     1 event   Lnet/minecraft/client/input/KeyEvent;
+            0      24     2   cir   Lorg/spongepowered/asm/mixin/injection/callback/CallbackInfoReturnable;
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0      24     2   cir   Lorg/spongepowered/asm/mixin/injection/callback/CallbackInfoReturnable<Ljava/lang/Boolean;>;
+      StackMapTable: number_of_entries = 1
+        frame_type = 23 /* same */
+    Signature: #85                          // (Lnet/minecraft/client/input/KeyEvent;Lorg/spongepowered/asm/mixin/injection/callback/CallbackInfoReturnable<Ljava/lang/Boolean;>;)V
+    RuntimeVisibleAnnotations:
+      0: #57(#58=[s#86],#60=[@#61(#62=s#63)],#87=Z#76)
+        org.spongepowered.asm.mixin.injection.Inject(
+          method=["keyPressed"]
+          at=[@org.spongepowered.asm.mixin.injection.At(
+            value="HEAD"
+          )]
+          cancellable=true
+        )
+}
+SourceFile: "ContainerTooltipMixin.java"
+RuntimeInvisibleAnnotations:
+  0: #91(#62=[c#92])
+    org.spongepowered.asm.mixin.Mixin(
+      value=[class Lnet/minecraft/client/gui/screens/inventory/AbstractContainerScreen;]
+    )

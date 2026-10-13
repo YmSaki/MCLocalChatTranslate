@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "id": "localchattranslate-reconstruction-test",
+  "version": "1.0.0",
+  "name": "LocalChatTranslate reconstruction test",
+  "environment": "client",
+  "entrypoints": {
+    "fabric-client-gametest": ["local.chattranslate.OriginalClientGameTest"]
+  },
+  "depends": {
+    "localchattranslate": "*",
+    "fabric-client-gametest-api-v1": "*"
+  }
+}

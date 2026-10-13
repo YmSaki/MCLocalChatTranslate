@@ -1,0 +1,1045 @@
+Classfile jar:file:///C:/programing/mcmod/LocalChatTranslate-0.4.0+26.1.2/localchattranslate-rebuild/reference/original/localchattranslate-0.4.0+26.1.2.jar!/local/chattranslate/ProtectedBody.class
+  Last modified 1980/02/01; size 7859 bytes
+  SHA-256 checksum 42f886e508cf99cba7d10069fb17c8afd5acd29633ef3d973149cd519ab84ec3
+  Compiled from "ProtectedBody.java"
+public final class local.chattranslate.ProtectedBody extends java.lang.Record
+  minor version: 0
+  major version: 69
+  flags: (0x0031) ACC_PUBLIC, ACC_FINAL, ACC_SUPER
+  this_class: #8                          // local/chattranslate/ProtectedBody
+  super_class: #2                         // java/lang/Record
+  interfaces: 0, fields: 7, methods: 16, attributes: 5
+Constant pool:
+    #1 = Methodref          #2.#3         // java/lang/Record."<init>":()V
+    #2 = Class              #4            // java/lang/Record
+    #3 = NameAndType        #5:#6         // "<init>":()V
+    #4 = Utf8               java/lang/Record
+    #5 = Utf8               <init>
+    #6 = Utf8               ()V
+    #7 = Fieldref           #8.#9         // local/chattranslate/ProtectedBody.original:Ljava/lang/String;
+    #8 = Class              #10           // local/chattranslate/ProtectedBody
+    #9 = NameAndType        #11:#12       // original:Ljava/lang/String;
+   #10 = Utf8               local/chattranslate/ProtectedBody
+   #11 = Utf8               original
+   #12 = Utf8               Ljava/lang/String;
+   #13 = Fieldref           #8.#14        // local/chattranslate/ProtectedBody.detectionText:Ljava/lang/String;
+   #14 = NameAndType        #15:#12       // detectionText:Ljava/lang/String;
+   #15 = Utf8               detectionText
+   #16 = Fieldref           #8.#17        // local/chattranslate/ProtectedBody.requestText:Ljava/lang/String;
+   #17 = NameAndType        #18:#12       // requestText:Ljava/lang/String;
+   #18 = Utf8               requestText
+   #19 = Fieldref           #8.#20        // local/chattranslate/ProtectedBody.marker:Ljava/lang/String;
+   #20 = NameAndType        #21:#12       // marker:Ljava/lang/String;
+   #21 = Utf8               marker
+   #22 = Fieldref           #8.#23        // local/chattranslate/ProtectedBody.names:Ljava/util/List;
+   #23 = NameAndType        #24:#25       // names:Ljava/util/List;
+   #24 = Utf8               names
+   #25 = Utf8               Ljava/util/List;
+   #26 = InterfaceMethodref #27.#28       // java/util/Collection.stream:()Ljava/util/stream/Stream;
+   #27 = Class              #29           // java/util/Collection
+   #28 = NameAndType        #30:#31       // stream:()Ljava/util/stream/Stream;
+   #29 = Utf8               java/util/Collection
+   #30 = Utf8               stream
+   #31 = Utf8               ()Ljava/util/stream/Stream;
+   #32 = InvokeDynamic      #0:#33        // #0:test:()Ljava/util/function/Predicate;
+   #33 = NameAndType        #34:#35       // test:()Ljava/util/function/Predicate;
+   #34 = Utf8               test
+   #35 = Utf8               ()Ljava/util/function/Predicate;
+   #36 = InterfaceMethodref #37.#38       // java/util/stream/Stream.filter:(Ljava/util/function/Predicate;)Ljava/util/stream/Stream;
+   #37 = Class              #39           // java/util/stream/Stream
+   #38 = NameAndType        #40:#41       // filter:(Ljava/util/function/Predicate;)Ljava/util/stream/Stream;
+   #39 = Utf8               java/util/stream/Stream
+   #40 = Utf8               filter
+   #41 = Utf8               (Ljava/util/function/Predicate;)Ljava/util/stream/Stream;
+   #42 = InvokeDynamic      #1:#43        // #1:apply:()Ljava/util/function/Function;
+   #43 = NameAndType        #44:#45       // apply:()Ljava/util/function/Function;
+   #44 = Utf8               apply
+   #45 = Utf8               ()Ljava/util/function/Function;
+   #46 = InterfaceMethodref #37.#47       // java/util/stream/Stream.map:(Ljava/util/function/Function;)Ljava/util/stream/Stream;
+   #47 = NameAndType        #48:#49       // map:(Ljava/util/function/Function;)Ljava/util/stream/Stream;
+   #48 = Utf8               map
+   #49 = Utf8               (Ljava/util/function/Function;)Ljava/util/stream/Stream;
+   #50 = Methodref          #51.#52       // java/util/stream/Collectors.toSet:()Ljava/util/stream/Collector;
+   #51 = Class              #53           // java/util/stream/Collectors
+   #52 = NameAndType        #54:#55       // toSet:()Ljava/util/stream/Collector;
+   #53 = Utf8               java/util/stream/Collectors
+   #54 = Utf8               toSet
+   #55 = Utf8               ()Ljava/util/stream/Collector;
+   #56 = InterfaceMethodref #37.#57       // java/util/stream/Stream.collect:(Ljava/util/stream/Collector;)Ljava/lang/Object;
+   #57 = NameAndType        #58:#59       // collect:(Ljava/util/stream/Collector;)Ljava/lang/Object;
+   #58 = Utf8               collect
+   #59 = Utf8               (Ljava/util/stream/Collector;)Ljava/lang/Object;
+   #60 = Class              #61           // java/util/Set
+   #61 = Utf8               java/util/Set
+   #62 = String             #63           // ZXQ
+   #63 = Utf8               ZXQ
+   #64 = Methodref          #65.#66       // java/lang/String.contains:(Ljava/lang/CharSequence;)Z
+   #65 = Class              #67           // java/lang/String
+   #66 = NameAndType        #68:#69       // contains:(Ljava/lang/CharSequence;)Z
+   #67 = Utf8               java/lang/String
+   #68 = Utf8               contains
+   #69 = Utf8               (Ljava/lang/CharSequence;)Z
+   #70 = InvokeDynamic      #2:#71        // #2:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+   #71 = NameAndType        #72:#73       // makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+   #72 = Utf8               makeConcatWithConstants
+   #73 = Utf8               (Ljava/lang/String;)Ljava/lang/String;
+   #74 = Class              #75           // java/lang/StringBuilder
+   #75 = Utf8               java/lang/StringBuilder
+   #76 = Methodref          #74.#3        // java/lang/StringBuilder."<init>":()V
+   #77 = Class              #78           // java/util/ArrayList
+   #78 = Utf8               java/util/ArrayList
+   #79 = Methodref          #77.#3        // java/util/ArrayList."<init>":()V
+   #80 = Fieldref           #8.#81        // local/chattranslate/ProtectedBody.WORD:Ljava/util/regex/Pattern;
+   #81 = NameAndType        #82:#83       // WORD:Ljava/util/regex/Pattern;
+   #82 = Utf8               WORD
+   #83 = Utf8               Ljava/util/regex/Pattern;
+   #84 = Methodref          #85.#86       // java/util/regex/Pattern.matcher:(Ljava/lang/CharSequence;)Ljava/util/regex/Matcher;
+   #85 = Class              #87           // java/util/regex/Pattern
+   #86 = NameAndType        #88:#89       // matcher:(Ljava/lang/CharSequence;)Ljava/util/regex/Matcher;
+   #87 = Utf8               java/util/regex/Pattern
+   #88 = Utf8               matcher
+   #89 = Utf8               (Ljava/lang/CharSequence;)Ljava/util/regex/Matcher;
+   #90 = Methodref          #91.#92       // java/util/regex/Matcher.find:()Z
+   #91 = Class              #93           // java/util/regex/Matcher
+   #92 = NameAndType        #94:#95       // find:()Z
+   #93 = Utf8               java/util/regex/Matcher
+   #94 = Utf8               find
+   #95 = Utf8               ()Z
+   #96 = Methodref          #91.#97       // java/util/regex/Matcher.group:()Ljava/lang/String;
+   #97 = NameAndType        #98:#99       // group:()Ljava/lang/String;
+   #98 = Utf8               group
+   #99 = Utf8               ()Ljava/lang/String;
+  #100 = Fieldref           #101.#102     // java/util/Locale.ROOT:Ljava/util/Locale;
+  #101 = Class              #103          // java/util/Locale
+  #102 = NameAndType        #104:#105     // ROOT:Ljava/util/Locale;
+  #103 = Utf8               java/util/Locale
+  #104 = Utf8               ROOT
+  #105 = Utf8               Ljava/util/Locale;
+  #106 = Methodref          #65.#107      // java/lang/String.toLowerCase:(Ljava/util/Locale;)Ljava/lang/String;
+  #107 = NameAndType        #108:#109     // toLowerCase:(Ljava/util/Locale;)Ljava/lang/String;
+  #108 = Utf8               toLowerCase
+  #109 = Utf8               (Ljava/util/Locale;)Ljava/lang/String;
+  #110 = InterfaceMethodref #60.#111      // java/util/Set.contains:(Ljava/lang/Object;)Z
+  #111 = NameAndType        #68:#112      // contains:(Ljava/lang/Object;)Z
+  #112 = Utf8               (Ljava/lang/Object;)Z
+  #113 = Methodref          #91.#114      // java/util/regex/Matcher.start:()I
+  #114 = NameAndType        #115:#116     // start:()I
+  #115 = Utf8               start
+  #116 = Utf8               ()I
+  #117 = Methodref          #74.#118      // java/lang/StringBuilder.append:(Ljava/lang/CharSequence;II)Ljava/lang/StringBuilder;
+  #118 = NameAndType        #119:#120     // append:(Ljava/lang/CharSequence;II)Ljava/lang/StringBuilder;
+  #119 = Utf8               append
+  #120 = Utf8               (Ljava/lang/CharSequence;II)Ljava/lang/StringBuilder;
+  #121 = Methodref          #74.#122      // java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+  #122 = NameAndType        #119:#123     // append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+  #123 = Utf8               (Ljava/lang/String;)Ljava/lang/StringBuilder;
+  #124 = InterfaceMethodref #125.#126     // java/util/List.size:()I
+  #125 = Class              #127          // java/util/List
+  #126 = NameAndType        #128:#116     // size:()I
+  #127 = Utf8               java/util/List
+  #128 = Utf8               size
+  #129 = Methodref          #74.#130      // java/lang/StringBuilder.append:(I)Ljava/lang/StringBuilder;
+  #130 = NameAndType        #119:#131     // append:(I)Ljava/lang/StringBuilder;
+  #131 = Utf8               (I)Ljava/lang/StringBuilder;
+  #132 = Methodref          #74.#133      // java/lang/StringBuilder.append:(C)Ljava/lang/StringBuilder;
+  #133 = NameAndType        #119:#134     // append:(C)Ljava/lang/StringBuilder;
+  #134 = Utf8               (C)Ljava/lang/StringBuilder;
+  #135 = InterfaceMethodref #125.#136     // java/util/List.add:(Ljava/lang/Object;)Z
+  #136 = NameAndType        #137:#112     // add:(Ljava/lang/Object;)Z
+  #137 = Utf8               add
+  #138 = Methodref          #91.#139      // java/util/regex/Matcher.end:()I
+  #139 = NameAndType        #140:#116     // end:()I
+  #140 = Utf8               end
+  #141 = Methodref          #65.#142      // java/lang/String.substring:(I)Ljava/lang/String;
+  #142 = NameAndType        #143:#144     // substring:(I)Ljava/lang/String;
+  #143 = Utf8               substring
+  #144 = Utf8               (I)Ljava/lang/String;
+  #145 = Methodref          #74.#146      // java/lang/StringBuilder.toString:()Ljava/lang/String;
+  #146 = NameAndType        #147:#99      // toString:()Ljava/lang/String;
+  #147 = Utf8               toString
+  #148 = InterfaceMethodref #125.#149     // java/util/List.copyOf:(Ljava/util/Collection;)Ljava/util/List;
+  #149 = NameAndType        #150:#151     // copyOf:(Ljava/util/Collection;)Ljava/util/List;
+  #150 = Utf8               copyOf
+  #151 = Utf8               (Ljava/util/Collection;)Ljava/util/List;
+  #152 = Methodref          #8.#153       // local/chattranslate/ProtectedBody."<init>":(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;)V
+  #153 = NameAndType        #5:#154       // "<init>":(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;)V
+  #154 = Utf8               (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;)V
+  #155 = Fieldref           #8.#156       // local/chattranslate/ProtectedBody.GAME_SLANG:Ljava/util/regex/Pattern;
+  #156 = NameAndType        #157:#83      // GAME_SLANG:Ljava/util/regex/Pattern;
+  #157 = Utf8               GAME_SLANG
+  #158 = Methodref          #65.#159      // java/lang/String.strip:()Ljava/lang/String;
+  #159 = NameAndType        #160:#99      // strip:()Ljava/lang/String;
+  #160 = Utf8               strip
+  #161 = Methodref          #91.#162      // java/util/regex/Matcher.matches:()Z
+  #162 = NameAndType        #163:#95      // matches:()Z
+  #163 = Utf8               matches
+  #164 = Methodref          #65.#165      // java/lang/String.codePoints:()Ljava/util/stream/IntStream;
+  #165 = NameAndType        #166:#167     // codePoints:()Ljava/util/stream/IntStream;
+  #166 = Utf8               codePoints
+  #167 = Utf8               ()Ljava/util/stream/IntStream;
+  #168 = InvokeDynamic      #3:#169       // #3:test:()Ljava/util/function/IntPredicate;
+  #169 = NameAndType        #34:#170      // test:()Ljava/util/function/IntPredicate;
+  #170 = Utf8               ()Ljava/util/function/IntPredicate;
+  #171 = InterfaceMethodref #172.#173     // java/util/stream/IntStream.anyMatch:(Ljava/util/function/IntPredicate;)Z
+  #172 = Class              #174          // java/util/stream/IntStream
+  #173 = NameAndType        #175:#176     // anyMatch:(Ljava/util/function/IntPredicate;)Z
+  #174 = Utf8               java/util/stream/IntStream
+  #175 = Utf8               anyMatch
+  #176 = Utf8               (Ljava/util/function/IntPredicate;)Z
+  #177 = InvokeDynamic      #4:#169       // #4:test:()Ljava/util/function/IntPredicate;
+  #178 = Methodref          #65.#179      // java/lang/String.length:()I
+  #179 = NameAndType        #180:#116     // length:()I
+  #180 = Utf8               length
+  #181 = Class              #182          // java/lang/IllegalArgumentException
+  #182 = Utf8               java/lang/IllegalArgumentException
+  #183 = String             #184          // Invalid translation
+  #184 = Utf8               Invalid translation
+  #185 = Methodref          #181.#186     // java/lang/IllegalArgumentException."<init>":(Ljava/lang/String;)V
+  #186 = NameAndType        #5:#187       // "<init>":(Ljava/lang/String;)V
+  #187 = Utf8               (Ljava/lang/String;)V
+  #188 = InterfaceMethodref #125.#189     // java/util/List.isEmpty:()Z
+  #189 = NameAndType        #190:#95      // isEmpty:()Z
+  #190 = Utf8               isEmpty
+  #191 = InvokeDynamic      #5:#192       // #5:makeConcatWithConstants:(Ljava/lang/String;I)Ljava/lang/String;
+  #192 = NameAndType        #72:#193      // makeConcatWithConstants:(Ljava/lang/String;I)Ljava/lang/String;
+  #193 = Utf8               (Ljava/lang/String;I)Ljava/lang/String;
+  #194 = Methodref          #85.#195      // java/util/regex/Pattern.quote:(Ljava/lang/String;)Ljava/lang/String;
+  #195 = NameAndType        #196:#73      // quote:(Ljava/lang/String;)Ljava/lang/String;
+  #196 = Utf8               quote
+  #197 = InvokeDynamic      #6:#71        // #6:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+  #198 = Methodref          #85.#199      // java/util/regex/Pattern.compile:(Ljava/lang/String;)Ljava/util/regex/Pattern;
+  #199 = NameAndType        #200:#201     // compile:(Ljava/lang/String;)Ljava/util/regex/Pattern;
+  #200 = Utf8               compile
+  #201 = Utf8               (Ljava/lang/String;)Ljava/util/regex/Pattern;
+  #202 = Methodref          #91.#203      // java/util/regex/Matcher.results:()Ljava/util/stream/Stream;
+  #203 = NameAndType        #204:#31      // results:()Ljava/util/stream/Stream;
+  #204 = Utf8               results
+  #205 = InterfaceMethodref #37.#206      // java/util/stream/Stream.count:()J
+  #206 = NameAndType        #207:#208     // count:()J
+  #207 = Utf8               count
+  #208 = Utf8               ()J
+  #209 = String             #210          // �v���C���[����ێ��ł��Ȃ��������ߖ󕶂��ȗ����܂����B
+  #210 = Utf8               �v���C���[����ێ��ł��Ȃ��������ߖ󕶂��ȗ����܂����B
+  #211 = InterfaceMethodref #125.#212     // java/util/List.get:(I)Ljava/lang/Object;
+  #212 = NameAndType        #213:#214     // get:(I)Ljava/lang/Object;
+  #213 = Utf8               get
+  #214 = Utf8               (I)Ljava/lang/Object;
+  #215 = Methodref          #91.#216      // java/util/regex/Matcher.quoteReplacement:(Ljava/lang/String;)Ljava/lang/String;
+  #216 = NameAndType        #217:#73      // quoteReplacement:(Ljava/lang/String;)Ljava/lang/String;
+  #217 = Utf8               quoteReplacement
+  #218 = Methodref          #91.#219      // java/util/regex/Matcher.replaceAll:(Ljava/lang/String;)Ljava/lang/String;
+  #219 = NameAndType        #220:#73      // replaceAll:(Ljava/lang/String;)Ljava/lang/String;
+  #220 = Utf8               replaceAll
+  #221 = String             #222          // �󕶂ɖ������̖��O�L�����c���Ă��܂��B
+  #222 = Utf8               �󕶂ɖ������̖��O�L�����c���Ă��܂��B
+  #223 = InvokeDynamic      #7:#224       // #7:toString:(Llocal/chattranslate/ProtectedBody;)Ljava/lang/String;
+  #224 = NameAndType        #147:#225     // toString:(Llocal/chattranslate/ProtectedBody;)Ljava/lang/String;
+  #225 = Utf8               (Llocal/chattranslate/ProtectedBody;)Ljava/lang/String;
+  #226 = InvokeDynamic      #7:#227       // #7:hashCode:(Llocal/chattranslate/ProtectedBody;)I
+  #227 = NameAndType        #228:#229     // hashCode:(Llocal/chattranslate/ProtectedBody;)I
+  #228 = Utf8               hashCode
+  #229 = Utf8               (Llocal/chattranslate/ProtectedBody;)I
+  #230 = InvokeDynamic      #7:#231       // #7:equals:(Llocal/chattranslate/ProtectedBody;Ljava/lang/Object;)Z
+  #231 = NameAndType        #232:#233     // equals:(Llocal/chattranslate/ProtectedBody;Ljava/lang/Object;)Z
+  #232 = Utf8               equals
+  #233 = Utf8               (Llocal/chattranslate/ProtectedBody;Ljava/lang/Object;)Z
+  #234 = Fieldref           #235.#236     // local/chattranslate/ProtectedBody$1.$SwitchMap$java$lang$Character$UnicodeScript:[I
+  #235 = Class              #237          // local/chattranslate/ProtectedBody$1
+  #236 = NameAndType        #238:#239     // $SwitchMap$java$lang$Character$UnicodeScript:[I
+  #237 = Utf8               local/chattranslate/ProtectedBody$1
+  #238 = Utf8               $SwitchMap$java$lang$Character$UnicodeScript
+  #239 = Utf8               [I
+  #240 = Methodref          #241.#242     // java/lang/Character$UnicodeScript.of:(I)Ljava/lang/Character$UnicodeScript;
+  #241 = Class              #243          // java/lang/Character$UnicodeScript
+  #242 = NameAndType        #244:#245     // of:(I)Ljava/lang/Character$UnicodeScript;
+  #243 = Utf8               java/lang/Character$UnicodeScript
+  #244 = Utf8               of
+  #245 = Utf8               (I)Ljava/lang/Character$UnicodeScript;
+  #246 = Methodref          #241.#247     // java/lang/Character$UnicodeScript.ordinal:()I
+  #247 = NameAndType        #248:#116     // ordinal:()I
+  #248 = Utf8               ordinal
+  #249 = String             #250          // [A-Za-z0-9_]+
+  #250 = Utf8               [A-Za-z0-9_]+
+  #251 = String             #252          // (?i)gg(?:[ ,]+wp|wp)?[!. ]*
+  #252 = Utf8               (?i)gg(?:[ ,]+wp|wp)?[!. ]*
+  #253 = Utf8               Signature
+  #254 = Utf8               Ljava/util/List<Ljava/lang/String;>;
+  #255 = Utf8               Code
+  #256 = Utf8               LineNumberTable
+  #257 = Utf8               LocalVariableTable
+  #258 = Utf8               this
+  #259 = Utf8               Llocal/chattranslate/ProtectedBody;
+  #260 = Utf8               LocalVariableTypeTable
+  #261 = Utf8               MethodParameters
+  #262 = Utf8               (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List<Ljava/lang/String;>;)V
+  #263 = Utf8               prepare
+  #264 = Utf8               (Ljava/lang/String;Ljava/util/Collection;)Llocal/chattranslate/ProtectedBody;
+  #265 = Utf8               body
+  #266 = Utf8               knownNames
+  #267 = Utf8               Ljava/util/Collection;
+  #268 = Utf8               known
+  #269 = Utf8               Ljava/util/Set;
+  #270 = Utf8               request
+  #271 = Utf8               Ljava/lang/StringBuilder;
+  #272 = Utf8               detection
+  #273 = Utf8               protectedNames
+  #274 = Utf8               words
+  #275 = Utf8               Ljava/util/regex/Matcher;
+  #276 = Utf8               last
+  #277 = Utf8               I
+  #278 = Utf8               Ljava/util/Collection<Ljava/lang/String;>;
+  #279 = Utf8               Ljava/util/Set<Ljava/lang/String;>;
+  #280 = Utf8               StackMapTable
+  #281 = Utf8               (Ljava/lang/String;Ljava/util/Collection<Ljava/lang/String;>;)Llocal/chattranslate/ProtectedBody;
+  #282 = Utf8               hasEnglishCandidate
+  #283 = Utf8               restore
+  #284 = Utf8               token
+  #285 = Utf8               i
+  #286 = Utf8               response
+  #287 = Utf8               restored
+  #288 = Utf8               o
+  #289 = Utf8               Ljava/lang/Object;
+  #290 = Utf8               ()Ljava/util/List;
+  #291 = Utf8               ()Ljava/util/List<Ljava/lang/String;>;
+  #292 = Utf8               lambda$hasEnglishCandidate$1
+  #293 = Utf8               (I)Z
+  #294 = Utf8               c
+  #295 = Utf8               lambda$hasEnglishCandidate$0
+  #296 = Utf8               lambda$prepare$0
+  #297 = Utf8               s
+  #298 = Utf8               <clinit>
+  #299 = Utf8               SourceFile
+  #300 = Utf8               ProtectedBody.java
+  #301 = Utf8               NestMembers
+  #302 = Utf8               Record
+  #303 = Utf8               BootstrapMethods
+  #304 = MethodType         #112          //  (Ljava/lang/Object;)Z
+  #305 = MethodHandle       6:#306        // REF_invokeStatic local/chattranslate/IncomingChat.validName:(Ljava/lang/String;)Z
+  #306 = Methodref          #307.#308     // local/chattranslate/IncomingChat.validName:(Ljava/lang/String;)Z
+  #307 = Class              #309          // local/chattranslate/IncomingChat
+  #308 = NameAndType        #310:#311     // validName:(Ljava/lang/String;)Z
+  #309 = Utf8               local/chattranslate/IncomingChat
+  #310 = Utf8               validName
+  #311 = Utf8               (Ljava/lang/String;)Z
+  #312 = MethodType         #311          //  (Ljava/lang/String;)Z
+  #313 = MethodType         #314          //  (Ljava/lang/Object;)Ljava/lang/Object;
+  #314 = Utf8               (Ljava/lang/Object;)Ljava/lang/Object;
+  #315 = MethodHandle       6:#316        // REF_invokeStatic local/chattranslate/ProtectedBody.lambda$prepare$0:(Ljava/lang/String;)Ljava/lang/String;
+  #316 = Methodref          #8.#317       // local/chattranslate/ProtectedBody.lambda$prepare$0:(Ljava/lang/String;)Ljava/lang/String;
+  #317 = NameAndType        #296:#73      // lambda$prepare$0:(Ljava/lang/String;)Ljava/lang/String;
+  #318 = MethodType         #73           //  (Ljava/lang/String;)Ljava/lang/String;
+  #319 = String             #320          // \u0001X
+  #320 = Utf8               \u0001X
+  #321 = MethodType         #293          //  (I)Z
+  #322 = MethodHandle       6:#323        // REF_invokeStatic local/chattranslate/ProtectedBody.lambda$hasEnglishCandidate$0:(I)Z
+  #323 = Methodref          #8.#324       // local/chattranslate/ProtectedBody.lambda$hasEnglishCandidate$0:(I)Z
+  #324 = NameAndType        #295:#293     // lambda$hasEnglishCandidate$0:(I)Z
+  #325 = MethodHandle       6:#326        // REF_invokeStatic local/chattranslate/ProtectedBody.lambda$hasEnglishCandidate$1:(I)Z
+  #326 = Methodref          #8.#327       // local/chattranslate/ProtectedBody.lambda$hasEnglishCandidate$1:(I)Z
+  #327 = NameAndType        #292:#293     // lambda$hasEnglishCandidate$1:(I)Z
+  #328 = String             #329          // \u0001\u0001
+  #329 = Utf8               \u0001\u0001
+  #330 = String             #331          // \u0001(?![0-9])
+  #331 = Utf8               \u0001(?![0-9])
+  #332 = String             #333          // original;detectionText;requestText;marker;names
+  #333 = Utf8               original;detectionText;requestText;marker;names
+  #334 = MethodHandle       1:#7          // REF_getField local/chattranslate/ProtectedBody.original:Ljava/lang/String;
+  #335 = MethodHandle       1:#13         // REF_getField local/chattranslate/ProtectedBody.detectionText:Ljava/lang/String;
+  #336 = MethodHandle       1:#16         // REF_getField local/chattranslate/ProtectedBody.requestText:Ljava/lang/String;
+  #337 = MethodHandle       1:#19         // REF_getField local/chattranslate/ProtectedBody.marker:Ljava/lang/String;
+  #338 = MethodHandle       1:#22         // REF_getField local/chattranslate/ProtectedBody.names:Ljava/util/List;
+  #339 = MethodHandle       6:#340        // REF_invokeStatic java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+  #340 = Methodref          #341.#342     // java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+  #341 = Class              #343          // java/lang/invoke/LambdaMetafactory
+  #342 = NameAndType        #344:#345     // metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+  #343 = Utf8               java/lang/invoke/LambdaMetafactory
+  #344 = Utf8               metafactory
+  #345 = Utf8               (Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+  #346 = MethodHandle       6:#347        // REF_invokeStatic java/lang/invoke/StringConcatFactory.makeConcatWithConstants:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite;
+  #347 = Methodref          #348.#349     // java/lang/invoke/StringConcatFactory.makeConcatWithConstants:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite;
+  #348 = Class              #350          // java/lang/invoke/StringConcatFactory
+  #349 = NameAndType        #72:#351      // makeConcatWithConstants:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite;
+  #350 = Utf8               java/lang/invoke/StringConcatFactory
+  #351 = Utf8               (Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite;
+  #352 = MethodHandle       6:#353        // REF_invokeStatic java/lang/runtime/ObjectMethods.bootstrap:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/TypeDescriptor;Ljava/lang/Class;Ljava/lang/String;[Ljava/lang/invoke/MethodHandle;)Ljava/lang/Object;
+  #353 = Methodref          #354.#355     // java/lang/runtime/ObjectMethods.bootstrap:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/TypeDescriptor;Ljava/lang/Class;Ljava/lang/String;[Ljava/lang/invoke/MethodHandle;)Ljava/lang/Object;
+  #354 = Class              #356          // java/lang/runtime/ObjectMethods
+  #355 = NameAndType        #357:#358     // bootstrap:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/TypeDescriptor;Ljava/lang/Class;Ljava/lang/String;[Ljava/lang/invoke/MethodHandle;)Ljava/lang/Object;
+  #356 = Utf8               java/lang/runtime/ObjectMethods
+  #357 = Utf8               bootstrap
+  #358 = Utf8               (Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/TypeDescriptor;Ljava/lang/Class;Ljava/lang/String;[Ljava/lang/invoke/MethodHandle;)Ljava/lang/Object;
+  #359 = Utf8               InnerClasses
+  #360 = Class              #361          // java/lang/Character
+  #361 = Utf8               java/lang/Character
+  #362 = Utf8               UnicodeScript
+  #363 = Class              #364          // java/lang/invoke/MethodHandles$Lookup
+  #364 = Utf8               java/lang/invoke/MethodHandles$Lookup
+  #365 = Class              #366          // java/lang/invoke/MethodHandles
+  #366 = Utf8               java/lang/invoke/MethodHandles
+  #367 = Utf8               Lookup
+{
+  private final java.lang.String original;
+    descriptor: Ljava/lang/String;
+    flags: (0x0012) ACC_PRIVATE, ACC_FINAL
+
+  private final java.lang.String detectionText;
+    descriptor: Ljava/lang/String;
+    flags: (0x0012) ACC_PRIVATE, ACC_FINAL
+
+  private final java.lang.String requestText;
+    descriptor: Ljava/lang/String;
+    flags: (0x0012) ACC_PRIVATE, ACC_FINAL
+
+  private final java.lang.String marker;
+    descriptor: Ljava/lang/String;
+    flags: (0x0012) ACC_PRIVATE, ACC_FINAL
+
+  private final java.util.List<java.lang.String> names;
+    descriptor: Ljava/util/List;
+    flags: (0x0012) ACC_PRIVATE, ACC_FINAL
+    Signature: #254                         // Ljava/util/List<Ljava/lang/String;>;
+
+  private static final java.util.regex.Pattern WORD;
+    descriptor: Ljava/util/regex/Pattern;
+    flags: (0x001a) ACC_PRIVATE, ACC_STATIC, ACC_FINAL
+
+  private static final java.util.regex.Pattern GAME_SLANG;
+    descriptor: Ljava/util/regex/Pattern;
+    flags: (0x001a) ACC_PRIVATE, ACC_STATIC, ACC_FINAL
+
+  public local.chattranslate.ProtectedBody(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.util.List<java.lang.String>);
+    descriptor: (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;)V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=2, locals=6, args_size=6
+         0: aload_0
+         1: invokespecial #1                  // Method java/lang/Record."<init>":()V
+         4: aload_0
+         5: aload_1
+         6: putfield      #7                  // Field original:Ljava/lang/String;
+         9: aload_0
+        10: aload_2
+        11: putfield      #13                 // Field detectionText:Ljava/lang/String;
+        14: aload_0
+        15: aload_3
+        16: putfield      #16                 // Field requestText:Ljava/lang/String;
+        19: aload_0
+        20: aload         4
+        22: putfield      #19                 // Field marker:Ljava/lang/String;
+        25: aload_0
+        26: aload         5
+        28: putfield      #22                 // Field names:Ljava/util/List;
+        31: return
+      LineNumberTable:
+        line 13: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      32     0  this   Llocal/chattranslate/ProtectedBody;
+            0      32     1 original   Ljava/lang/String;
+            0      32     2 detectionText   Ljava/lang/String;
+            0      32     3 requestText   Ljava/lang/String;
+            0      32     4 marker   Ljava/lang/String;
+            0      32     5 names   Ljava/util/List;
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0      32     5 names   Ljava/util/List<Ljava/lang/String;>;
+    MethodParameters:
+      Name                           Flags
+      original
+      detectionText
+      requestText
+      marker
+      names
+    Signature: #262                         // (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List<Ljava/lang/String;>;)V
+
+  public static local.chattranslate.ProtectedBody prepare(java.lang.String, java.util.Collection<java.lang.String>);
+    descriptor: (Ljava/lang/String;Ljava/util/Collection;)Llocal/chattranslate/ProtectedBody;
+    flags: (0x0009) ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=7, locals=9, args_size=2
+         0: aload_1
+         1: invokeinterface #26,  1           // InterfaceMethod java/util/Collection.stream:()Ljava/util/stream/Stream;
+         6: invokedynamic #32,  0             // InvokeDynamic #0:test:()Ljava/util/function/Predicate;
+        11: invokeinterface #36,  2           // InterfaceMethod java/util/stream/Stream.filter:(Ljava/util/function/Predicate;)Ljava/util/stream/Stream;
+        16: invokedynamic #42,  0             // InvokeDynamic #1:apply:()Ljava/util/function/Function;
+        21: invokeinterface #46,  2           // InterfaceMethod java/util/stream/Stream.map:(Ljava/util/function/Function;)Ljava/util/stream/Stream;
+        26: invokestatic  #50                 // Method java/util/stream/Collectors.toSet:()Ljava/util/stream/Collector;
+        29: invokeinterface #56,  2           // InterfaceMethod java/util/stream/Stream.collect:(Ljava/util/stream/Collector;)Ljava/lang/Object;
+        34: checkcast     #60                 // class java/util/Set
+        37: astore_2
+        38: ldc           #62                 // String ZXQ
+        40: astore_3
+        41: aload_0
+        42: aload_3
+        43: invokevirtual #64                 // Method java/lang/String.contains:(Ljava/lang/CharSequence;)Z
+        46: ifeq          59
+        49: aload_3
+        50: invokedynamic #70,  0             // InvokeDynamic #2:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+        55: astore_3
+        56: goto          41
+        59: new           #74                 // class java/lang/StringBuilder
+        62: dup
+        63: invokespecial #76                 // Method java/lang/StringBuilder."<init>":()V
+        66: astore        4
+        68: new           #74                 // class java/lang/StringBuilder
+        71: dup
+        72: invokespecial #76                 // Method java/lang/StringBuilder."<init>":()V
+        75: astore        5
+        77: new           #77                 // class java/util/ArrayList
+        80: dup
+        81: invokespecial #79                 // Method java/util/ArrayList."<init>":()V
+        84: astore        6
+        86: getstatic     #80                 // Field WORD:Ljava/util/regex/Pattern;
+        89: aload_0
+        90: invokevirtual #84                 // Method java/util/regex/Pattern.matcher:(Ljava/lang/CharSequence;)Ljava/util/regex/Matcher;
+        93: astore        7
+        95: iconst_0
+        96: istore        8
+        98: aload         7
+       100: invokevirtual #90                 // Method java/util/regex/Matcher.find:()Z
+       103: ifeq          199
+       106: aload_2
+       107: aload         7
+       109: invokevirtual #96                 // Method java/util/regex/Matcher.group:()Ljava/lang/String;
+       112: getstatic     #100                // Field java/util/Locale.ROOT:Ljava/util/Locale;
+       115: invokevirtual #106                // Method java/lang/String.toLowerCase:(Ljava/util/Locale;)Ljava/lang/String;
+       118: invokeinterface #110,  2          // InterfaceMethod java/util/Set.contains:(Ljava/lang/Object;)Z
+       123: ifne          129
+       126: goto          98
+       129: aload         4
+       131: aload_0
+       132: iload         8
+       134: aload         7
+       136: invokevirtual #113                // Method java/util/regex/Matcher.start:()I
+       139: invokevirtual #117                // Method java/lang/StringBuilder.append:(Ljava/lang/CharSequence;II)Ljava/lang/StringBuilder;
+       142: aload_3
+       143: invokevirtual #121                // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+       146: aload         6
+       148: invokeinterface #124,  1          // InterfaceMethod java/util/List.size:()I
+       153: invokevirtual #129                // Method java/lang/StringBuilder.append:(I)Ljava/lang/StringBuilder;
+       156: pop
+       157: aload         5
+       159: aload_0
+       160: iload         8
+       162: aload         7
+       164: invokevirtual #113                // Method java/util/regex/Matcher.start:()I
+       167: invokevirtual #117                // Method java/lang/StringBuilder.append:(Ljava/lang/CharSequence;II)Ljava/lang/StringBuilder;
+       170: bipush        32
+       172: invokevirtual #132                // Method java/lang/StringBuilder.append:(C)Ljava/lang/StringBuilder;
+       175: pop
+       176: aload         6
+       178: aload         7
+       180: invokevirtual #96                 // Method java/util/regex/Matcher.group:()Ljava/lang/String;
+       183: invokeinterface #135,  2          // InterfaceMethod java/util/List.add:(Ljava/lang/Object;)Z
+       188: pop
+       189: aload         7
+       191: invokevirtual #138                // Method java/util/regex/Matcher.end:()I
+       194: istore        8
+       196: goto          98
+       199: aload         4
+       201: aload_0
+       202: iload         8
+       204: invokevirtual #141                // Method java/lang/String.substring:(I)Ljava/lang/String;
+       207: invokevirtual #121                // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+       210: pop
+       211: aload         5
+       213: aload_0
+       214: iload         8
+       216: invokevirtual #141                // Method java/lang/String.substring:(I)Ljava/lang/String;
+       219: invokevirtual #121                // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+       222: pop
+       223: new           #8                  // class local/chattranslate/ProtectedBody
+       226: dup
+       227: aload_0
+       228: aload         5
+       230: invokevirtual #145                // Method java/lang/StringBuilder.toString:()Ljava/lang/String;
+       233: aload         4
+       235: invokevirtual #145                // Method java/lang/StringBuilder.toString:()Ljava/lang/String;
+       238: aload_3
+       239: aload         6
+       241: invokestatic  #148                // InterfaceMethod java/util/List.copyOf:(Ljava/util/Collection;)Ljava/util/List;
+       244: invokespecial #152                // Method "<init>":(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;)V
+       247: areturn
+      LineNumberTable:
+        line 19: 0
+        line 20: 21
+        line 21: 38
+        line 22: 41
+        line 23: 59
+        line 24: 68
+        line 25: 77
+        line 26: 86
+        line 27: 95
+        line 28: 98
+        line 29: 106
+        line 30: 129
+        line 31: 157
+        line 32: 176
+        line 33: 189
+        line 35: 199
+        line 36: 211
+        line 37: 223
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0     248     0  body   Ljava/lang/String;
+            0     248     1 knownNames   Ljava/util/Collection;
+           38     210     2 known   Ljava/util/Set;
+           41     207     3 marker   Ljava/lang/String;
+           68     180     4 request   Ljava/lang/StringBuilder;
+           77     171     5 detection   Ljava/lang/StringBuilder;
+           86     162     6 protectedNames   Ljava/util/List;
+           95     153     7 words   Ljava/util/regex/Matcher;
+           98     150     8  last   I
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0     248     1 knownNames   Ljava/util/Collection<Ljava/lang/String;>;
+           38     210     2 known   Ljava/util/Set<Ljava/lang/String;>;
+           86     162     6 protectedNames   Ljava/util/List<Ljava/lang/String;>;
+      StackMapTable: number_of_entries = 5
+        frame_type = 253 /* append */
+          offset_delta = 41
+          locals = [ class java/util/Set, class java/lang/String ]
+        frame_type = 17 /* same */
+        frame_type = 255 /* full_frame */
+          offset_delta = 38
+          locals = [ class java/lang/String, class java/util/Collection, class java/util/Set, class java/lang/String, class java/lang/StringBuilder, class java/lang/StringBuilder, class java/util/List, class java/util/regex/Matcher, int ]
+          stack = []
+        frame_type = 30 /* same */
+        frame_type = 251 /* same_frame_extended */
+          offset_delta = 69
+    Signature: #281                         // (Ljava/lang/String;Ljava/util/Collection<Ljava/lang/String;>;)Llocal/chattranslate/ProtectedBody;
+
+  public boolean hasEnglishCandidate();
+    descriptor: ()Z
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=2, locals=1, args_size=1
+         0: getstatic     #155                // Field GAME_SLANG:Ljava/util/regex/Pattern;
+         3: aload_0
+         4: getfield      #7                  // Field original:Ljava/lang/String;
+         7: invokevirtual #158                // Method java/lang/String.strip:()Ljava/lang/String;
+        10: invokevirtual #84                 // Method java/util/regex/Pattern.matcher:(Ljava/lang/CharSequence;)Ljava/util/regex/Matcher;
+        13: invokevirtual #161                // Method java/util/regex/Matcher.matches:()Z
+        16: ifeq          21
+        19: iconst_0
+        20: ireturn
+        21: aload_0
+        22: getfield      #13                 // Field detectionText:Ljava/lang/String;
+        25: invokevirtual #164                // Method java/lang/String.codePoints:()Ljava/util/stream/IntStream;
+        28: invokedynamic #168,  0            // InvokeDynamic #3:test:()Ljava/util/function/IntPredicate;
+        33: invokeinterface #171,  2          // InterfaceMethod java/util/stream/IntStream.anyMatch:(Ljava/util/function/IntPredicate;)Z
+        38: ifeq          43
+        41: iconst_0
+        42: ireturn
+        43: aload_0
+        44: getfield      #13                 // Field detectionText:Ljava/lang/String;
+        47: invokevirtual #164                // Method java/lang/String.codePoints:()Ljava/util/stream/IntStream;
+        50: invokedynamic #177,  0            // InvokeDynamic #4:test:()Ljava/util/function/IntPredicate;
+        55: invokeinterface #171,  2          // InterfaceMethod java/util/stream/IntStream.anyMatch:(Ljava/util/function/IntPredicate;)Z
+        60: ireturn
+      LineNumberTable:
+        line 41: 0
+        line 44: 21
+        line 47: 41
+        line 48: 43
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      61     0  this   Llocal/chattranslate/ProtectedBody;
+      StackMapTable: number_of_entries = 2
+        frame_type = 21 /* same */
+        frame_type = 21 /* same */
+
+  public java.lang.String restore(java.lang.String);
+    descriptor: (Ljava/lang/String;)Ljava/lang/String;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=4, locals=5, args_size=2
+         0: aload_1
+         1: ifnull        14
+         4: aload_1
+         5: invokevirtual #178                // Method java/lang/String.length:()I
+         8: sipush        16384
+        11: if_icmple     24
+        14: new           #181                // class java/lang/IllegalArgumentException
+        17: dup
+        18: ldc           #183                // String Invalid translation
+        20: invokespecial #185                // Method java/lang/IllegalArgumentException."<init>":(Ljava/lang/String;)V
+        23: athrow
+        24: aload_0
+        25: getfield      #22                 // Field names:Ljava/util/List;
+        28: invokeinterface #188,  1          // InterfaceMethod java/util/List.isEmpty:()Z
+        33: ifeq          41
+        36: aload_1
+        37: invokevirtual #158                // Method java/lang/String.strip:()Ljava/lang/String;
+        40: areturn
+        41: aload_1
+        42: astore_2
+        43: aload_0
+        44: getfield      #22                 // Field names:Ljava/util/List;
+        47: invokeinterface #124,  1          // InterfaceMethod java/util/List.size:()I
+        52: iconst_1
+        53: isub
+        54: istore_3
+        55: iload_3
+        56: iflt          143
+        59: aload_0
+        60: getfield      #19                 // Field marker:Ljava/lang/String;
+        63: iload_3
+        64: invokedynamic #191,  0            // InvokeDynamic #5:makeConcatWithConstants:(Ljava/lang/String;I)Ljava/lang/String;
+        69: invokestatic  #194                // Method java/util/regex/Pattern.quote:(Ljava/lang/String;)Ljava/lang/String;
+        72: invokedynamic #197,  0            // InvokeDynamic #6:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+        77: invokestatic  #198                // Method java/util/regex/Pattern.compile:(Ljava/lang/String;)Ljava/util/regex/Pattern;
+        80: astore        4
+        82: aload         4
+        84: aload_2
+        85: invokevirtual #84                 // Method java/util/regex/Pattern.matcher:(Ljava/lang/CharSequence;)Ljava/util/regex/Matcher;
+        88: invokevirtual #202                // Method java/util/regex/Matcher.results:()Ljava/util/stream/Stream;
+        91: invokeinterface #205,  1          // InterfaceMethod java/util/stream/Stream.count:()J
+        96: lconst_1
+        97: lcmp
+        98: ifeq          111
+       101: new           #181                // class java/lang/IllegalArgumentException
+       104: dup
+       105: ldc           #209                // String �v���C���[����ێ��ł��Ȃ��������ߖ󕶂��ȗ����܂����B
+       107: invokespecial #185                // Method java/lang/IllegalArgumentException."<init>":(Ljava/lang/String;)V
+       110: athrow
+       111: aload         4
+       113: aload_2
+       114: invokevirtual #84                 // Method java/util/regex/Pattern.matcher:(Ljava/lang/CharSequence;)Ljava/util/regex/Matcher;
+       117: aload_0
+       118: getfield      #22                 // Field names:Ljava/util/List;
+       121: iload_3
+       122: invokeinterface #211,  2          // InterfaceMethod java/util/List.get:(I)Ljava/lang/Object;
+       127: checkcast     #65                 // class java/lang/String
+       130: invokestatic  #215                // Method java/util/regex/Matcher.quoteReplacement:(Ljava/lang/String;)Ljava/lang/String;
+       133: invokevirtual #218                // Method java/util/regex/Matcher.replaceAll:(Ljava/lang/String;)Ljava/lang/String;
+       136: astore_2
+       137: iinc          3, -1
+       140: goto          55
+       143: aload_2
+       144: aload_0
+       145: getfield      #19                 // Field marker:Ljava/lang/String;
+       148: invokevirtual #64                 // Method java/lang/String.contains:(Ljava/lang/CharSequence;)Z
+       151: ifeq          164
+       154: new           #181                // class java/lang/IllegalArgumentException
+       157: dup
+       158: ldc           #221                // String �󕶂ɖ������̖��O�L�����c���Ă��܂��B
+       160: invokespecial #185                // Method java/lang/IllegalArgumentException."<init>":(Ljava/lang/String;)V
+       163: athrow
+       164: aload_2
+       165: invokevirtual #158                // Method java/lang/String.strip:()Ljava/lang/String;
+       168: areturn
+      LineNumberTable:
+        line 52: 0
+        line 53: 24
+        line 54: 41
+        line 55: 43
+        line 56: 59
+        line 57: 82
+        line 58: 101
+        line 60: 111
+        line 55: 137
+        line 62: 143
+        line 63: 164
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+           82      55     4 token   Ljava/util/regex/Pattern;
+           55      88     3     i   I
+            0     169     0  this   Llocal/chattranslate/ProtectedBody;
+            0     169     1 response   Ljava/lang/String;
+           43     126     2 restored   Ljava/lang/String;
+      StackMapTable: number_of_entries = 7
+        frame_type = 14 /* same */
+        frame_type = 9 /* same */
+        frame_type = 16 /* same */
+        frame_type = 253 /* append */
+          offset_delta = 13
+          locals = [ class java/lang/String, int ]
+        frame_type = 252 /* append */
+          offset_delta = 55
+          locals = [ class java/util/regex/Pattern ]
+        frame_type = 249 /* chop */
+          offset_delta = 31
+        frame_type = 20 /* same */
+
+  public final java.lang.String toString();
+    descriptor: ()Ljava/lang/String;
+    flags: (0x0011) ACC_PUBLIC, ACC_FINAL
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: invokedynamic #223,  0            // InvokeDynamic #7:toString:(Llocal/chattranslate/ProtectedBody;)Ljava/lang/String;
+         6: areturn
+      LineNumberTable:
+        line 13: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       7     0  this   Llocal/chattranslate/ProtectedBody;
+
+  public final int hashCode();
+    descriptor: ()I
+    flags: (0x0011) ACC_PUBLIC, ACC_FINAL
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: invokedynamic #226,  0            // InvokeDynamic #7:hashCode:(Llocal/chattranslate/ProtectedBody;)I
+         6: ireturn
+      LineNumberTable:
+        line 13: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       7     0  this   Llocal/chattranslate/ProtectedBody;
+
+  public final boolean equals(java.lang.Object);
+    descriptor: (Ljava/lang/Object;)Z
+    flags: (0x0011) ACC_PUBLIC, ACC_FINAL
+    Code:
+      stack=2, locals=2, args_size=2
+         0: aload_0
+         1: aload_1
+         2: invokedynamic #230,  0            // InvokeDynamic #7:equals:(Llocal/chattranslate/ProtectedBody;Ljava/lang/Object;)Z
+         7: ireturn
+      LineNumberTable:
+        line 13: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       8     0  this   Llocal/chattranslate/ProtectedBody;
+            0       8     1     o   Ljava/lang/Object;
+
+  public java.lang.String original();
+    descriptor: ()Ljava/lang/String;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: getfield      #7                  // Field original:Ljava/lang/String;
+         4: areturn
+      LineNumberTable:
+        line 13: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       5     0  this   Llocal/chattranslate/ProtectedBody;
+
+  public java.lang.String detectionText();
+    descriptor: ()Ljava/lang/String;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: getfield      #13                 // Field detectionText:Ljava/lang/String;
+         4: areturn
+      LineNumberTable:
+        line 13: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       5     0  this   Llocal/chattranslate/ProtectedBody;
+
+  public java.lang.String requestText();
+    descriptor: ()Ljava/lang/String;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: getfield      #16                 // Field requestText:Ljava/lang/String;
+         4: areturn
+      LineNumberTable:
+        line 13: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       5     0  this   Llocal/chattranslate/ProtectedBody;
+
+  public java.lang.String marker();
+    descriptor: ()Ljava/lang/String;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: getfield      #19                 // Field marker:Ljava/lang/String;
+         4: areturn
+      LineNumberTable:
+        line 13: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       5     0  this   Llocal/chattranslate/ProtectedBody;
+
+  public java.util.List<java.lang.String> names();
+    descriptor: ()Ljava/util/List;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: getfield      #22                 // Field names:Ljava/util/List;
+         4: areturn
+      LineNumberTable:
+        line 13: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       5     0  this   Llocal/chattranslate/ProtectedBody;
+    Signature: #291                         // ()Ljava/util/List<Ljava/lang/String;>;
+
+  private static boolean lambda$hasEnglishCandidate$1(int);
+    descriptor: (I)Z
+    flags: (0x100a) ACC_PRIVATE, ACC_STATIC, ACC_SYNTHETIC
+    Code:
+      stack=2, locals=1, args_size=1
+         0: iload_0
+         1: bipush        65
+         3: if_icmplt     12
+         6: iload_0
+         7: bipush        90
+         9: if_icmple     24
+        12: iload_0
+        13: bipush        97
+        15: if_icmplt     28
+        18: iload_0
+        19: bipush        122
+        21: if_icmpgt     28
+        24: iconst_1
+        25: goto          29
+        28: iconst_0
+        29: ireturn
+      LineNumberTable:
+        line 48: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      30     0     c   I
+      StackMapTable: number_of_entries = 4
+        frame_type = 12 /* same */
+        frame_type = 11 /* same */
+        frame_type = 3 /* same */
+        frame_type = 64 /* same_locals_1_stack_item */
+          stack = [ int ]
+
+  private static boolean lambda$hasEnglishCandidate$0(int);
+    descriptor: (I)Z
+    flags: (0x100a) ACC_PRIVATE, ACC_STATIC, ACC_SYNTHETIC
+    Code:
+      stack=2, locals=1, args_size=1
+         0: getstatic     #234                // Field local/chattranslate/ProtectedBody$1.$SwitchMap$java$lang$Character$UnicodeScript:[I
+         3: iload_0
+         4: invokestatic  #240                // Method java/lang/Character$UnicodeScript.of:(I)Ljava/lang/Character$UnicodeScript;
+         7: invokevirtual #246                // Method java/lang/Character$UnicodeScript.ordinal:()I
+        10: iaload
+        11: tableswitch   { // 1 to 4
+
+                       1: 40
+
+                       2: 40
+
+                       3: 40
+
+                       4: 40
+                 default: 44
+            }
+        40: iconst_1
+        41: goto          45
+        44: iconst_0
+        45: ireturn
+      LineNumberTable:
+        line 44: 0
+        line 45: 40
+        line 46: 44
+        line 44: 45
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      46     0     c   I
+      StackMapTable: number_of_entries = 3
+        frame_type = 40 /* same */
+        frame_type = 3 /* same */
+        frame_type = 64 /* same_locals_1_stack_item */
+          stack = [ int ]
+
+  private static java.lang.String lambda$prepare$0(java.lang.String);
+    descriptor: (Ljava/lang/String;)Ljava/lang/String;
+    flags: (0x100a) ACC_PRIVATE, ACC_STATIC, ACC_SYNTHETIC
+    Code:
+      stack=2, locals=1, args_size=1
+         0: aload_0
+         1: getstatic     #100                // Field java/util/Locale.ROOT:Ljava/util/Locale;
+         4: invokevirtual #106                // Method java/lang/String.toLowerCase:(Ljava/util/Locale;)Ljava/lang/String;
+         7: areturn
+      LineNumberTable:
+        line 20: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       8     0     s   Ljava/lang/String;
+
+  static {};
+    descriptor: ()V
+    flags: (0x0008) ACC_STATIC
+    Code:
+      stack=1, locals=0, args_size=0
+         0: ldc           #249                // String [A-Za-z0-9_]+
+         2: invokestatic  #198                // Method java/util/regex/Pattern.compile:(Ljava/lang/String;)Ljava/util/regex/Pattern;
+         5: putstatic     #80                 // Field WORD:Ljava/util/regex/Pattern;
+         8: ldc           #251                // String (?i)gg(?:[ ,]+wp|wp)?[!. ]*
+        10: invokestatic  #198                // Method java/util/regex/Pattern.compile:(Ljava/lang/String;)Ljava/util/regex/Pattern;
+        13: putstatic     #155                // Field GAME_SLANG:Ljava/util/regex/Pattern;
+        16: return
+      LineNumberTable:
+        line 15: 0
+        line 16: 8
+}
+SourceFile: "ProtectedBody.java"
+NestMembers:
+  local/chattranslate/ProtectedBody$1
+Record:
+  java.lang.String original;
+    descriptor: Ljava/lang/String;
+
+  java.lang.String detectionText;
+    descriptor: Ljava/lang/String;
+
+  java.lang.String requestText;
+    descriptor: Ljava/lang/String;
+
+  java.lang.String marker;
+    descriptor: Ljava/lang/String;
+
+  java.util.List<java.lang.String> names;
+    descriptor: Ljava/util/List;
+    Signature: #254                         // Ljava/util/List<Ljava/lang/String;>;
+
+BootstrapMethods:
+  0: #339 REF_invokeStatic java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+    Method arguments:
+      #304 (Ljava/lang/Object;)Z
+      #305 REF_invokeStatic local/chattranslate/IncomingChat.validName:(Ljava/lang/String;)Z
+      #312 (Ljava/lang/String;)Z
+  1: #339 REF_invokeStatic java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+    Method arguments:
+      #313 (Ljava/lang/Object;)Ljava/lang/Object;
+      #315 REF_invokeStatic local/chattranslate/ProtectedBody.lambda$prepare$0:(Ljava/lang/String;)Ljava/lang/String;
+      #318 (Ljava/lang/String;)Ljava/lang/String;
+  2: #346 REF_invokeStatic java/lang/invoke/StringConcatFactory.makeConcatWithConstants:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite;
+    Method arguments:
+      #319 \u0001X
+  3: #339 REF_invokeStatic java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+    Method arguments:
+      #321 (I)Z
+      #322 REF_invokeStatic local/chattranslate/ProtectedBody.lambda$hasEnglishCandidate$0:(I)Z
+      #321 (I)Z
+  4: #339 REF_invokeStatic java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+    Method arguments:
+      #321 (I)Z
+      #325 REF_invokeStatic local/chattranslate/ProtectedBody.lambda$hasEnglishCandidate$1:(I)Z
+      #321 (I)Z
+  5: #346 REF_invokeStatic java/lang/invoke/StringConcatFactory.makeConcatWithConstants:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite;
+    Method arguments:
+      #328 \u0001\u0001
+  6: #346 REF_invokeStatic java/lang/invoke/StringConcatFactory.makeConcatWithConstants:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite;
+    Method arguments:
+      #330 \u0001(?![0-9])
+  7: #352 REF_invokeStatic java/lang/runtime/ObjectMethods.bootstrap:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/TypeDescriptor;Ljava/lang/Class;Ljava/lang/String;[Ljava/lang/invoke/MethodHandle;)Ljava/lang/Object;
+    Method arguments:
+      #8 local/chattranslate/ProtectedBody
+      #332 original;detectionText;requestText;marker;names
+      #334 REF_getField local/chattranslate/ProtectedBody.original:Ljava/lang/String;
+      #335 REF_getField local/chattranslate/ProtectedBody.detectionText:Ljava/lang/String;
+      #336 REF_getField local/chattranslate/ProtectedBody.requestText:Ljava/lang/String;
+      #337 REF_getField local/chattranslate/ProtectedBody.marker:Ljava/lang/String;
+      #338 REF_getField local/chattranslate/ProtectedBody.names:Ljava/util/List;
+InnerClasses:
+  static #235;                            // class local/chattranslate/ProtectedBody$1
+  public static final #362= #241 of #360; // UnicodeScript=class java/lang/Character$UnicodeScript of class java/lang/Character
+  public static final #367= #363 of #365; // Lookup=class java/lang/invoke/MethodHandles$Lookup of class java/lang/invoke/MethodHandles

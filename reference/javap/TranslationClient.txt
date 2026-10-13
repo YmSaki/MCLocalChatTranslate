@@ -1,0 +1,1792 @@
+Classfile jar:file:///C:/programing/mcmod/LocalChatTranslate-0.4.0+26.1.2/localchattranslate-rebuild/reference/original/localchattranslate-0.4.0+26.1.2.jar!/local/chattranslate/TranslationClient.class
+  Last modified 1980/02/01; size 16038 bytes
+  SHA-256 checksum 6e1fd43689c8e6873855d8487b4e36de0df31440b396f7db642125bc88600252
+  Compiled from "TranslationClient.java"
+public final class local.chattranslate.TranslationClient implements java.lang.AutoCloseable
+  minor version: 0
+  major version: 69
+  flags: (0x0031) ACC_PUBLIC, ACC_FINAL, ACC_SUPER
+  this_class: #2                          // local/chattranslate/TranslationClient
+  super_class: #8                         // java/lang/Object
+  interfaces: 1, fields: 4, methods: 16, attributes: 4
+Constant pool:
+    #1 = Methodref          #2.#3         // local/chattranslate/TranslationClient."<init>":(Llocal/chattranslate/TranslationLog;)V
+    #2 = Class              #4            // local/chattranslate/TranslationClient
+    #3 = NameAndType        #5:#6         // "<init>":(Llocal/chattranslate/TranslationLog;)V
+    #4 = Utf8               local/chattranslate/TranslationClient
+    #5 = Utf8               <init>
+    #6 = Utf8               (Llocal/chattranslate/TranslationLog;)V
+    #7 = Methodref          #8.#9         // java/lang/Object."<init>":()V
+    #8 = Class              #10           // java/lang/Object
+    #9 = NameAndType        #5:#11        // "<init>":()V
+   #10 = Utf8               java/lang/Object
+   #11 = Utf8               ()V
+   #12 = Methodref          #13.#14       // java/net/http/HttpClient.newBuilder:()Ljava/net/http/HttpClient$Builder;
+   #13 = Class              #15           // java/net/http/HttpClient
+   #14 = NameAndType        #16:#17       // newBuilder:()Ljava/net/http/HttpClient$Builder;
+   #15 = Utf8               java/net/http/HttpClient
+   #16 = Utf8               newBuilder
+   #17 = Utf8               ()Ljava/net/http/HttpClient$Builder;
+   #18 = Long               3l
+   #20 = Methodref          #21.#22       // java/time/Duration.ofSeconds:(J)Ljava/time/Duration;
+   #21 = Class              #23           // java/time/Duration
+   #22 = NameAndType        #24:#25       // ofSeconds:(J)Ljava/time/Duration;
+   #23 = Utf8               java/time/Duration
+   #24 = Utf8               ofSeconds
+   #25 = Utf8               (J)Ljava/time/Duration;
+   #26 = InterfaceMethodref #27.#28       // java/net/http/HttpClient$Builder.connectTimeout:(Ljava/time/Duration;)Ljava/net/http/HttpClient$Builder;
+   #27 = Class              #29           // java/net/http/HttpClient$Builder
+   #28 = NameAndType        #30:#31       // connectTimeout:(Ljava/time/Duration;)Ljava/net/http/HttpClient$Builder;
+   #29 = Utf8               java/net/http/HttpClient$Builder
+   #30 = Utf8               connectTimeout
+   #31 = Utf8               (Ljava/time/Duration;)Ljava/net/http/HttpClient$Builder;
+   #32 = Class              #33           // local/chattranslate/TranslationClient$1
+   #33 = Utf8               local/chattranslate/TranslationClient$1
+   #34 = Methodref          #32.#35       // local/chattranslate/TranslationClient$1."<init>":(Llocal/chattranslate/TranslationClient;)V
+   #35 = NameAndType        #5:#36        // "<init>":(Llocal/chattranslate/TranslationClient;)V
+   #36 = Utf8               (Llocal/chattranslate/TranslationClient;)V
+   #37 = InterfaceMethodref #27.#38       // java/net/http/HttpClient$Builder.proxy:(Ljava/net/ProxySelector;)Ljava/net/http/HttpClient$Builder;
+   #38 = NameAndType        #39:#40       // proxy:(Ljava/net/ProxySelector;)Ljava/net/http/HttpClient$Builder;
+   #39 = Utf8               proxy
+   #40 = Utf8               (Ljava/net/ProxySelector;)Ljava/net/http/HttpClient$Builder;
+   #41 = Fieldref           #42.#43       // java/net/http/HttpClient$Redirect.NEVER:Ljava/net/http/HttpClient$Redirect;
+   #42 = Class              #44           // java/net/http/HttpClient$Redirect
+   #43 = NameAndType        #45:#46       // NEVER:Ljava/net/http/HttpClient$Redirect;
+   #44 = Utf8               java/net/http/HttpClient$Redirect
+   #45 = Utf8               NEVER
+   #46 = Utf8               Ljava/net/http/HttpClient$Redirect;
+   #47 = InterfaceMethodref #27.#48       // java/net/http/HttpClient$Builder.followRedirects:(Ljava/net/http/HttpClient$Redirect;)Ljava/net/http/HttpClient$Builder;
+   #48 = NameAndType        #49:#50       // followRedirects:(Ljava/net/http/HttpClient$Redirect;)Ljava/net/http/HttpClient$Builder;
+   #49 = Utf8               followRedirects
+   #50 = Utf8               (Ljava/net/http/HttpClient$Redirect;)Ljava/net/http/HttpClient$Builder;
+   #51 = InterfaceMethodref #27.#52       // java/net/http/HttpClient$Builder.build:()Ljava/net/http/HttpClient;
+   #52 = NameAndType        #53:#54       // build:()Ljava/net/http/HttpClient;
+   #53 = Utf8               build
+   #54 = Utf8               ()Ljava/net/http/HttpClient;
+   #55 = Fieldref           #2.#56        // local/chattranslate/TranslationClient.http:Ljava/net/http/HttpClient;
+   #56 = NameAndType        #57:#58       // http:Ljava/net/http/HttpClient;
+   #57 = Utf8               http
+   #58 = Utf8               Ljava/net/http/HttpClient;
+   #59 = Class              #60           // java/util/concurrent/ThreadPoolExecutor
+   #60 = Utf8               java/util/concurrent/ThreadPoolExecutor
+   #61 = Fieldref           #62.#63       // java/util/concurrent/TimeUnit.SECONDS:Ljava/util/concurrent/TimeUnit;
+   #62 = Class              #64           // java/util/concurrent/TimeUnit
+   #63 = NameAndType        #65:#66       // SECONDS:Ljava/util/concurrent/TimeUnit;
+   #64 = Utf8               java/util/concurrent/TimeUnit
+   #65 = Utf8               SECONDS
+   #66 = Utf8               Ljava/util/concurrent/TimeUnit;
+   #67 = Class              #68           // java/util/concurrent/ArrayBlockingQueue
+   #68 = Utf8               java/util/concurrent/ArrayBlockingQueue
+   #69 = Methodref          #67.#70       // java/util/concurrent/ArrayBlockingQueue."<init>":(I)V
+   #70 = NameAndType        #5:#71        // "<init>":(I)V
+   #71 = Utf8               (I)V
+   #72 = Methodref          #73.#74       // java/lang/Thread.ofPlatform:()Ljava/lang/Thread$Builder$OfPlatform;
+   #73 = Class              #75           // java/lang/Thread
+   #74 = NameAndType        #76:#77       // ofPlatform:()Ljava/lang/Thread$Builder$OfPlatform;
+   #75 = Utf8               java/lang/Thread
+   #76 = Utf8               ofPlatform
+   #77 = Utf8               ()Ljava/lang/Thread$Builder$OfPlatform;
+   #78 = InterfaceMethodref #79.#80       // java/lang/Thread$Builder$OfPlatform.daemon:()Ljava/lang/Thread$Builder$OfPlatform;
+   #79 = Class              #81           // java/lang/Thread$Builder$OfPlatform
+   #80 = NameAndType        #82:#77       // daemon:()Ljava/lang/Thread$Builder$OfPlatform;
+   #81 = Utf8               java/lang/Thread$Builder$OfPlatform
+   #82 = Utf8               daemon
+   #83 = String             #84           // localchattranslate-
+   #84 = Utf8               localchattranslate-
+   #85 = InterfaceMethodref #79.#86       // java/lang/Thread$Builder$OfPlatform.name:(Ljava/lang/String;J)Ljava/lang/Thread$Builder$OfPlatform;
+   #86 = NameAndType        #87:#88       // name:(Ljava/lang/String;J)Ljava/lang/Thread$Builder$OfPlatform;
+   #87 = Utf8               name
+   #88 = Utf8               (Ljava/lang/String;J)Ljava/lang/Thread$Builder$OfPlatform;
+   #89 = InterfaceMethodref #79.#90       // java/lang/Thread$Builder$OfPlatform.factory:()Ljava/util/concurrent/ThreadFactory;
+   #90 = NameAndType        #91:#92       // factory:()Ljava/util/concurrent/ThreadFactory;
+   #91 = Utf8               factory
+   #92 = Utf8               ()Ljava/util/concurrent/ThreadFactory;
+   #93 = Methodref          #59.#94       // java/util/concurrent/ThreadPoolExecutor."<init>":(IIJLjava/util/concurrent/TimeUnit;Ljava/util/concurrent/BlockingQueue;Ljava/util/concurrent/ThreadFactory;)V
+   #94 = NameAndType        #5:#95        // "<init>":(IIJLjava/util/concurrent/TimeUnit;Ljava/util/concurrent/BlockingQueue;Ljava/util/concurrent/ThreadFactory;)V
+   #95 = Utf8               (IIJLjava/util/concurrent/TimeUnit;Ljava/util/concurrent/BlockingQueue;Ljava/util/concurrent/ThreadFactory;)V
+   #96 = Fieldref           #2.#97        // local/chattranslate/TranslationClient.workers:Ljava/util/concurrent/ThreadPoolExecutor;
+   #97 = NameAndType        #98:#99       // workers:Ljava/util/concurrent/ThreadPoolExecutor;
+   #98 = Utf8               workers
+   #99 = Utf8               Ljava/util/concurrent/ThreadPoolExecutor;
+  #100 = Fieldref           #2.#101       // local/chattranslate/TranslationClient.log:Llocal/chattranslate/TranslationLog;
+  #101 = NameAndType        #102:#103     // log:Llocal/chattranslate/TranslationLog;
+  #102 = Utf8               log
+  #103 = Utf8               Llocal/chattranslate/TranslationLog;
+  #104 = Methodref          #105.#106     // java/lang/String.strip:()Ljava/lang/String;
+  #105 = Class              #107          // java/lang/String
+  #106 = NameAndType        #108:#109     // strip:()Ljava/lang/String;
+  #107 = Utf8               java/lang/String
+  #108 = Utf8               strip
+  #109 = Utf8               ()Ljava/lang/String;
+  #110 = String             #111          // /+$
+  #111 = Utf8               /+$
+  #112 = String             #113          //
+  #113 = Utf8
+  #114 = Methodref          #105.#115     // java/lang/String.replaceAll:(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+  #115 = NameAndType        #116:#117     // replaceAll:(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+  #116 = Utf8               replaceAll
+  #117 = Utf8               (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+  #118 = Methodref          #119.#120     // java/net/URI.create:(Ljava/lang/String;)Ljava/net/URI;
+  #119 = Class              #121          // java/net/URI
+  #120 = NameAndType        #122:#123     // create:(Ljava/lang/String;)Ljava/net/URI;
+  #121 = Utf8               java/net/URI
+  #122 = Utf8               create
+  #123 = Utf8               (Ljava/lang/String;)Ljava/net/URI;
+  #124 = Methodref          #119.#125     // java/net/URI.getHost:()Ljava/lang/String;
+  #125 = NameAndType        #126:#109     // getHost:()Ljava/lang/String;
+  #126 = Utf8               getHost
+  #127 = String             #57           // http
+  #128 = Methodref          #119.#129     // java/net/URI.getScheme:()Ljava/lang/String;
+  #129 = NameAndType        #130:#109     // getScheme:()Ljava/lang/String;
+  #130 = Utf8               getScheme
+  #131 = Methodref          #105.#132     // java/lang/String.equals:(Ljava/lang/Object;)Z
+  #132 = NameAndType        #133:#134     // equals:(Ljava/lang/Object;)Z
+  #133 = Utf8               equals
+  #134 = Utf8               (Ljava/lang/Object;)Z
+  #135 = String             #136          // https
+  #136 = Utf8               https
+  #137 = String             #138          // localhost
+  #138 = Utf8               localhost
+  #139 = Methodref          #105.#140     // java/lang/String.equalsIgnoreCase:(Ljava/lang/String;)Z
+  #140 = NameAndType        #141:#142     // equalsIgnoreCase:(Ljava/lang/String;)Z
+  #141 = Utf8               equalsIgnoreCase
+  #142 = Utf8               (Ljava/lang/String;)Z
+  #143 = String             #144          // 127.0.0.1
+  #144 = Utf8               127.0.0.1
+  #145 = String             #146          // [::1]
+  #146 = Utf8               [::1]
+  #147 = Methodref          #119.#148     // java/net/URI.getUserInfo:()Ljava/lang/String;
+  #148 = NameAndType        #149:#109     // getUserInfo:()Ljava/lang/String;
+  #149 = Utf8               getUserInfo
+  #150 = Methodref          #119.#151     // java/net/URI.getQuery:()Ljava/lang/String;
+  #151 = NameAndType        #152:#109     // getQuery:()Ljava/lang/String;
+  #152 = Utf8               getQuery
+  #153 = Methodref          #119.#154     // java/net/URI.getFragment:()Ljava/lang/String;
+  #154 = NameAndType        #155:#109     // getFragment:()Ljava/lang/String;
+  #155 = Utf8               getFragment
+  #156 = Methodref          #119.#157     // java/net/URI.getPath:()Ljava/lang/String;
+  #157 = NameAndType        #158:#109     // getPath:()Ljava/lang/String;
+  #158 = Utf8               getPath
+  #159 = Methodref          #105.#160     // java/lang/String.isEmpty:()Z
+  #160 = NameAndType        #161:#162     // isEmpty:()Z
+  #161 = Utf8               isEmpty
+  #162 = Utf8               ()Z
+  #163 = Methodref          #119.#164     // java/net/URI.getPort:()I
+  #164 = NameAndType        #165:#166     // getPort:()I
+  #165 = Utf8               getPort
+  #166 = Utf8               ()I
+  #167 = Integer            65535
+  #168 = Class              #169          // java/lang/IllegalArgumentException
+  #169 = Utf8               java/lang/IllegalArgumentException
+  #170 = String             #171          // Ollama��URL�ɂ͂���PC�̃A�h���X�ƃ|�[�g�������w�肵�Ă��������B
+  #171 = Utf8               Ollama��URL�ɂ͂���PC�̃A�h���X�ƃ|�[�g�������w�肵�Ă��������B
+  #172 = Methodref          #168.#173     // java/lang/IllegalArgumentException."<init>":(Ljava/lang/String;)V
+  #173 = NameAndType        #5:#174       // "<init>":(Ljava/lang/String;)V
+  #174 = Utf8               (Ljava/lang/String;)V
+  #175 = InvokeDynamic      #0:#176       // #0:makeConcatWithConstants:(I)Ljava/lang/String;
+  #176 = NameAndType        #177:#178     // makeConcatWithConstants:(I)Ljava/lang/String;
+  #177 = Utf8               makeConcatWithConstants
+  #178 = Utf8               (I)Ljava/lang/String;
+  #179 = InvokeDynamic      #1:#180       // #1:makeConcatWithConstants:(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+  #180 = NameAndType        #177:#117     // makeConcatWithConstants:(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+  #181 = Methodref          #2.#182       // local/chattranslate/TranslationClient.translate:(Ljava/net/URI;Llocal/chattranslate/ProtectedBody;ILlocal/chattranslate/TooltipLine;)Ljava/util/concurrent/CompletableFuture;
+  #182 = NameAndType        #183:#184     // translate:(Ljava/net/URI;Llocal/chattranslate/ProtectedBody;ILlocal/chattranslate/TooltipLine;)Ljava/util/concurrent/CompletableFuture;
+  #183 = Utf8               translate
+  #184 = Utf8               (Ljava/net/URI;Llocal/chattranslate/ProtectedBody;ILlocal/chattranslate/TooltipLine;)Ljava/util/concurrent/CompletableFuture;
+  #185 = String             #186          // You can find a shop in the village.
+  #186 = Utf8               You can find a shop in the village.
+  #187 = InterfaceMethodref #188.#189     // java/util/List.of:()Ljava/util/List;
+  #188 = Class              #190          // java/util/List
+  #189 = NameAndType        #191:#192     // of:()Ljava/util/List;
+  #190 = Utf8               java/util/List
+  #191 = Utf8               of
+  #192 = Utf8               ()Ljava/util/List;
+  #193 = Methodref          #194.#195     // local/chattranslate/ProtectedBody.prepare:(Ljava/lang/String;Ljava/util/Collection;)Llocal/chattranslate/ProtectedBody;
+  #194 = Class              #196          // local/chattranslate/ProtectedBody
+  #195 = NameAndType        #197:#198     // prepare:(Ljava/lang/String;Ljava/util/Collection;)Llocal/chattranslate/ProtectedBody;
+  #196 = Utf8               local/chattranslate/ProtectedBody
+  #197 = Utf8               prepare
+  #198 = Utf8               (Ljava/lang/String;Ljava/util/Collection;)Llocal/chattranslate/ProtectedBody;
+  #199 = Fieldref           #200.#201     // local/chattranslate/TooltipLine.body:Llocal/chattranslate/ProtectedBody;
+  #200 = Class              #202          // local/chattranslate/TooltipLine
+  #201 = NameAndType        #203:#204     // body:Llocal/chattranslate/ProtectedBody;
+  #202 = Utf8               local/chattranslate/TooltipLine
+  #203 = Utf8               body
+  #204 = Utf8               Llocal/chattranslate/ProtectedBody;
+  #205 = Methodref          #119.#206     // java/net/URI.toString:()Ljava/lang/String;
+  #206 = NameAndType        #207:#109     // toString:()Ljava/lang/String;
+  #207 = Utf8               toString
+  #208 = Methodref          #2.#209       // local/chattranslate/TranslationClient.validateEndpoint:(Ljava/lang/String;)Ljava/net/URI;
+  #209 = NameAndType        #210:#123     // validateEndpoint:(Ljava/lang/String;)Ljava/net/URI;
+  #210 = Utf8               validateEndpoint
+  #211 = Methodref          #212.#213     // java/lang/System.nanoTime:()J
+  #212 = Class              #214          // java/lang/System
+  #213 = NameAndType        #215:#216     // nanoTime:()J
+  #214 = Utf8               java/lang/System
+  #215 = Utf8               nanoTime
+  #216 = Utf8               ()J
+  #217 = Methodref          #62.#218      // java/util/concurrent/TimeUnit.toNanos:(J)J
+  #218 = NameAndType        #219:#220     // toNanos:(J)J
+  #219 = Utf8               toNanos
+  #220 = Utf8               (J)J
+  #221 = InvokeDynamic      #2:#222       // #2:get:(Llocal/chattranslate/TranslationClient;Llocal/chattranslate/ProtectedBody;JLjava/net/URI;Llocal/chattranslate/TooltipLine;)Ljava/util/function/Supplier;
+  #222 = NameAndType        #223:#224     // get:(Llocal/chattranslate/TranslationClient;Llocal/chattranslate/ProtectedBody;JLjava/net/URI;Llocal/chattranslate/TooltipLine;)Ljava/util/function/Supplier;
+  #223 = Utf8               get
+  #224 = Utf8               (Llocal/chattranslate/TranslationClient;Llocal/chattranslate/ProtectedBody;JLjava/net/URI;Llocal/chattranslate/TooltipLine;)Ljava/util/function/Supplier;
+  #225 = Methodref          #226.#227     // java/util/concurrent/CompletableFuture.supplyAsync:(Ljava/util/function/Supplier;Ljava/util/concurrent/Executor;)Ljava/util/concurrent/CompletableFuture;
+  #226 = Class              #228          // java/util/concurrent/CompletableFuture
+  #227 = NameAndType        #229:#230     // supplyAsync:(Ljava/util/function/Supplier;Ljava/util/concurrent/Executor;)Ljava/util/concurrent/CompletableFuture;
+  #228 = Utf8               java/util/concurrent/CompletableFuture
+  #229 = Utf8               supplyAsync
+  #230 = Utf8               (Ljava/util/function/Supplier;Ljava/util/concurrent/Executor;)Ljava/util/concurrent/CompletableFuture;
+  #231 = Methodref          #226.#232     // java/util/concurrent/CompletableFuture.orTimeout:(JLjava/util/concurrent/TimeUnit;)Ljava/util/concurrent/CompletableFuture;
+  #232 = NameAndType        #233:#234     // orTimeout:(JLjava/util/concurrent/TimeUnit;)Ljava/util/concurrent/CompletableFuture;
+  #233 = Utf8               orTimeout
+  #234 = Utf8               (JLjava/util/concurrent/TimeUnit;)Ljava/util/concurrent/CompletableFuture;
+  #235 = String             #236          // The source is a Minecraft Hypixel SkyBlock item tooltip. Use game terminology for stats and abilities.\n
+  #236 = Utf8               The source is a Minecraft Hypixel SkyBlock item tooltip. Use game terminology for stats and abilities.\n
+  #237 = Methodref          #194.#238     // local/chattranslate/ProtectedBody.marker:()Ljava/lang/String;
+  #238 = NameAndType        #239:#109     // marker:()Ljava/lang/String;
+  #239 = Utf8               marker
+  #240 = Methodref          #194.#241     // local/chattranslate/ProtectedBody.requestText:()Ljava/lang/String;
+  #241 = NameAndType        #242:#109     // requestText:()Ljava/lang/String;
+  #242 = Utf8               requestText
+  #243 = InvokeDynamic      #3:#244       // #3:makeConcatWithConstants:(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+  #244 = NameAndType        #177:#245     // makeConcatWithConstants:(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+  #245 = Utf8               (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+  #246 = Class              #247          // com/google/gson/JsonObject
+  #247 = Utf8               com/google/gson/JsonObject
+  #248 = Methodref          #246.#9       // com/google/gson/JsonObject."<init>":()V
+  #249 = String             #250          // role
+  #250 = Utf8               role
+  #251 = String             #252          // user
+  #252 = Utf8               user
+  #253 = Methodref          #246.#254     // com/google/gson/JsonObject.addProperty:(Ljava/lang/String;Ljava/lang/String;)V
+  #254 = NameAndType        #255:#256     // addProperty:(Ljava/lang/String;Ljava/lang/String;)V
+  #255 = Utf8               addProperty
+  #256 = Utf8               (Ljava/lang/String;Ljava/lang/String;)V
+  #257 = String             #258          // content
+  #258 = Utf8               content
+  #259 = Class              #260          // com/google/gson/JsonArray
+  #260 = Utf8               com/google/gson/JsonArray
+  #261 = Methodref          #259.#9       // com/google/gson/JsonArray."<init>":()V
+  #262 = Methodref          #259.#263     // com/google/gson/JsonArray.add:(Lcom/google/gson/JsonElement;)V
+  #263 = NameAndType        #264:#265     // add:(Lcom/google/gson/JsonElement;)V
+  #264 = Utf8               add
+  #265 = Utf8               (Lcom/google/gson/JsonElement;)V
+  #266 = String             #267          // temperature
+  #267 = Utf8               temperature
+  #268 = Methodref          #269.#270     // java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+  #269 = Class              #271          // java/lang/Integer
+  #270 = NameAndType        #272:#273     // valueOf:(I)Ljava/lang/Integer;
+  #271 = Utf8               java/lang/Integer
+  #272 = Utf8               valueOf
+  #273 = Utf8               (I)Ljava/lang/Integer;
+  #274 = Methodref          #246.#275     // com/google/gson/JsonObject.addProperty:(Ljava/lang/String;Ljava/lang/Number;)V
+  #275 = NameAndType        #255:#276     // addProperty:(Ljava/lang/String;Ljava/lang/Number;)V
+  #276 = Utf8               (Ljava/lang/String;Ljava/lang/Number;)V
+  #277 = String             #278          // num_ctx
+  #278 = Utf8               num_ctx
+  #279 = String             #280          // num_predict
+  #280 = Utf8               num_predict
+  #281 = String             #282          // model
+  #282 = Utf8               model
+  #283 = String             #284          // translategemma:4b
+  #284 = Utf8               translategemma:4b
+  #285 = String             #286          // stream
+  #286 = Utf8               stream
+  #287 = Methodref          #288.#289     // java/lang/Boolean.valueOf:(Z)Ljava/lang/Boolean;
+  #288 = Class              #290          // java/lang/Boolean
+  #289 = NameAndType        #272:#291     // valueOf:(Z)Ljava/lang/Boolean;
+  #290 = Utf8               java/lang/Boolean
+  #291 = Utf8               (Z)Ljava/lang/Boolean;
+  #292 = Methodref          #246.#293     // com/google/gson/JsonObject.addProperty:(Ljava/lang/String;Ljava/lang/Boolean;)V
+  #293 = NameAndType        #255:#294     // addProperty:(Ljava/lang/String;Ljava/lang/Boolean;)V
+  #294 = Utf8               (Ljava/lang/String;Ljava/lang/Boolean;)V
+  #295 = String             #296          // keep_alive
+  #296 = Utf8               keep_alive
+  #297 = String             #298          // 15m
+  #298 = Utf8               15m
+  #299 = String             #300          // messages
+  #300 = Utf8               messages
+  #301 = Methodref          #246.#302     // com/google/gson/JsonObject.add:(Ljava/lang/String;Lcom/google/gson/JsonElement;)V
+  #302 = NameAndType        #264:#303     // add:(Ljava/lang/String;Lcom/google/gson/JsonElement;)V
+  #303 = Utf8               (Ljava/lang/String;Lcom/google/gson/JsonElement;)V
+  #304 = String             #305          // options
+  #305 = Utf8               options
+  #306 = Class              #307          // java/io/IOException
+  #307 = Utf8               java/io/IOException
+  #308 = String             #309          // Translation expired
+  #309 = Utf8               Translation expired
+  #310 = Methodref          #306.#173     // java/io/IOException."<init>":(Ljava/lang/String;)V
+  #311 = InvokeDynamic      #4:#180       // #4:makeConcatWithConstants:(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+  #312 = Methodref          #313.#314     // java/net/http/HttpRequest.newBuilder:(Ljava/net/URI;)Ljava/net/http/HttpRequest$Builder;
+  #313 = Class              #315          // java/net/http/HttpRequest
+  #314 = NameAndType        #16:#316      // newBuilder:(Ljava/net/URI;)Ljava/net/http/HttpRequest$Builder;
+  #315 = Utf8               java/net/http/HttpRequest
+  #316 = Utf8               (Ljava/net/URI;)Ljava/net/http/HttpRequest$Builder;
+  #317 = Methodref          #21.#318      // java/time/Duration.ofNanos:(J)Ljava/time/Duration;
+  #318 = NameAndType        #319:#25      // ofNanos:(J)Ljava/time/Duration;
+  #319 = Utf8               ofNanos
+  #320 = InterfaceMethodref #321.#322     // java/net/http/HttpRequest$Builder.timeout:(Ljava/time/Duration;)Ljava/net/http/HttpRequest$Builder;
+  #321 = Class              #323          // java/net/http/HttpRequest$Builder
+  #322 = NameAndType        #324:#325     // timeout:(Ljava/time/Duration;)Ljava/net/http/HttpRequest$Builder;
+  #323 = Utf8               java/net/http/HttpRequest$Builder
+  #324 = Utf8               timeout
+  #325 = Utf8               (Ljava/time/Duration;)Ljava/net/http/HttpRequest$Builder;
+  #326 = String             #327          // Content-Type
+  #327 = Utf8               Content-Type
+  #328 = String             #329          // application/json; charset=utf-8
+  #329 = Utf8               application/json; charset=utf-8
+  #330 = InterfaceMethodref #321.#331     // java/net/http/HttpRequest$Builder.header:(Ljava/lang/String;Ljava/lang/String;)Ljava/net/http/HttpRequest$Builder;
+  #331 = NameAndType        #332:#333     // header:(Ljava/lang/String;Ljava/lang/String;)Ljava/net/http/HttpRequest$Builder;
+  #332 = Utf8               header
+  #333 = Utf8               (Ljava/lang/String;Ljava/lang/String;)Ljava/net/http/HttpRequest$Builder;
+  #334 = Methodref          #246.#206     // com/google/gson/JsonObject.toString:()Ljava/lang/String;
+  #335 = Fieldref           #336.#337     // java/nio/charset/StandardCharsets.UTF_8:Ljava/nio/charset/Charset;
+  #336 = Class              #338          // java/nio/charset/StandardCharsets
+  #337 = NameAndType        #339:#340     // UTF_8:Ljava/nio/charset/Charset;
+  #338 = Utf8               java/nio/charset/StandardCharsets
+  #339 = Utf8               UTF_8
+  #340 = Utf8               Ljava/nio/charset/Charset;
+  #341 = Methodref          #342.#343     // java/net/http/HttpRequest$BodyPublishers.ofString:(Ljava/lang/String;Ljava/nio/charset/Charset;)Ljava/net/http/HttpRequest$BodyPublisher;
+  #342 = Class              #344          // java/net/http/HttpRequest$BodyPublishers
+  #343 = NameAndType        #345:#346     // ofString:(Ljava/lang/String;Ljava/nio/charset/Charset;)Ljava/net/http/HttpRequest$BodyPublisher;
+  #344 = Utf8               java/net/http/HttpRequest$BodyPublishers
+  #345 = Utf8               ofString
+  #346 = Utf8               (Ljava/lang/String;Ljava/nio/charset/Charset;)Ljava/net/http/HttpRequest$BodyPublisher;
+  #347 = InterfaceMethodref #321.#348     // java/net/http/HttpRequest$Builder.POST:(Ljava/net/http/HttpRequest$BodyPublisher;)Ljava/net/http/HttpRequest$Builder;
+  #348 = NameAndType        #349:#350     // POST:(Ljava/net/http/HttpRequest$BodyPublisher;)Ljava/net/http/HttpRequest$Builder;
+  #349 = Utf8               POST
+  #350 = Utf8               (Ljava/net/http/HttpRequest$BodyPublisher;)Ljava/net/http/HttpRequest$Builder;
+  #351 = InterfaceMethodref #321.#352     // java/net/http/HttpRequest$Builder.build:()Ljava/net/http/HttpRequest;
+  #352 = NameAndType        #53:#353      // build:()Ljava/net/http/HttpRequest;
+  #353 = Utf8               ()Ljava/net/http/HttpRequest;
+  #354 = Methodref          #355.#356     // java/net/http/HttpResponse$BodyHandlers.ofString:(Ljava/nio/charset/Charset;)Ljava/net/http/HttpResponse$BodyHandler;
+  #355 = Class              #357          // java/net/http/HttpResponse$BodyHandlers
+  #356 = NameAndType        #345:#358     // ofString:(Ljava/nio/charset/Charset;)Ljava/net/http/HttpResponse$BodyHandler;
+  #357 = Utf8               java/net/http/HttpResponse$BodyHandlers
+  #358 = Utf8               (Ljava/nio/charset/Charset;)Ljava/net/http/HttpResponse$BodyHandler;
+  #359 = Long               65536l
+  #361 = Methodref          #355.#362     // java/net/http/HttpResponse$BodyHandlers.limiting:(Ljava/net/http/HttpResponse$BodyHandler;J)Ljava/net/http/HttpResponse$BodyHandler;
+  #362 = NameAndType        #363:#364     // limiting:(Ljava/net/http/HttpResponse$BodyHandler;J)Ljava/net/http/HttpResponse$BodyHandler;
+  #363 = Utf8               limiting
+  #364 = Utf8               (Ljava/net/http/HttpResponse$BodyHandler;J)Ljava/net/http/HttpResponse$BodyHandler;
+  #365 = Methodref          #13.#366      // java/net/http/HttpClient.sendAsync:(Ljava/net/http/HttpRequest;Ljava/net/http/HttpResponse$BodyHandler;)Ljava/util/concurrent/CompletableFuture;
+  #366 = NameAndType        #367:#368     // sendAsync:(Ljava/net/http/HttpRequest;Ljava/net/http/HttpResponse$BodyHandler;)Ljava/util/concurrent/CompletableFuture;
+  #367 = Utf8               sendAsync
+  #368 = Utf8               (Ljava/net/http/HttpRequest;Ljava/net/http/HttpResponse$BodyHandler;)Ljava/util/concurrent/CompletableFuture;
+  #369 = Fieldref           #62.#370      // java/util/concurrent/TimeUnit.NANOSECONDS:Ljava/util/concurrent/TimeUnit;
+  #370 = NameAndType        #371:#66      // NANOSECONDS:Ljava/util/concurrent/TimeUnit;
+  #371 = Utf8               NANOSECONDS
+  #372 = Methodref          #226.#373     // java/util/concurrent/CompletableFuture.get:(JLjava/util/concurrent/TimeUnit;)Ljava/lang/Object;
+  #373 = NameAndType        #223:#374     // get:(JLjava/util/concurrent/TimeUnit;)Ljava/lang/Object;
+  #374 = Utf8               (JLjava/util/concurrent/TimeUnit;)Ljava/lang/Object;
+  #375 = Class              #376          // java/net/http/HttpResponse
+  #376 = Utf8               java/net/http/HttpResponse
+  #377 = InterfaceMethodref #375.#378     // java/net/http/HttpResponse.statusCode:()I
+  #378 = NameAndType        #379:#166     // statusCode:()I
+  #379 = Utf8               statusCode
+  #380 = String             #381          // ���f��������܂���Bollama pull translategemma:4b �����s���Ă��������B
+  #381 = Utf8               ���f��������܂���Bollama pull translategemma:4b �����s���Ă��������B
+  #382 = InvokeDynamic      #5:#176       // #5:makeConcatWithConstants:(I)Ljava/lang/String;
+  #383 = InterfaceMethodref #375.#384     // java/net/http/HttpResponse.body:()Ljava/lang/Object;
+  #384 = NameAndType        #203:#385     // body:()Ljava/lang/Object;
+  #385 = Utf8               ()Ljava/lang/Object;
+  #386 = Methodref          #387.#388     // com/google/gson/JsonParser.parseString:(Ljava/lang/String;)Lcom/google/gson/JsonElement;
+  #387 = Class              #389          // com/google/gson/JsonParser
+  #388 = NameAndType        #390:#391     // parseString:(Ljava/lang/String;)Lcom/google/gson/JsonElement;
+  #389 = Utf8               com/google/gson/JsonParser
+  #390 = Utf8               parseString
+  #391 = Utf8               (Ljava/lang/String;)Lcom/google/gson/JsonElement;
+  #392 = Methodref          #393.#394     // com/google/gson/JsonElement.getAsJsonObject:()Lcom/google/gson/JsonObject;
+  #393 = Class              #395          // com/google/gson/JsonElement
+  #394 = NameAndType        #396:#397     // getAsJsonObject:()Lcom/google/gson/JsonObject;
+  #395 = Utf8               com/google/gson/JsonElement
+  #396 = Utf8               getAsJsonObject
+  #397 = Utf8               ()Lcom/google/gson/JsonObject;
+  #398 = String             #399          // error
+  #399 = Utf8               error
+  #400 = Methodref          #246.#401     // com/google/gson/JsonObject.get:(Ljava/lang/String;)Lcom/google/gson/JsonElement;
+  #401 = NameAndType        #223:#391     // get:(Ljava/lang/String;)Lcom/google/gson/JsonElement;
+  #402 = Methodref          #393.#403     // com/google/gson/JsonElement.getAsString:()Ljava/lang/String;
+  #403 = NameAndType        #404:#109     // getAsString:()Ljava/lang/String;
+  #404 = Utf8               getAsString
+  #405 = InvokeDynamic      #6:#180       // #6:makeConcatWithConstants:(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+  #406 = Class              #407          // java/lang/RuntimeException
+  #407 = Utf8               java/lang/RuntimeException
+  #408 = Methodref          #226.#409     // java/util/concurrent/CompletableFuture.isDone:()Z
+  #409 = NameAndType        #410:#162     // isDone:()Z
+  #410 = Utf8               isDone
+  #411 = Methodref          #226.#412     // java/util/concurrent/CompletableFuture.cancel:(Z)Z
+  #412 = NameAndType        #413:#414     // cancel:(Z)Z
+  #413 = Utf8               cancel
+  #414 = Utf8               (Z)Z
+  #415 = Methodref          #105.#416     // java/lang/String.isBlank:()Z
+  #416 = NameAndType        #417:#162     // isBlank:()Z
+  #417 = Utf8               isBlank
+  #418 = Methodref          #105.#419     // java/lang/String.length:()I
+  #419 = NameAndType        #420:#166     // length:()I
+  #420 = Utf8               length
+  #421 = Methodref          #422.#423     // java/lang/Math.max:(II)I
+  #422 = Class              #424          // java/lang/Math
+  #423 = NameAndType        #425:#426     // max:(II)I
+  #424 = Utf8               java/lang/Math
+  #425 = Utf8               max
+  #426 = Utf8               (II)I
+  #427 = String             #428          // (.{1,16}?)\\1{7,}
+  #428 = Utf8               (.{1,16}?)\\1{7,}
+  #429 = Methodref          #430.#431     // java/util/regex/Pattern.compile:(Ljava/lang/String;)Ljava/util/regex/Pattern;
+  #430 = Class              #432          // java/util/regex/Pattern
+  #431 = NameAndType        #433:#434     // compile:(Ljava/lang/String;)Ljava/util/regex/Pattern;
+  #432 = Utf8               java/util/regex/Pattern
+  #433 = Utf8               compile
+  #434 = Utf8               (Ljava/lang/String;)Ljava/util/regex/Pattern;
+  #435 = String             #436          // \\s+
+  #436 = Utf8               \\s+
+  #437 = Methodref          #430.#438     // java/util/regex/Pattern.matcher:(Ljava/lang/CharSequence;)Ljava/util/regex/Matcher;
+  #438 = NameAndType        #439:#440     // matcher:(Ljava/lang/CharSequence;)Ljava/util/regex/Matcher;
+  #439 = Utf8               matcher
+  #440 = Utf8               (Ljava/lang/CharSequence;)Ljava/util/regex/Matcher;
+  #441 = Methodref          #442.#443     // java/util/regex/Matcher.find:()Z
+  #442 = Class              #444          // java/util/regex/Matcher
+  #443 = NameAndType        #445:#162     // find:()Z
+  #444 = Utf8               java/util/regex/Matcher
+  #445 = Utf8               find
+  #446 = String             #447          // ��E�ُ�ɒ����E�J��Ԃ��󕶂��ȗ����܂����B
+  #447 = Utf8               ��E�ُ�ɒ����E�J��Ԃ��󕶂��ȗ����܂����B
+  #448 = Methodref          #105.#449     // java/lang/String.valueOf:(Ljava/lang/Object;)Ljava/lang/String;
+  #449 = NameAndType        #272:#450     // valueOf:(Ljava/lang/Object;)Ljava/lang/String;
+  #450 = Utf8               (Ljava/lang/Object;)Ljava/lang/String;
+  #451 = InvokeDynamic      #7:#452       // #7:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+  #452 = NameAndType        #177:#453     // makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+  #453 = Utf8               (Ljava/lang/String;)Ljava/lang/String;
+  #454 = Long               4l
+  #456 = String             #457          // application/json
+  #457 = Utf8               application/json
+  #458 = Methodref          #342.#459     // java/net/http/HttpRequest$BodyPublishers.ofString:(Ljava/lang/String;)Ljava/net/http/HttpRequest$BodyPublisher;
+  #459 = NameAndType        #345:#460     // ofString:(Ljava/lang/String;)Ljava/net/http/HttpRequest$BodyPublisher;
+  #460 = Utf8               (Ljava/lang/String;)Ljava/net/http/HttpRequest$BodyPublisher;
+  #461 = Methodref          #355.#462     // java/net/http/HttpResponse$BodyHandlers.discarding:()Ljava/net/http/HttpResponse$BodyHandler;
+  #462 = NameAndType        #463:#464     // discarding:()Ljava/net/http/HttpResponse$BodyHandler;
+  #463 = Utf8               discarding
+  #464 = Utf8               ()Ljava/net/http/HttpResponse$BodyHandler;
+  #465 = InvokeDynamic      #8:#466       // #8:apply:()Ljava/util/function/BiFunction;
+  #466 = NameAndType        #467:#468     // apply:()Ljava/util/function/BiFunction;
+  #467 = Utf8               apply
+  #468 = Utf8               ()Ljava/util/function/BiFunction;
+  #469 = Methodref          #226.#470     // java/util/concurrent/CompletableFuture.handle:(Ljava/util/function/BiFunction;)Ljava/util/concurrent/CompletableFuture;
+  #470 = NameAndType        #471:#472     // handle:(Ljava/util/function/BiFunction;)Ljava/util/concurrent/CompletableFuture;
+  #471 = Utf8               handle
+  #472 = Utf8               (Ljava/util/function/BiFunction;)Ljava/util/concurrent/CompletableFuture;
+  #473 = Methodref          #59.#474      // java/util/concurrent/ThreadPoolExecutor.getActiveCount:()I
+  #474 = NameAndType        #475:#166     // getActiveCount:()I
+  #475 = Utf8               getActiveCount
+  #476 = Methodref          #59.#477      // java/util/concurrent/ThreadPoolExecutor.getQueue:()Ljava/util/concurrent/BlockingQueue;
+  #477 = NameAndType        #478:#479     // getQueue:()Ljava/util/concurrent/BlockingQueue;
+  #478 = Utf8               getQueue
+  #479 = Utf8               ()Ljava/util/concurrent/BlockingQueue;
+  #480 = InterfaceMethodref #481.#482     // java/util/concurrent/BlockingQueue.size:()I
+  #481 = Class              #483          // java/util/concurrent/BlockingQueue
+  #482 = NameAndType        #484:#166     // size:()I
+  #483 = Utf8               java/util/concurrent/BlockingQueue
+  #484 = Utf8               size
+  #485 = InterfaceMethodref #481.#486     // java/util/concurrent/BlockingQueue.clear:()V
+  #486 = NameAndType        #487:#11      // clear:()V
+  #487 = Utf8               clear
+  #488 = Methodref          #59.#489      // java/util/concurrent/ThreadPoolExecutor.shutdownNow:()Ljava/util/List;
+  #489 = NameAndType        #490:#192     // shutdownNow:()Ljava/util/List;
+  #490 = Utf8               shutdownNow
+  #491 = Methodref          #13.#492      // java/net/http/HttpClient.shutdownNow:()V
+  #492 = NameAndType        #490:#11      // shutdownNow:()V
+  #493 = Methodref          #194.#494     // local/chattranslate/ProtectedBody.hasEnglishCandidate:()Z
+  #494 = NameAndType        #495:#162     // hasEnglishCandidate:()Z
+  #495 = Utf8               hasEnglishCandidate
+  #496 = Methodref          #497.#498     // java/util/Optional.empty:()Ljava/util/Optional;
+  #497 = Class              #499          // java/util/Optional
+  #498 = NameAndType        #500:#501     // empty:()Ljava/util/Optional;
+  #499 = Utf8               java/util/Optional
+  #500 = Utf8               empty
+  #501 = Utf8               ()Ljava/util/Optional;
+  #502 = String             #503          // /api/chat
+  #503 = Utf8               /api/chat
+  #504 = Methodref          #2.#505       // local/chattranslate/TranslationClient.request:(Llocal/chattranslate/ProtectedBody;Z)Lcom/google/gson/JsonObject;
+  #505 = NameAndType        #506:#507     // request:(Llocal/chattranslate/ProtectedBody;Z)Lcom/google/gson/JsonObject;
+  #506 = Utf8               request
+  #507 = Utf8               (Llocal/chattranslate/ProtectedBody;Z)Lcom/google/gson/JsonObject;
+  #508 = Methodref          #2.#509       // local/chattranslate/TranslationClient.post:(Ljava/net/URI;Ljava/lang/String;Lcom/google/gson/JsonObject;J)Lcom/google/gson/JsonObject;
+  #509 = NameAndType        #510:#511     // post:(Ljava/net/URI;Ljava/lang/String;Lcom/google/gson/JsonObject;J)Lcom/google/gson/JsonObject;
+  #510 = Utf8               post
+  #511 = Utf8               (Ljava/net/URI;Ljava/lang/String;Lcom/google/gson/JsonObject;J)Lcom/google/gson/JsonObject;
+  #512 = Methodref          #246.#513     // com/google/gson/JsonObject.has:(Ljava/lang/String;)Z
+  #513 = NameAndType        #514:#142     // has:(Ljava/lang/String;)Z
+  #514 = Utf8               has
+  #515 = String             #516          // TranslateGemma 4B�̉����ł͂���܂���BOllama�̐ڑ�����m�F���Ă��������B
+  #516 = Utf8               TranslateGemma 4B�̉����ł͂���܂���BOllama�̐ڑ�����m�F���Ă��������B
+  #517 = String             #518          // done
+  #518 = Utf8               done
+  #519 = Methodref          #393.#520     // com/google/gson/JsonElement.getAsBoolean:()Z
+  #520 = NameAndType        #521:#162     // getAsBoolean:()Z
+  #521 = Utf8               getAsBoolean
+  #522 = String             #523          // done_reason
+  #523 = Utf8               done_reason
+  #524 = String             #525          // stop
+  #525 = Utf8               stop
+  #526 = String             #527          // �r���Ő؂ꂽ�󕶂��ȗ����܂����B
+  #527 = Utf8               �r���Ő؂ꂽ�󕶂��ȗ����܂����B
+  #528 = String             #529          // message
+  #529 = Utf8               message
+  #530 = Methodref          #246.#531     // com/google/gson/JsonObject.getAsJsonObject:(Ljava/lang/String;)Lcom/google/gson/JsonObject;
+  #531 = NameAndType        #396:#532     // getAsJsonObject:(Ljava/lang/String;)Lcom/google/gson/JsonObject;
+  #532 = Utf8               (Ljava/lang/String;)Lcom/google/gson/JsonObject;
+  #533 = Methodref          #194.#534     // local/chattranslate/ProtectedBody.restore:(Ljava/lang/String;)Ljava/lang/String;
+  #534 = NameAndType        #535:#453     // restore:(Ljava/lang/String;)Ljava/lang/String;
+  #535 = Utf8               restore
+  #536 = String             #537          // (?U)\\s+
+  #537 = Utf8               (?U)\\s+
+  #538 = String             #539          //
+  #539 = Utf8
+  #540 = Methodref          #200.#541     // local/chattranslate/TooltipLine.restore:(Ljava/lang/String;)Lnet/minecraft/network/chat/Component;
+  #541 = NameAndType        #535:#542     // restore:(Ljava/lang/String;)Lnet/minecraft/network/chat/Component;
+  #542 = Utf8               (Ljava/lang/String;)Lnet/minecraft/network/chat/Component;
+  #543 = InterfaceMethodref #544.#545     // net/minecraft/network/chat/Component.getString:()Ljava/lang/String;
+  #544 = Class              #546          // net/minecraft/network/chat/Component
+  #545 = NameAndType        #547:#109     // getString:()Ljava/lang/String;
+  #546 = Utf8               net/minecraft/network/chat/Component
+  #547 = Utf8               getString
+  #548 = Methodref          #194.#549     // local/chattranslate/ProtectedBody.original:()Ljava/lang/String;
+  #549 = NameAndType        #550:#109     // original:()Ljava/lang/String;
+  #550 = Utf8               original
+  #551 = Methodref          #2.#552       // local/chattranslate/TranslationClient.validateOutput:(Ljava/lang/String;Ljava/lang/String;)V
+  #552 = NameAndType        #553:#256     // validateOutput:(Ljava/lang/String;Ljava/lang/String;)V
+  #553 = Utf8               validateOutput
+  #554 = Double             1.0E9d
+  #556 = Methodref          #557.#558     // local/chattranslate/TranslationLog.translated:(Ljava/lang/String;Ljava/lang/String;D)V
+  #557 = Class              #559          // local/chattranslate/TranslationLog
+  #558 = NameAndType        #560:#561     // translated:(Ljava/lang/String;Ljava/lang/String;D)V
+  #559 = Utf8               local/chattranslate/TranslationLog
+  #560 = Utf8               translated
+  #561 = Utf8               (Ljava/lang/String;Ljava/lang/String;D)V
+  #562 = Methodref          #497.#563     // java/util/Optional.of:(Ljava/lang/Object;)Ljava/util/Optional;
+  #563 = NameAndType        #191:#564     // of:(Ljava/lang/Object;)Ljava/util/Optional;
+  #564 = Utf8               (Ljava/lang/Object;)Ljava/util/Optional;
+  #565 = Class              #566          // java/lang/InterruptedException
+  #566 = Utf8               java/lang/InterruptedException
+  #567 = Methodref          #73.#568      // java/lang/Thread.currentThread:()Ljava/lang/Thread;
+  #568 = NameAndType        #569:#570     // currentThread:()Ljava/lang/Thread;
+  #569 = Utf8               currentThread
+  #570 = Utf8               ()Ljava/lang/Thread;
+  #571 = Methodref          #73.#572      // java/lang/Thread.interrupt:()V
+  #572 = NameAndType        #573:#11      // interrupt:()V
+  #573 = Utf8               interrupt
+  #574 = Class              #575          // java/util/concurrent/CompletionException
+  #575 = Utf8               java/util/concurrent/CompletionException
+  #576 = Methodref          #574.#577     // java/util/concurrent/CompletionException."<init>":(Ljava/lang/Throwable;)V
+  #577 = NameAndType        #5:#578       // "<init>":(Ljava/lang/Throwable;)V
+  #578 = Utf8               (Ljava/lang/Throwable;)V
+  #579 = Class              #580          // java/lang/Exception
+  #580 = Utf8               java/lang/Exception
+  #581 = Methodref          #582.#583     // local/chattranslate/LocalChatTranslate.errorMessage:(Ljava/lang/Throwable;)Ljava/lang/String;
+  #582 = Class              #584          // local/chattranslate/LocalChatTranslate
+  #583 = NameAndType        #585:#586     // errorMessage:(Ljava/lang/Throwable;)Ljava/lang/String;
+  #584 = Utf8               local/chattranslate/LocalChatTranslate
+  #585 = Utf8               errorMessage
+  #586 = Utf8               (Ljava/lang/Throwable;)Ljava/lang/String;
+  #587 = Methodref          #557.#588     // local/chattranslate/TranslationLog.failed:(Ljava/lang/String;Ljava/lang/String;)V
+  #588 = NameAndType        #589:#256     // failed:(Ljava/lang/String;Ljava/lang/String;)V
+  #589 = Utf8               failed
+  #590 = Class              #591          // java/lang/AutoCloseable
+  #591 = Utf8               java/lang/AutoCloseable
+  #592 = Utf8               MODEL
+  #593 = Utf8               Ljava/lang/String;
+  #594 = Utf8               ConstantValue
+  #595 = Utf8               Code
+  #596 = Utf8               LineNumberTable
+  #597 = Utf8               LocalVariableTable
+  #598 = Utf8               this
+  #599 = Utf8               Llocal/chattranslate/TranslationClient;
+  #600 = Utf8               endpoint
+  #601 = Utf8               uri
+  #602 = Utf8               Ljava/net/URI;
+  #603 = Utf8               host
+  #604 = Utf8               StackMapTable
+  #605 = Utf8               (Ljava/net/URI;Llocal/chattranslate/ProtectedBody;)Ljava/util/concurrent/CompletableFuture;
+  #606 = Utf8               Signature
+  #607 = Utf8               (Ljava/net/URI;Llocal/chattranslate/ProtectedBody;)Ljava/util/concurrent/CompletableFuture<Ljava/util/Optional<Ljava/lang/String;>;>;
+  #608 = Utf8               testConnection
+  #609 = Utf8               (Ljava/net/URI;)Ljava/util/concurrent/CompletableFuture;
+  #610 = Utf8               (Ljava/net/URI;)Ljava/util/concurrent/CompletableFuture<Ljava/util/Optional<Ljava/lang/String;>;>;
+  #611 = Utf8               translateTooltipLine
+  #612 = Utf8               (Ljava/net/URI;Llocal/chattranslate/TooltipLine;)Ljava/util/concurrent/CompletableFuture;
+  #613 = Utf8               line
+  #614 = Utf8               Llocal/chattranslate/TooltipLine;
+  #615 = Utf8               (Ljava/net/URI;Llocal/chattranslate/TooltipLine;)Ljava/util/concurrent/CompletableFuture<Ljava/util/Optional<Ljava/lang/String;>;>;
+  #616 = Utf8               timeoutSeconds
+  #617 = Utf8               I
+  #618 = Utf8               tooltip
+  #619 = Utf8               localEndpoint
+  #620 = Utf8               deadline
+  #621 = Utf8               J
+  #622 = Utf8               (Ljava/net/URI;Llocal/chattranslate/ProtectedBody;ILlocal/chattranslate/TooltipLine;)Ljava/util/concurrent/CompletableFuture<Ljava/util/Optional<Ljava/lang/String;>;>;
+  #623 = Utf8               Z
+  #624 = Utf8               prompt
+  #625 = Utf8               Lcom/google/gson/JsonObject;
+  #626 = Utf8               Lcom/google/gson/JsonArray;
+  #627 = Utf8               payload
+  #628 = Utf8               detail
+  #629 = Utf8               response
+  #630 = Utf8               Ljava/net/http/HttpResponse;
+  #631 = Utf8               path
+  #632 = Utf8               remaining
+  #633 = Utf8               Ljava/net/http/HttpRequest;
+  #634 = Utf8               call
+  #635 = Utf8               Ljava/util/concurrent/CompletableFuture;
+  #636 = Utf8               LocalVariableTypeTable
+  #637 = Utf8               Ljava/net/http/HttpResponse<Ljava/lang/String;>;
+  #638 = Utf8               Ljava/util/concurrent/CompletableFuture<Ljava/net/http/HttpResponse<Ljava/lang/String;>;>;
+  #639 = Class              #640          // java/lang/Throwable
+  #640 = Utf8               java/lang/Throwable
+  #641 = Utf8               Exceptions
+  #642 = Utf8               source
+  #643 = Utf8               text
+  #644 = Utf8               releaseGpu
+  #645 = Utf8               (Ljava/net/URI;)Ljava/util/concurrent/CompletableFuture<Ljava/lang/Void;>;
+  #646 = Utf8               pending
+  #647 = Utf8               clearQueued
+  #648 = Utf8               close
+  #649 = Utf8               lambda$releaseGpu$0
+  #650 = Utf8               (Ljava/net/http/HttpResponse;Ljava/lang/Throwable;)Ljava/lang/Void;
+  #651 = Utf8               Ljava/lang/Throwable;
+  #652 = Utf8               lambda$translate$0
+  #653 = Utf8               (Llocal/chattranslate/ProtectedBody;JLjava/net/URI;Llocal/chattranslate/TooltipLine;)Ljava/util/Optional;
+  #654 = Utf8               result
+  #655 = Utf8               readable
+  #656 = Utf8               e
+  #657 = Utf8               Ljava/lang/InterruptedException;
+  #658 = Utf8               Ljava/lang/Exception;
+  #659 = Utf8               start
+  #660 = Utf8               SourceFile
+  #661 = Utf8               TranslationClient.java
+  #662 = Utf8               NestMembers
+  #663 = Utf8               BootstrapMethods
+  #664 = String             #665          // :\u0001
+  #665 = Utf8               :\u0001
+  #666 = String             #667          // \u0001://127.0.0.1\u0001
+  #667 = Utf8               \u0001://127.0.0.1\u0001
+  #668 = MethodType         #385          //  ()Ljava/lang/Object;
+  #669 = MethodHandle       5:#670        // REF_invokeVirtual local/chattranslate/TranslationClient.lambda$translate$0:(Llocal/chattranslate/ProtectedBody;JLjava/net/URI;Llocal/chattranslate/TooltipLine;)Ljava/util/Optional;
+  #670 = Methodref          #2.#671       // local/chattranslate/TranslationClient.lambda$translate$0:(Llocal/chattranslate/ProtectedBody;JLjava/net/URI;Llocal/chattranslate/TooltipLine;)Ljava/util/Optional;
+  #671 = NameAndType        #652:#653     // lambda$translate$0:(Llocal/chattranslate/ProtectedBody;JLjava/net/URI;Llocal/chattranslate/TooltipLine;)Ljava/util/Optional;
+  #672 = MethodType         #501          //  ()Ljava/util/Optional;
+  #673 = String             #674          // You are a professional English (en) to Japanese (ja) translator. Your goal is to accurately convey the meaning and nuances of the original English text while adhering to Japanese grammar, vocabulary, and cultural sensitivities.\n\u0001Produce only the Japanese translation, without any additional explanations or commentary. Preserve placeholder tokens like \u00010 and \u00011 exactly as written. Please translate the following English text into Japanese:\n\n\n\u0001
+  #674 = Utf8               You are a professional English (en) to Japanese (ja) translator. Your goal is to accurately convey the meaning and nuances of the original English text while adhering to Japanese grammar, vocabulary, and cultural sensitivities.\n\u0001Produce only the Japanese translation, without any additional explanations or commentary. Preserve placeholder tokens like \u00010 and \u00011 exactly as written. Please translate the following English text into Japanese:\n\n\n\u0001
+  #675 = String             #676          // \u0001\u0001
+  #676 = Utf8               \u0001\u0001
+  #677 = String             #678          // Ollama HTTP \u0001
+  #678 = Utf8               Ollama HTTP \u0001
+  #679 = String             #680          // \u0001: \u0001
+  #680 = Utf8               \u0001: \u0001
+  #681 = String             #682          // \u0001/api/generate
+  #682 = Utf8               \u0001/api/generate
+  #683 = MethodType         #684          //  (Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+  #684 = Utf8               (Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+  #685 = MethodHandle       6:#686        // REF_invokeStatic local/chattranslate/TranslationClient.lambda$releaseGpu$0:(Ljava/net/http/HttpResponse;Ljava/lang/Throwable;)Ljava/lang/Void;
+  #686 = Methodref          #2.#687       // local/chattranslate/TranslationClient.lambda$releaseGpu$0:(Ljava/net/http/HttpResponse;Ljava/lang/Throwable;)Ljava/lang/Void;
+  #687 = NameAndType        #649:#650     // lambda$releaseGpu$0:(Ljava/net/http/HttpResponse;Ljava/lang/Throwable;)Ljava/lang/Void;
+  #688 = MethodType         #650          //  (Ljava/net/http/HttpResponse;Ljava/lang/Throwable;)Ljava/lang/Void;
+  #689 = MethodHandle       6:#690        // REF_invokeStatic java/lang/invoke/StringConcatFactory.makeConcatWithConstants:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite;
+  #690 = Methodref          #691.#692     // java/lang/invoke/StringConcatFactory.makeConcatWithConstants:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite;
+  #691 = Class              #693          // java/lang/invoke/StringConcatFactory
+  #692 = NameAndType        #177:#694     // makeConcatWithConstants:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite;
+  #693 = Utf8               java/lang/invoke/StringConcatFactory
+  #694 = Utf8               (Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite;
+  #695 = MethodHandle       6:#696        // REF_invokeStatic java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+  #696 = Methodref          #697.#698     // java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+  #697 = Class              #699          // java/lang/invoke/LambdaMetafactory
+  #698 = NameAndType        #700:#701     // metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+  #699 = Utf8               java/lang/invoke/LambdaMetafactory
+  #700 = Utf8               metafactory
+  #701 = Utf8               (Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+  #702 = Utf8               InnerClasses
+  #703 = Utf8               Builder
+  #704 = Utf8               Redirect
+  #705 = Class              #706          // java/lang/Thread$Builder
+  #706 = Utf8               java/lang/Thread$Builder
+  #707 = Utf8               OfPlatform
+  #708 = Utf8               BodyPublishers
+  #709 = Class              #710          // java/net/http/HttpRequest$BodyPublisher
+  #710 = Utf8               java/net/http/HttpRequest$BodyPublisher
+  #711 = Utf8               BodyPublisher
+  #712 = Utf8               BodyHandlers
+  #713 = Class              #714          // java/net/http/HttpResponse$BodyHandler
+  #714 = Utf8               java/net/http/HttpResponse$BodyHandler
+  #715 = Utf8               BodyHandler
+  #716 = Class              #717          // java/lang/invoke/MethodHandles$Lookup
+  #717 = Utf8               java/lang/invoke/MethodHandles$Lookup
+  #718 = Class              #719          // java/lang/invoke/MethodHandles
+  #719 = Utf8               java/lang/invoke/MethodHandles
+  #720 = Utf8               Lookup
+{
+  public static final java.lang.String MODEL;
+    descriptor: Ljava/lang/String;
+    flags: (0x0019) ACC_PUBLIC, ACC_STATIC, ACC_FINAL
+    ConstantValue: String translategemma:4b
+
+  private final java.net.http.HttpClient http;
+    descriptor: Ljava/net/http/HttpClient;
+    flags: (0x0012) ACC_PRIVATE, ACC_FINAL
+
+  private final java.util.concurrent.ThreadPoolExecutor workers;
+    descriptor: Ljava/util/concurrent/ThreadPoolExecutor;
+    flags: (0x0012) ACC_PRIVATE, ACC_FINAL
+
+  private final local.chattranslate.TranslationLog log;
+    descriptor: Llocal/chattranslate/TranslationLog;
+    flags: (0x0012) ACC_PRIVATE, ACC_FINAL
+
+  public local.chattranslate.TranslationClient();
+    descriptor: ()V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=2, locals=1, args_size=1
+         0: aload_0
+         1: aconst_null
+         2: invokespecial #1                  // Method "<init>":(Llocal/chattranslate/TranslationLog;)V
+         5: return
+      LineNumberTable:
+        line 37: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       6     0  this   Llocal/chattranslate/TranslationClient;
+
+  public local.chattranslate.TranslationClient(local.chattranslate.TranslationLog);
+    descriptor: (Llocal/chattranslate/TranslationLog;)V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=13, locals=2, args_size=2
+         0: aload_0
+         1: invokespecial #7                  // Method java/lang/Object."<init>":()V
+         4: aload_0
+         5: invokestatic  #12                 // Method java/net/http/HttpClient.newBuilder:()Ljava/net/http/HttpClient$Builder;
+         8: ldc2_w        #18                 // long 3l
+        11: invokestatic  #20                 // Method java/time/Duration.ofSeconds:(J)Ljava/time/Duration;
+        14: invokeinterface #26,  2           // InterfaceMethod java/net/http/HttpClient$Builder.connectTimeout:(Ljava/time/Duration;)Ljava/net/http/HttpClient$Builder;
+        19: new           #32                 // class local/chattranslate/TranslationClient$1
+        22: dup
+        23: aload_0
+        24: invokespecial #34                 // Method local/chattranslate/TranslationClient$1."<init>":(Llocal/chattranslate/TranslationClient;)V
+        27: invokeinterface #37,  2           // InterfaceMethod java/net/http/HttpClient$Builder.proxy:(Ljava/net/ProxySelector;)Ljava/net/http/HttpClient$Builder;
+        32: getstatic     #41                 // Field java/net/http/HttpClient$Redirect.NEVER:Ljava/net/http/HttpClient$Redirect;
+        35: invokeinterface #47,  2           // InterfaceMethod java/net/http/HttpClient$Builder.followRedirects:(Ljava/net/http/HttpClient$Redirect;)Ljava/net/http/HttpClient$Builder;
+        40: invokeinterface #51,  1           // InterfaceMethod java/net/http/HttpClient$Builder.build:()Ljava/net/http/HttpClient;
+        45: putfield      #55                 // Field http:Ljava/net/http/HttpClient;
+        48: aload_0
+        49: new           #59                 // class java/util/concurrent/ThreadPoolExecutor
+        52: dup
+        53: iconst_1
+        54: iconst_1
+        55: lconst_0
+        56: getstatic     #61                 // Field java/util/concurrent/TimeUnit.SECONDS:Ljava/util/concurrent/TimeUnit;
+        59: new           #67                 // class java/util/concurrent/ArrayBlockingQueue
+        62: dup
+        63: bipush        16
+        65: invokespecial #69                 // Method java/util/concurrent/ArrayBlockingQueue."<init>":(I)V
+        68: invokestatic  #72                 // Method java/lang/Thread.ofPlatform:()Ljava/lang/Thread$Builder$OfPlatform;
+        71: invokeinterface #78,  1           // InterfaceMethod java/lang/Thread$Builder$OfPlatform.daemon:()Ljava/lang/Thread$Builder$OfPlatform;
+        76: ldc           #83                 // String localchattranslate-
+        78: lconst_0
+        79: invokeinterface #85,  4           // InterfaceMethod java/lang/Thread$Builder$OfPlatform.name:(Ljava/lang/String;J)Ljava/lang/Thread$Builder$OfPlatform;
+        84: invokeinterface #89,  1           // InterfaceMethod java/lang/Thread$Builder$OfPlatform.factory:()Ljava/util/concurrent/ThreadFactory;
+        89: invokespecial #93                 // Method java/util/concurrent/ThreadPoolExecutor."<init>":(IIJLjava/util/concurrent/TimeUnit;Ljava/util/concurrent/BlockingQueue;Ljava/util/concurrent/ThreadFactory;)V
+        92: putfield      #96                 // Field workers:Ljava/util/concurrent/ThreadPoolExecutor;
+        95: aload_0
+        96: aload_1
+        97: putfield      #100                // Field log:Llocal/chattranslate/TranslationLog;
+       100: return
+      LineNumberTable:
+        line 38: 0
+        line 27: 4
+        line 28: 27
+        line 32: 35
+        line 33: 48
+        line 34: 68
+        line 38: 95
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0     101     0  this   Llocal/chattranslate/TranslationClient;
+            0     101     1   log   Llocal/chattranslate/TranslationLog;
+
+  public static java.net.URI validateEndpoint(java.lang.String);
+    descriptor: (Ljava/lang/String;)Ljava/net/URI;
+    flags: (0x0009) ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=3, locals=3, args_size=1
+         0: aload_0
+         1: invokevirtual #104                // Method java/lang/String.strip:()Ljava/lang/String;
+         4: ldc           #110                // String /+$
+         6: ldc           #112                // String
+         8: invokevirtual #114                // Method java/lang/String.replaceAll:(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+        11: invokestatic  #118                // Method java/net/URI.create:(Ljava/lang/String;)Ljava/net/URI;
+        14: astore_1
+        15: aload_1
+        16: invokevirtual #124                // Method java/net/URI.getHost:()Ljava/lang/String;
+        19: astore_2
+        20: ldc           #127                // String http
+        22: aload_1
+        23: invokevirtual #128                // Method java/net/URI.getScheme:()Ljava/lang/String;
+        26: invokevirtual #131                // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+        29: ifne          44
+        32: ldc           #135                // String https
+        34: aload_1
+        35: invokevirtual #128                // Method java/net/URI.getScheme:()Ljava/lang/String;
+        38: invokevirtual #131                // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+        41: ifeq          122
+        44: aload_2
+        45: ifnull        122
+        48: aload_2
+        49: ldc           #137                // String localhost
+        51: invokevirtual #139                // Method java/lang/String.equalsIgnoreCase:(Ljava/lang/String;)Z
+        54: ifne          75
+        57: aload_2
+        58: ldc           #143                // String 127.0.0.1
+        60: invokevirtual #131                // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+        63: ifne          75
+        66: aload_2
+        67: ldc           #145                // String [::1]
+        69: invokevirtual #131                // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+        72: ifeq          122
+        75: aload_1
+        76: invokevirtual #147                // Method java/net/URI.getUserInfo:()Ljava/lang/String;
+        79: ifnonnull     122
+        82: aload_1
+        83: invokevirtual #150                // Method java/net/URI.getQuery:()Ljava/lang/String;
+        86: ifnonnull     122
+        89: aload_1
+        90: invokevirtual #153                // Method java/net/URI.getFragment:()Ljava/lang/String;
+        93: ifnonnull     122
+        96: aload_1
+        97: invokevirtual #156                // Method java/net/URI.getPath:()Ljava/lang/String;
+       100: invokevirtual #159                // Method java/lang/String.isEmpty:()Z
+       103: ifeq          122
+       106: aload_1
+       107: invokevirtual #163                // Method java/net/URI.getPort:()I
+       110: ifeq          122
+       113: aload_1
+       114: invokevirtual #163                // Method java/net/URI.getPort:()I
+       117: ldc           #167                // int 65535
+       119: if_icmple     132
+       122: new           #168                // class java/lang/IllegalArgumentException
+       125: dup
+       126: ldc           #170                // String Ollama��URL�ɂ͂���PC�̃A�h���X�ƃ|�[�g�������w�肵�Ă��������B
+       128: invokespecial #172                // Method java/lang/IllegalArgumentException."<init>":(Ljava/lang/String;)V
+       131: athrow
+       132: aload_2
+       133: ldc           #137                // String localhost
+       135: invokevirtual #139                // Method java/lang/String.equalsIgnoreCase:(Ljava/lang/String;)Z
+       138: ifeq          175
+       141: aload_1
+       142: invokevirtual #128                // Method java/net/URI.getScheme:()Ljava/lang/String;
+       145: aload_1
+       146: invokevirtual #163                // Method java/net/URI.getPort:()I
+       149: ifge          157
+       152: ldc           #112                // String
+       154: goto          166
+       157: aload_1
+       158: invokevirtual #163                // Method java/net/URI.getPort:()I
+       161: invokedynamic #175,  0            // InvokeDynamic #0:makeConcatWithConstants:(I)Ljava/lang/String;
+       166: invokedynamic #179,  0            // InvokeDynamic #1:makeConcatWithConstants:(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+       171: invokestatic  #118                // Method java/net/URI.create:(Ljava/lang/String;)Ljava/net/URI;
+       174: areturn
+       175: aload_1
+       176: areturn
+      LineNumberTable:
+        line 41: 0
+        line 42: 15
+        line 43: 20
+        line 44: 51
+        line 45: 76
+        line 46: 97
+        line 47: 122
+        line 50: 132
+        line 51: 141
+        line 53: 175
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0     177     0 endpoint   Ljava/lang/String;
+           15     162     1   uri   Ljava/net/URI;
+           20     157     2  host   Ljava/lang/String;
+      StackMapTable: number_of_entries = 7
+        frame_type = 253 /* append */
+          offset_delta = 44
+          locals = [ class java/net/URI, class java/lang/String ]
+        frame_type = 30 /* same */
+        frame_type = 46 /* same */
+        frame_type = 9 /* same */
+        frame_type = 88 /* same_locals_1_stack_item */
+          stack = [ class java/lang/String ]
+        frame_type = 255 /* full_frame */
+          offset_delta = 8
+          locals = [ class java/lang/String, class java/net/URI, class java/lang/String ]
+          stack = [ class java/lang/String, class java/lang/String ]
+        frame_type = 8 /* same */
+
+  public java.util.concurrent.CompletableFuture<java.util.Optional<java.lang.String>> translate(java.net.URI, local.chattranslate.ProtectedBody);
+    descriptor: (Ljava/net/URI;Llocal/chattranslate/ProtectedBody;)Ljava/util/concurrent/CompletableFuture;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=5, locals=3, args_size=3
+         0: aload_0
+         1: aload_1
+         2: aload_2
+         3: bipush        30
+         5: aconst_null
+         6: invokevirtual #181                // Method translate:(Ljava/net/URI;Llocal/chattranslate/ProtectedBody;ILlocal/chattranslate/TooltipLine;)Ljava/util/concurrent/CompletableFuture;
+         9: areturn
+      LineNumberTable:
+        line 57: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      10     0  this   Llocal/chattranslate/TranslationClient;
+            0      10     1 endpoint   Ljava/net/URI;
+            0      10     2  body   Llocal/chattranslate/ProtectedBody;
+    Signature: #607                         // (Ljava/net/URI;Llocal/chattranslate/ProtectedBody;)Ljava/util/concurrent/CompletableFuture<Ljava/util/Optional<Ljava/lang/String;>;>;
+
+  public java.util.concurrent.CompletableFuture<java.util.Optional<java.lang.String>> testConnection(java.net.URI);
+    descriptor: (Ljava/net/URI;)Ljava/util/concurrent/CompletableFuture;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=5, locals=2, args_size=2
+         0: aload_0
+         1: aload_1
+         2: ldc           #185                // String You can find a shop in the village.
+         4: invokestatic  #187                // InterfaceMethod java/util/List.of:()Ljava/util/List;
+         7: invokestatic  #193                // Method local/chattranslate/ProtectedBody.prepare:(Ljava/lang/String;Ljava/util/Collection;)Llocal/chattranslate/ProtectedBody;
+        10: bipush        90
+        12: aconst_null
+        13: invokevirtual #181                // Method translate:(Ljava/net/URI;Llocal/chattranslate/ProtectedBody;ILlocal/chattranslate/TooltipLine;)Ljava/util/concurrent/CompletableFuture;
+        16: areturn
+      LineNumberTable:
+        line 61: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      17     0  this   Llocal/chattranslate/TranslationClient;
+            0      17     1 endpoint   Ljava/net/URI;
+    Signature: #610                         // (Ljava/net/URI;)Ljava/util/concurrent/CompletableFuture<Ljava/util/Optional<Ljava/lang/String;>;>;
+
+  java.util.concurrent.CompletableFuture<java.util.Optional<java.lang.String>> translateTooltipLine(java.net.URI, local.chattranslate.TooltipLine);
+    descriptor: (Ljava/net/URI;Llocal/chattranslate/TooltipLine;)Ljava/util/concurrent/CompletableFuture;
+    flags: (0x0000)
+    Code:
+      stack=5, locals=3, args_size=3
+         0: aload_0
+         1: aload_1
+         2: aload_2
+         3: getfield      #199                // Field local/chattranslate/TooltipLine.body:Llocal/chattranslate/ProtectedBody;
+         6: bipush        30
+         8: aload_2
+         9: invokevirtual #181                // Method translate:(Ljava/net/URI;Llocal/chattranslate/ProtectedBody;ILlocal/chattranslate/TooltipLine;)Ljava/util/concurrent/CompletableFuture;
+        12: areturn
+      LineNumberTable:
+        line 65: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      13     0  this   Llocal/chattranslate/TranslationClient;
+            0      13     1 endpoint   Ljava/net/URI;
+            0      13     2  line   Llocal/chattranslate/TooltipLine;
+    Signature: #615                         // (Ljava/net/URI;Llocal/chattranslate/TooltipLine;)Ljava/util/concurrent/CompletableFuture<Ljava/util/Optional<Ljava/lang/String;>;>;
+
+  private java.util.concurrent.CompletableFuture<java.util.Optional<java.lang.String>> translate(java.net.URI, local.chattranslate.ProtectedBody, int, local.chattranslate.TooltipLine);
+    descriptor: (Ljava/net/URI;Llocal/chattranslate/ProtectedBody;ILlocal/chattranslate/TooltipLine;)Ljava/util/concurrent/CompletableFuture;
+    flags: (0x0002) ACC_PRIVATE
+    Code:
+      stack=6, locals=8, args_size=5
+         0: aload_1
+         1: invokevirtual #205                // Method java/net/URI.toString:()Ljava/lang/String;
+         4: invokestatic  #208                // Method validateEndpoint:(Ljava/lang/String;)Ljava/net/URI;
+         7: astore        5
+         9: invokestatic  #211                // Method java/lang/System.nanoTime:()J
+        12: getstatic     #61                 // Field java/util/concurrent/TimeUnit.SECONDS:Ljava/util/concurrent/TimeUnit;
+        15: iload_3
+        16: i2l
+        17: invokevirtual #217                // Method java/util/concurrent/TimeUnit.toNanos:(J)J
+        20: ladd
+        21: lstore        6
+        23: aload_0
+        24: aload_2
+        25: lload         6
+        27: aload         5
+        29: aload         4
+        31: invokedynamic #221,  0            // InvokeDynamic #2:get:(Llocal/chattranslate/TranslationClient;Llocal/chattranslate/ProtectedBody;JLjava/net/URI;Llocal/chattranslate/TooltipLine;)Ljava/util/function/Supplier;
+        36: aload_0
+        37: getfield      #96                 // Field workers:Ljava/util/concurrent/ThreadPoolExecutor;
+        40: invokestatic  #225                // Method java/util/concurrent/CompletableFuture.supplyAsync:(Ljava/util/function/Supplier;Ljava/util/concurrent/Executor;)Ljava/util/concurrent/CompletableFuture;
+        43: iload_3
+        44: i2l
+        45: getstatic     #61                 // Field java/util/concurrent/TimeUnit.SECONDS:Ljava/util/concurrent/TimeUnit;
+        48: invokevirtual #231                // Method java/util/concurrent/CompletableFuture.orTimeout:(JLjava/util/concurrent/TimeUnit;)Ljava/util/concurrent/CompletableFuture;
+        51: areturn
+      LineNumberTable:
+        line 70: 0
+        line 71: 9
+        line 72: 23
+        line 99: 48
+        line 72: 51
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      52     0  this   Llocal/chattranslate/TranslationClient;
+            0      52     1 endpoint   Ljava/net/URI;
+            0      52     2  body   Llocal/chattranslate/ProtectedBody;
+            0      52     3 timeoutSeconds   I
+            0      52     4 tooltip   Llocal/chattranslate/TooltipLine;
+            9      43     5 localEndpoint   Ljava/net/URI;
+           23      29     6 deadline   J
+    Signature: #622                         // (Ljava/net/URI;Llocal/chattranslate/ProtectedBody;ILlocal/chattranslate/TooltipLine;)Ljava/util/concurrent/CompletableFuture<Ljava/util/Optional<Ljava/lang/String;>;>;
+
+  private static com.google.gson.JsonObject request(local.chattranslate.ProtectedBody, boolean);
+    descriptor: (Llocal/chattranslate/ProtectedBody;Z)Lcom/google/gson/JsonObject;
+    flags: (0x000a) ACC_PRIVATE, ACC_STATIC
+    Code:
+      stack=4, locals=7, args_size=2
+         0: iload_1
+         1: ifeq          9
+         4: ldc           #235                // String The source is a Minecraft Hypixel SkyBlock item tooltip. Use game terminology for stats and abilities.\n
+         6: goto          11
+         9: ldc           #112                // String
+        11: aload_0
+        12: invokevirtual #237                // Method local/chattranslate/ProtectedBody.marker:()Ljava/lang/String;
+        15: aload_0
+        16: invokevirtual #237                // Method local/chattranslate/ProtectedBody.marker:()Ljava/lang/String;
+        19: aload_0
+        20: invokevirtual #240                // Method local/chattranslate/ProtectedBody.requestText:()Ljava/lang/String;
+        23: invokedynamic #243,  0            // InvokeDynamic #3:makeConcatWithConstants:(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+        28: astore_2
+        29: new           #246                // class com/google/gson/JsonObject
+        32: dup
+        33: invokespecial #248                // Method com/google/gson/JsonObject."<init>":()V
+        36: astore_3
+        37: aload_3
+        38: ldc           #249                // String role
+        40: ldc           #251                // String user
+        42: invokevirtual #253                // Method com/google/gson/JsonObject.addProperty:(Ljava/lang/String;Ljava/lang/String;)V
+        45: aload_3
+        46: ldc_w         #257                // String content
+        49: aload_2
+        50: invokevirtual #253                // Method com/google/gson/JsonObject.addProperty:(Ljava/lang/String;Ljava/lang/String;)V
+        53: new           #259                // class com/google/gson/JsonArray
+        56: dup
+        57: invokespecial #261                // Method com/google/gson/JsonArray."<init>":()V
+        60: astore        4
+        62: aload         4
+        64: aload_3
+        65: invokevirtual #262                // Method com/google/gson/JsonArray.add:(Lcom/google/gson/JsonElement;)V
+        68: new           #246                // class com/google/gson/JsonObject
+        71: dup
+        72: invokespecial #248                // Method com/google/gson/JsonObject."<init>":()V
+        75: astore        5
+        77: aload         5
+        79: ldc_w         #266                // String temperature
+        82: iconst_0
+        83: invokestatic  #268                // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+        86: invokevirtual #274                // Method com/google/gson/JsonObject.addProperty:(Ljava/lang/String;Ljava/lang/Number;)V
+        89: aload         5
+        91: ldc_w         #277                // String num_ctx
+        94: sipush        2048
+        97: invokestatic  #268                // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+       100: invokevirtual #274                // Method com/google/gson/JsonObject.addProperty:(Ljava/lang/String;Ljava/lang/Number;)V
+       103: aload         5
+       105: ldc_w         #279                // String num_predict
+       108: sipush        192
+       111: invokestatic  #268                // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+       114: invokevirtual #274                // Method com/google/gson/JsonObject.addProperty:(Ljava/lang/String;Ljava/lang/Number;)V
+       117: new           #246                // class com/google/gson/JsonObject
+       120: dup
+       121: invokespecial #248                // Method com/google/gson/JsonObject."<init>":()V
+       124: astore        6
+       126: aload         6
+       128: ldc_w         #281                // String model
+       131: ldc_w         #283                // String translategemma:4b
+       134: invokevirtual #253                // Method com/google/gson/JsonObject.addProperty:(Ljava/lang/String;Ljava/lang/String;)V
+       137: aload         6
+       139: ldc_w         #285                // String stream
+       142: iconst_0
+       143: invokestatic  #287                // Method java/lang/Boolean.valueOf:(Z)Ljava/lang/Boolean;
+       146: invokevirtual #292                // Method com/google/gson/JsonObject.addProperty:(Ljava/lang/String;Ljava/lang/Boolean;)V
+       149: aload         6
+       151: ldc_w         #295                // String keep_alive
+       154: ldc_w         #297                // String 15m
+       157: invokevirtual #253                // Method com/google/gson/JsonObject.addProperty:(Ljava/lang/String;Ljava/lang/String;)V
+       160: aload         6
+       162: ldc_w         #299                // String messages
+       165: aload         4
+       167: invokevirtual #301                // Method com/google/gson/JsonObject.add:(Ljava/lang/String;Lcom/google/gson/JsonElement;)V
+       170: aload         6
+       172: ldc_w         #304                // String options
+       175: aload         5
+       177: invokevirtual #301                // Method com/google/gson/JsonObject.add:(Ljava/lang/String;Lcom/google/gson/JsonElement;)V
+       180: aload         6
+       182: areturn
+      LineNumberTable:
+        line 107: 0
+        line 109: 12
+        line 110: 20
+        line 111: 29
+        line 112: 37
+        line 113: 45
+        line 114: 53
+        line 115: 62
+        line 116: 68
+        line 117: 77
+        line 118: 89
+        line 119: 103
+        line 120: 117
+        line 121: 126
+        line 122: 137
+        line 123: 149
+        line 124: 160
+        line 125: 170
+        line 126: 180
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0     183     0  body   Llocal/chattranslate/ProtectedBody;
+            0     183     1 tooltip   Z
+           29     154     2 prompt   Ljava/lang/String;
+           37     146     3 message   Lcom/google/gson/JsonObject;
+           62     121     4 messages   Lcom/google/gson/JsonArray;
+           77     106     5 options   Lcom/google/gson/JsonObject;
+          126      57     6 payload   Lcom/google/gson/JsonObject;
+      StackMapTable: number_of_entries = 2
+        frame_type = 9 /* same */
+        frame_type = 65 /* same_locals_1_stack_item */
+          stack = [ class java/lang/String ]
+
+  private com.google.gson.JsonObject post(java.net.URI, java.lang.String, com.google.gson.JsonObject, long) throws java.lang.Exception;
+    descriptor: (Ljava/net/URI;Ljava/lang/String;Lcom/google/gson/JsonObject;J)Lcom/google/gson/JsonObject;
+    flags: (0x0002) ACC_PRIVATE
+    Code:
+      stack=5, locals=14, args_size=5
+         0: lload         4
+         2: invokestatic  #211                // Method java/lang/System.nanoTime:()J
+         5: lsub
+         6: lstore        6
+         8: lload         6
+        10: lconst_0
+        11: lcmp
+        12: ifgt          26
+        15: new           #306                // class java/io/IOException
+        18: dup
+        19: ldc_w         #308                // String Translation expired
+        22: invokespecial #310                // Method java/io/IOException."<init>":(Ljava/lang/String;)V
+        25: athrow
+        26: aload_1
+        27: invokevirtual #205                // Method java/net/URI.toString:()Ljava/lang/String;
+        30: aload_2
+        31: invokedynamic #311,  0            // InvokeDynamic #4:makeConcatWithConstants:(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+        36: invokestatic  #118                // Method java/net/URI.create:(Ljava/lang/String;)Ljava/net/URI;
+        39: invokestatic  #312                // Method java/net/http/HttpRequest.newBuilder:(Ljava/net/URI;)Ljava/net/http/HttpRequest$Builder;
+        42: lload         6
+        44: invokestatic  #317                // Method java/time/Duration.ofNanos:(J)Ljava/time/Duration;
+        47: invokeinterface #320,  2          // InterfaceMethod java/net/http/HttpRequest$Builder.timeout:(Ljava/time/Duration;)Ljava/net/http/HttpRequest$Builder;
+        52: ldc_w         #326                // String Content-Type
+        55: ldc_w         #328                // String application/json; charset=utf-8
+        58: invokeinterface #330,  3          // InterfaceMethod java/net/http/HttpRequest$Builder.header:(Ljava/lang/String;Ljava/lang/String;)Ljava/net/http/HttpRequest$Builder;
+        63: aload_3
+        64: invokevirtual #334                // Method com/google/gson/JsonObject.toString:()Ljava/lang/String;
+        67: getstatic     #335                // Field java/nio/charset/StandardCharsets.UTF_8:Ljava/nio/charset/Charset;
+        70: invokestatic  #341                // Method java/net/http/HttpRequest$BodyPublishers.ofString:(Ljava/lang/String;Ljava/nio/charset/Charset;)Ljava/net/http/HttpRequest$BodyPublisher;
+        73: invokeinterface #347,  2          // InterfaceMethod java/net/http/HttpRequest$Builder.POST:(Ljava/net/http/HttpRequest$BodyPublisher;)Ljava/net/http/HttpRequest$Builder;
+        78: invokeinterface #351,  1          // InterfaceMethod java/net/http/HttpRequest$Builder.build:()Ljava/net/http/HttpRequest;
+        83: astore        8
+        85: aload_0
+        86: getfield      #55                 // Field http:Ljava/net/http/HttpClient;
+        89: aload         8
+        91: getstatic     #335                // Field java/nio/charset/StandardCharsets.UTF_8:Ljava/nio/charset/Charset;
+        94: invokestatic  #354                // Method java/net/http/HttpResponse$BodyHandlers.ofString:(Ljava/nio/charset/Charset;)Ljava/net/http/HttpResponse$BodyHandler;
+        97: ldc2_w        #359                // long 65536l
+       100: invokestatic  #361                // Method java/net/http/HttpResponse$BodyHandlers.limiting:(Ljava/net/http/HttpResponse$BodyHandler;J)Ljava/net/http/HttpResponse$BodyHandler;
+       103: invokevirtual #365                // Method java/net/http/HttpClient.sendAsync:(Ljava/net/http/HttpRequest;Ljava/net/http/HttpResponse$BodyHandler;)Ljava/util/concurrent/CompletableFuture;
+       106: astore        9
+       108: aload         9
+       110: lload         6
+       112: getstatic     #369                // Field java/util/concurrent/TimeUnit.NANOSECONDS:Ljava/util/concurrent/TimeUnit;
+       115: invokevirtual #372                // Method java/util/concurrent/CompletableFuture.get:(JLjava/util/concurrent/TimeUnit;)Ljava/lang/Object;
+       118: checkcast     #375                // class java/net/http/HttpResponse
+       121: astore        10
+       123: aload         10
+       125: invokeinterface #377,  1          // InterfaceMethod java/net/http/HttpResponse.statusCode:()I
+       130: sipush        200
+       133: if_icmpeq     223
+       136: aload         10
+       138: invokeinterface #377,  1          // InterfaceMethod java/net/http/HttpResponse.statusCode:()I
+       143: sipush        404
+       146: if_icmpne     160
+       149: new           #306                // class java/io/IOException
+       152: dup
+       153: ldc_w         #380                // String ���f��������܂���Bollama pull translategemma:4b �����s���Ă��������B
+       156: invokespecial #310                // Method java/io/IOException."<init>":(Ljava/lang/String;)V
+       159: athrow
+       160: aload         10
+       162: invokeinterface #377,  1          // InterfaceMethod java/net/http/HttpResponse.statusCode:()I
+       167: invokedynamic #382,  0            // InvokeDynamic #5:makeConcatWithConstants:(I)Ljava/lang/String;
+       172: astore        11
+       174: aload         11
+       176: aload         10
+       178: invokeinterface #383,  1          // InterfaceMethod java/net/http/HttpResponse.body:()Ljava/lang/Object;
+       183: checkcast     #105                // class java/lang/String
+       186: invokestatic  #386                // Method com/google/gson/JsonParser.parseString:(Ljava/lang/String;)Lcom/google/gson/JsonElement;
+       189: invokevirtual #392                // Method com/google/gson/JsonElement.getAsJsonObject:()Lcom/google/gson/JsonObject;
+       192: ldc_w         #398                // String error
+       195: invokevirtual #400                // Method com/google/gson/JsonObject.get:(Ljava/lang/String;)Lcom/google/gson/JsonElement;
+       198: invokevirtual #402                // Method com/google/gson/JsonElement.getAsString:()Ljava/lang/String;
+       201: invokedynamic #405,  0            // InvokeDynamic #6:makeConcatWithConstants:(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+       206: astore        11
+       208: goto          213
+       211: astore        12
+       213: new           #306                // class java/io/IOException
+       216: dup
+       217: aload         11
+       219: invokespecial #310                // Method java/io/IOException."<init>":(Ljava/lang/String;)V
+       222: athrow
+       223: aload         10
+       225: invokeinterface #383,  1          // InterfaceMethod java/net/http/HttpResponse.body:()Ljava/lang/Object;
+       230: checkcast     #105                // class java/lang/String
+       233: invokestatic  #386                // Method com/google/gson/JsonParser.parseString:(Ljava/lang/String;)Lcom/google/gson/JsonElement;
+       236: invokevirtual #392                // Method com/google/gson/JsonElement.getAsJsonObject:()Lcom/google/gson/JsonObject;
+       239: astore        11
+       241: aload         9
+       243: invokevirtual #408                // Method java/util/concurrent/CompletableFuture.isDone:()Z
+       246: ifne          256
+       249: aload         9
+       251: iconst_1
+       252: invokevirtual #411                // Method java/util/concurrent/CompletableFuture.cancel:(Z)Z
+       255: pop
+       256: aload         11
+       258: areturn
+       259: astore        13
+       261: aload         9
+       263: invokevirtual #408                // Method java/util/concurrent/CompletableFuture.isDone:()Z
+       266: ifne          276
+       269: aload         9
+       271: iconst_1
+       272: invokevirtual #411                // Method java/util/concurrent/CompletableFuture.cancel:(Z)Z
+       275: pop
+       276: aload         13
+       278: athrow
+      Exception table:
+         from    to  target type
+           174   208   211   Class java/lang/RuntimeException
+           108   241   259   any
+           259   261   259   any
+      LineNumberTable:
+        line 130: 0
+        line 131: 8
+        line 132: 26
+        line 133: 44
+        line 134: 64
+        line 135: 85
+        line 136: 94
+        line 135: 100
+        line 138: 108
+        line 139: 123
+        line 140: 136
+        line 141: 160
+        line 142: 174
+        line 143: 208
+        line 144: 213
+        line 146: 223
+        line 148: 241
+        line 146: 256
+        line 148: 259
+        line 149: 276
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+          174      49    11 detail   Ljava/lang/String;
+          123     136    10 response   Ljava/net/http/HttpResponse;
+            0     279     0  this   Llocal/chattranslate/TranslationClient;
+            0     279     1 endpoint   Ljava/net/URI;
+            0     279     2  path   Ljava/lang/String;
+            0     279     3 payload   Lcom/google/gson/JsonObject;
+            0     279     4 deadline   J
+            8     271     6 remaining   J
+           85     194     8 request   Ljava/net/http/HttpRequest;
+          108     171     9  call   Ljava/util/concurrent/CompletableFuture;
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+          123     136    10 response   Ljava/net/http/HttpResponse<Ljava/lang/String;>;
+          108     171     9  call   Ljava/util/concurrent/CompletableFuture<Ljava/net/http/HttpResponse<Ljava/lang/String;>;>;
+      StackMapTable: number_of_entries = 8
+        frame_type = 252 /* append */
+          offset_delta = 26
+          locals = [ long ]
+        frame_type = 254 /* append */
+          offset_delta = 133
+          locals = [ class java/net/http/HttpRequest, class java/util/concurrent/CompletableFuture, class java/net/http/HttpResponse ]
+        frame_type = 255 /* full_frame */
+          offset_delta = 50
+          locals = [ class local/chattranslate/TranslationClient, class java/net/URI, class java/lang/String, class com/google/gson/JsonObject, long, long, class java/net/http/HttpRequest, class java/util/concurrent/CompletableFuture, class java/net/http/HttpResponse, class java/lang/String ]
+          stack = [ class java/lang/RuntimeException ]
+        frame_type = 1 /* same */
+        frame_type = 250 /* chop */
+          offset_delta = 9
+        frame_type = 252 /* append */
+          offset_delta = 32
+          locals = [ class com/google/gson/JsonObject ]
+        frame_type = 255 /* full_frame */
+          offset_delta = 2
+          locals = [ class local/chattranslate/TranslationClient, class java/net/URI, class java/lang/String, class com/google/gson/JsonObject, long, long, class java/net/http/HttpRequest, class java/util/concurrent/CompletableFuture ]
+          stack = [ class java/lang/Throwable ]
+        frame_type = 255 /* full_frame */
+          offset_delta = 16
+          locals = [ class local/chattranslate/TranslationClient, class java/net/URI, class java/lang/String, class com/google/gson/JsonObject, long, long, class java/net/http/HttpRequest, class java/util/concurrent/CompletableFuture, top, top, top, class java/lang/Throwable ]
+          stack = []
+    Exceptions:
+      throws java.lang.Exception
+
+  public static void validateOutput(java.lang.String, java.lang.String);
+    descriptor: (Ljava/lang/String;Ljava/lang/String;)V
+    flags: (0x0009) ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=4, locals=2, args_size=2
+         0: aload_1
+         1: invokevirtual #415                // Method java/lang/String.isBlank:()Z
+         4: ifne          50
+         7: aload_1
+         8: invokevirtual #418                // Method java/lang/String.length:()I
+        11: sipush        160
+        14: aload_0
+        15: invokevirtual #418                // Method java/lang/String.length:()I
+        18: iconst_5
+        19: imul
+        20: invokestatic  #421                // Method java/lang/Math.max:(II)I
+        23: if_icmpgt     50
+        26: ldc_w         #427                // String (.{1,16}?)\\1{7,}
+        29: invokestatic  #429                // Method java/util/regex/Pattern.compile:(Ljava/lang/String;)Ljava/util/regex/Pattern;
+        32: aload_1
+        33: ldc_w         #435                // String \\s+
+        36: ldc           #112                // String
+        38: invokevirtual #114                // Method java/lang/String.replaceAll:(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+        41: invokevirtual #437                // Method java/util/regex/Pattern.matcher:(Ljava/lang/CharSequence;)Ljava/util/regex/Matcher;
+        44: invokevirtual #441                // Method java/util/regex/Matcher.find:()Z
+        47: ifeq          61
+        50: new           #168                // class java/lang/IllegalArgumentException
+        53: dup
+        54: ldc_w         #446                // String ��E�ُ�ɒ����E�J��Ԃ��󕶂��ȗ����܂����B
+        57: invokespecial #172                // Method java/lang/IllegalArgumentException."<init>":(Ljava/lang/String;)V
+        60: athrow
+        61: return
+      LineNumberTable:
+        line 153: 0
+        line 154: 29
+        line 155: 50
+        line 157: 61
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      62     0 source   Ljava/lang/String;
+            0      62     1  text   Ljava/lang/String;
+      StackMapTable: number_of_entries = 2
+        frame_type = 50 /* same */
+        frame_type = 10 /* same */
+
+  public java.util.concurrent.CompletableFuture<java.lang.Void> releaseGpu(java.net.URI);
+    descriptor: (Ljava/net/URI;)Ljava/util/concurrent/CompletableFuture;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=3, locals=4, args_size=2
+         0: new           #246                // class com/google/gson/JsonObject
+         3: dup
+         4: invokespecial #248                // Method com/google/gson/JsonObject."<init>":()V
+         7: astore_2
+         8: aload_2
+         9: ldc_w         #281                // String model
+        12: ldc_w         #283                // String translategemma:4b
+        15: invokevirtual #253                // Method com/google/gson/JsonObject.addProperty:(Ljava/lang/String;Ljava/lang/String;)V
+        18: aload_2
+        19: ldc_w         #295                // String keep_alive
+        22: iconst_0
+        23: invokestatic  #268                // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+        26: invokevirtual #274                // Method com/google/gson/JsonObject.addProperty:(Ljava/lang/String;Ljava/lang/Number;)V
+        29: aload_1
+        30: invokevirtual #205                // Method java/net/URI.toString:()Ljava/lang/String;
+        33: invokestatic  #208                // Method validateEndpoint:(Ljava/lang/String;)Ljava/net/URI;
+        36: invokestatic  #448                // Method java/lang/String.valueOf:(Ljava/lang/Object;)Ljava/lang/String;
+        39: invokedynamic #451,  0            // InvokeDynamic #7:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+        44: invokestatic  #118                // Method java/net/URI.create:(Ljava/lang/String;)Ljava/net/URI;
+        47: invokestatic  #312                // Method java/net/http/HttpRequest.newBuilder:(Ljava/net/URI;)Ljava/net/http/HttpRequest$Builder;
+        50: ldc2_w        #454                // long 4l
+        53: invokestatic  #20                 // Method java/time/Duration.ofSeconds:(J)Ljava/time/Duration;
+        56: invokeinterface #320,  2          // InterfaceMethod java/net/http/HttpRequest$Builder.timeout:(Ljava/time/Duration;)Ljava/net/http/HttpRequest$Builder;
+        61: ldc_w         #326                // String Content-Type
+        64: ldc_w         #456                // String application/json
+        67: invokeinterface #330,  3          // InterfaceMethod java/net/http/HttpRequest$Builder.header:(Ljava/lang/String;Ljava/lang/String;)Ljava/net/http/HttpRequest$Builder;
+        72: aload_2
+        73: invokevirtual #334                // Method com/google/gson/JsonObject.toString:()Ljava/lang/String;
+        76: invokestatic  #458                // Method java/net/http/HttpRequest$BodyPublishers.ofString:(Ljava/lang/String;)Ljava/net/http/HttpRequest$BodyPublisher;
+        79: invokeinterface #347,  2          // InterfaceMethod java/net/http/HttpRequest$Builder.POST:(Ljava/net/http/HttpRequest$BodyPublisher;)Ljava/net/http/HttpRequest$Builder;
+        84: invokeinterface #351,  1          // InterfaceMethod java/net/http/HttpRequest$Builder.build:()Ljava/net/http/HttpRequest;
+        89: astore_3
+        90: aload_0
+        91: getfield      #55                 // Field http:Ljava/net/http/HttpClient;
+        94: aload_3
+        95: invokestatic  #461                // Method java/net/http/HttpResponse$BodyHandlers.discarding:()Ljava/net/http/HttpResponse$BodyHandler;
+        98: invokevirtual #365                // Method java/net/http/HttpClient.sendAsync:(Ljava/net/http/HttpRequest;Ljava/net/http/HttpResponse$BodyHandler;)Ljava/util/concurrent/CompletableFuture;
+       101: invokedynamic #465,  0            // InvokeDynamic #8:apply:()Ljava/util/function/BiFunction;
+       106: invokevirtual #469                // Method java/util/concurrent/CompletableFuture.handle:(Ljava/util/function/BiFunction;)Ljava/util/concurrent/CompletableFuture;
+       109: areturn
+      LineNumberTable:
+        line 160: 0
+        line 161: 8
+        line 162: 18
+        line 163: 29
+        line 164: 53
+        line 165: 73
+        line 166: 90
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0     110     0  this   Llocal/chattranslate/TranslationClient;
+            0     110     1 endpoint   Ljava/net/URI;
+            8     102     2 payload   Lcom/google/gson/JsonObject;
+           90      20     3 request   Ljava/net/http/HttpRequest;
+    Signature: #645                         // (Ljava/net/URI;)Ljava/util/concurrent/CompletableFuture<Ljava/lang/Void;>;
+
+  public int pending();
+    descriptor: ()I
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=2, locals=1, args_size=1
+         0: aload_0
+         1: getfield      #96                 // Field workers:Ljava/util/concurrent/ThreadPoolExecutor;
+         4: invokevirtual #473                // Method java/util/concurrent/ThreadPoolExecutor.getActiveCount:()I
+         7: aload_0
+         8: getfield      #96                 // Field workers:Ljava/util/concurrent/ThreadPoolExecutor;
+        11: invokevirtual #476                // Method java/util/concurrent/ThreadPoolExecutor.getQueue:()Ljava/util/concurrent/BlockingQueue;
+        14: invokeinterface #480,  1          // InterfaceMethod java/util/concurrent/BlockingQueue.size:()I
+        19: iadd
+        20: ireturn
+      LineNumberTable:
+        line 169: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      21     0  this   Llocal/chattranslate/TranslationClient;
+
+  public void clearQueued();
+    descriptor: ()V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: getfield      #96                 // Field workers:Ljava/util/concurrent/ThreadPoolExecutor;
+         4: invokevirtual #476                // Method java/util/concurrent/ThreadPoolExecutor.getQueue:()Ljava/util/concurrent/BlockingQueue;
+         7: invokeinterface #485,  1          // InterfaceMethod java/util/concurrent/BlockingQueue.clear:()V
+        12: return
+      LineNumberTable:
+        line 170: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      13     0  this   Llocal/chattranslate/TranslationClient;
+
+  public void close();
+    descriptor: ()V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: getfield      #96                 // Field workers:Ljava/util/concurrent/ThreadPoolExecutor;
+         4: invokevirtual #488                // Method java/util/concurrent/ThreadPoolExecutor.shutdownNow:()Ljava/util/List;
+         7: pop
+         8: aload_0
+         9: getfield      #55                 // Field http:Ljava/net/http/HttpClient;
+        12: invokevirtual #491                // Method java/net/http/HttpClient.shutdownNow:()V
+        15: return
+      LineNumberTable:
+        line 171: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      16     0  this   Llocal/chattranslate/TranslationClient;
+
+  private static java.lang.Void lambda$releaseGpu$0(java.net.http.HttpResponse, java.lang.Throwable);
+    descriptor: (Ljava/net/http/HttpResponse;Ljava/lang/Throwable;)Ljava/lang/Void;
+    flags: (0x100a) ACC_PRIVATE, ACC_STATIC, ACC_SYNTHETIC
+    Code:
+      stack=1, locals=2, args_size=2
+         0: aconst_null
+         1: areturn
+      LineNumberTable:
+        line 166: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       2     0 response   Ljava/net/http/HttpResponse;
+            0       2     1 error   Ljava/lang/Throwable;
+
+  private java.util.Optional lambda$translate$0(local.chattranslate.ProtectedBody, long, java.net.URI, local.chattranslate.TooltipLine);
+    descriptor: (Llocal/chattranslate/ProtectedBody;JLjava/net/URI;Llocal/chattranslate/TooltipLine;)Ljava/util/Optional;
+    flags: (0x1002) ACC_PRIVATE, ACC_SYNTHETIC
+    Code:
+      stack=7, locals=11, args_size=5
+         0: aload_1
+         1: invokevirtual #493                // Method local/chattranslate/ProtectedBody.hasEnglishCandidate:()Z
+         4: ifeq          15
+         7: invokestatic  #211                // Method java/lang/System.nanoTime:()J
+        10: lload_2
+        11: lcmp
+        12: iflt          19
+        15: invokestatic  #496                // Method java/util/Optional.empty:()Ljava/util/Optional;
+        18: areturn
+        19: invokestatic  #211                // Method java/lang/System.nanoTime:()J
+        22: lstore        6
+        24: aload_0
+        25: aload         4
+        27: ldc_w         #502                // String /api/chat
+        30: aload_1
+        31: aload         5
+        33: ifnull        40
+        36: iconst_1
+        37: goto          41
+        40: iconst_0
+        41: invokestatic  #504                // Method request:(Llocal/chattranslate/ProtectedBody;Z)Lcom/google/gson/JsonObject;
+        44: lload_2
+        45: invokevirtual #508                // Method post:(Ljava/net/URI;Ljava/lang/String;Lcom/google/gson/JsonObject;J)Lcom/google/gson/JsonObject;
+        48: astore        8
+        50: aload         8
+        52: ldc_w         #281                // String model
+        55: invokevirtual #512                // Method com/google/gson/JsonObject.has:(Ljava/lang/String;)Z
+        58: ifeq          81
+        61: ldc_w         #283                // String translategemma:4b
+        64: aload         8
+        66: ldc_w         #281                // String model
+        69: invokevirtual #400                // Method com/google/gson/JsonObject.get:(Ljava/lang/String;)Lcom/google/gson/JsonElement;
+        72: invokevirtual #402                // Method com/google/gson/JsonElement.getAsString:()Ljava/lang/String;
+        75: invokevirtual #131                // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+        78: ifne          92
+        81: new           #306                // class java/io/IOException
+        84: dup
+        85: ldc_w         #515                // String TranslateGemma 4B�̉����ł͂���܂���BOllama�̐ڑ�����m�F���Ă��������B
+        88: invokespecial #310                // Method java/io/IOException."<init>":(Ljava/lang/String;)V
+        91: athrow
+        92: aload         8
+        94: ldc_w         #517                // String done
+        97: invokevirtual #512                // Method com/google/gson/JsonObject.has:(Ljava/lang/String;)Z
+       100: ifeq          148
+       103: aload         8
+       105: ldc_w         #517                // String done
+       108: invokevirtual #400                // Method com/google/gson/JsonObject.get:(Ljava/lang/String;)Lcom/google/gson/JsonElement;
+       111: invokevirtual #519                // Method com/google/gson/JsonElement.getAsBoolean:()Z
+       114: ifeq          148
+       117: aload         8
+       119: ldc_w         #522                // String done_reason
+       122: invokevirtual #512                // Method com/google/gson/JsonObject.has:(Ljava/lang/String;)Z
+       125: ifeq          148
+       128: ldc_w         #524                // String stop
+       131: aload         8
+       133: ldc_w         #522                // String done_reason
+       136: invokevirtual #400                // Method com/google/gson/JsonObject.get:(Ljava/lang/String;)Lcom/google/gson/JsonElement;
+       139: invokevirtual #402                // Method com/google/gson/JsonElement.getAsString:()Ljava/lang/String;
+       142: invokevirtual #131                // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+       145: ifne          159
+       148: new           #306                // class java/io/IOException
+       151: dup
+       152: ldc_w         #526                // String �r���Ő؂ꂽ�󕶂��ȗ����܂����B
+       155: invokespecial #310                // Method java/io/IOException."<init>":(Ljava/lang/String;)V
+       158: athrow
+       159: aload_1
+       160: aload         8
+       162: ldc_w         #528                // String message
+       165: invokevirtual #530                // Method com/google/gson/JsonObject.getAsJsonObject:(Ljava/lang/String;)Lcom/google/gson/JsonObject;
+       168: ldc_w         #257                // String content
+       171: invokevirtual #400                // Method com/google/gson/JsonObject.get:(Ljava/lang/String;)Lcom/google/gson/JsonElement;
+       174: invokevirtual #402                // Method com/google/gson/JsonElement.getAsString:()Ljava/lang/String;
+       177: invokevirtual #533                // Method local/chattranslate/ProtectedBody.restore:(Ljava/lang/String;)Ljava/lang/String;
+       180: ldc_w         #536                // String (?U)\\s+
+       183: ldc_w         #538                // String
+       186: invokevirtual #114                // Method java/lang/String.replaceAll:(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+       189: invokevirtual #104                // Method java/lang/String.strip:()Ljava/lang/String;
+       192: astore        9
+       194: aload         5
+       196: ifnonnull     204
+       199: aload         9
+       201: goto          216
+       204: aload         5
+       206: aload         9
+       208: invokevirtual #540                // Method local/chattranslate/TooltipLine.restore:(Ljava/lang/String;)Lnet/minecraft/network/chat/Component;
+       211: invokeinterface #543,  1          // InterfaceMethod net/minecraft/network/chat/Component.getString:()Ljava/lang/String;
+       216: astore        10
+       218: aload_1
+       219: invokevirtual #548                // Method local/chattranslate/ProtectedBody.original:()Ljava/lang/String;
+       222: aload         10
+       224: invokestatic  #551                // Method validateOutput:(Ljava/lang/String;Ljava/lang/String;)V
+       227: invokestatic  #211                // Method java/lang/System.nanoTime:()J
+       230: lload_2
+       231: lcmp
+       232: ifge          247
+       235: aload         9
+       237: aload_1
+       238: invokevirtual #548                // Method local/chattranslate/ProtectedBody.original:()Ljava/lang/String;
+       241: invokevirtual #131                // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+       244: ifeq          251
+       247: invokestatic  #496                // Method java/util/Optional.empty:()Ljava/util/Optional;
+       250: areturn
+       251: aload_0
+       252: getfield      #100                // Field log:Llocal/chattranslate/TranslationLog;
+       255: ifnull        282
+       258: aload_0
+       259: getfield      #100                // Field log:Llocal/chattranslate/TranslationLog;
+       262: aload_1
+       263: invokevirtual #548                // Method local/chattranslate/ProtectedBody.original:()Ljava/lang/String;
+       266: aload         10
+       268: invokestatic  #211                // Method java/lang/System.nanoTime:()J
+       271: lload         6
+       273: lsub
+       274: l2d
+       275: ldc2_w        #554                // double 1.0E9d
+       278: ddiv
+       279: invokevirtual #556                // Method local/chattranslate/TranslationLog.translated:(Ljava/lang/String;Ljava/lang/String;D)V
+       282: aload         9
+       284: invokestatic  #562                // Method java/util/Optional.of:(Ljava/lang/Object;)Ljava/util/Optional;
+       287: areturn
+       288: astore        8
+       290: invokestatic  #567                // Method java/lang/Thread.currentThread:()Ljava/lang/Thread;
+       293: invokevirtual #571                // Method java/lang/Thread.interrupt:()V
+       296: new           #574                // class java/util/concurrent/CompletionException
+       299: dup
+       300: aload         8
+       302: invokespecial #576                // Method java/util/concurrent/CompletionException."<init>":(Ljava/lang/Throwable;)V
+       305: athrow
+       306: astore        8
+       308: aload_0
+       309: getfield      #100                // Field log:Llocal/chattranslate/TranslationLog;
+       312: ifnull        331
+       315: aload_0
+       316: getfield      #100                // Field log:Llocal/chattranslate/TranslationLog;
+       319: aload_1
+       320: invokevirtual #548                // Method local/chattranslate/ProtectedBody.original:()Ljava/lang/String;
+       323: aload         8
+       325: invokestatic  #581                // Method local/chattranslate/LocalChatTranslate.errorMessage:(Ljava/lang/Throwable;)Ljava/lang/String;
+       328: invokevirtual #587                // Method local/chattranslate/TranslationLog.failed:(Ljava/lang/String;Ljava/lang/String;)V
+       331: new           #574                // class java/util/concurrent/CompletionException
+       334: dup
+       335: aload         8
+       337: invokespecial #576                // Method java/util/concurrent/CompletionException."<init>":(Ljava/lang/Throwable;)V
+       340: athrow
+      Exception table:
+         from    to  target type
+            24   250   288   Class java/lang/InterruptedException
+           251   287   288   Class java/lang/InterruptedException
+            24   250   306   Class java/lang/Exception
+           251   287   306   Class java/lang/Exception
+      LineNumberTable:
+        line 73: 0
+        line 74: 19
+        line 76: 24
+        line 77: 50
+        line 78: 81
+        line 80: 92
+        line 81: 122
+        line 82: 148
+        line 84: 159
+        line 85: 186
+        line 87: 194
+        line 88: 218
+        line 89: 227
+        line 90: 251
+        line 91: 282
+        line 92: 288
+        line 93: 290
+        line 94: 296
+        line 95: 306
+        line 96: 308
+        line 97: 331
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+           50     238     8 result   Lcom/google/gson/JsonObject;
+          194      94     9 translated   Ljava/lang/String;
+          218      70    10 readable   Ljava/lang/String;
+          290      16     8     e   Ljava/lang/InterruptedException;
+          308      33     8     e   Ljava/lang/Exception;
+            0     341     0  this   Llocal/chattranslate/TranslationClient;
+            0     341     1  body   Llocal/chattranslate/ProtectedBody;
+            0     341     2 deadline   J
+            0     341     4 localEndpoint   Ljava/net/URI;
+            0     341     5 tooltip   Llocal/chattranslate/TooltipLine;
+           24     317     6 start   J
+      StackMapTable: number_of_entries = 16
+        frame_type = 15 /* same */
+        frame_type = 3 /* same */
+        frame_type = 255 /* full_frame */
+          offset_delta = 20
+          locals = [ class local/chattranslate/TranslationClient, class local/chattranslate/ProtectedBody, long, class java/net/URI, class local/chattranslate/TooltipLine, long ]
+          stack = [ class local/chattranslate/TranslationClient, class java/net/URI, class java/lang/String, class local/chattranslate/ProtectedBody ]
+        frame_type = 255 /* full_frame */
+          offset_delta = 0
+          locals = [ class local/chattranslate/TranslationClient, class local/chattranslate/ProtectedBody, long, class java/net/URI, class local/chattranslate/TooltipLine, long ]
+          stack = [ class local/chattranslate/TranslationClient, class java/net/URI, class java/lang/String, class local/chattranslate/ProtectedBody, int ]
+        frame_type = 252 /* append */
+          offset_delta = 39
+          locals = [ class com/google/gson/JsonObject ]
+        frame_type = 10 /* same */
+        frame_type = 55 /* same */
+        frame_type = 10 /* same */
+        frame_type = 252 /* append */
+          offset_delta = 44
+          locals = [ class java/lang/String ]
+        frame_type = 75 /* same_locals_1_stack_item */
+          stack = [ class java/lang/String ]
+        frame_type = 252 /* append */
+          offset_delta = 30
+          locals = [ class java/lang/String ]
+        frame_type = 3 /* same */
+        frame_type = 30 /* same */
+        frame_type = 255 /* full_frame */
+          offset_delta = 5
+          locals = [ class local/chattranslate/TranslationClient, class local/chattranslate/ProtectedBody, long, class java/net/URI, class local/chattranslate/TooltipLine, long ]
+          stack = [ class java/lang/InterruptedException ]
+        frame_type = 81 /* same_locals_1_stack_item */
+          stack = [ class java/lang/Exception ]
+        frame_type = 252 /* append */
+          offset_delta = 24
+          locals = [ class java/lang/Exception ]
+}
+SourceFile: "TranslationClient.java"
+NestMembers:
+  local/chattranslate/TranslationClient$1
+BootstrapMethods:
+  0: #689 REF_invokeStatic java/lang/invoke/StringConcatFactory.makeConcatWithConstants:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite;
+    Method arguments:
+      #664 :\u0001
+  1: #689 REF_invokeStatic java/lang/invoke/StringConcatFactory.makeConcatWithConstants:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite;
+    Method arguments:
+      #666 \u0001://127.0.0.1\u0001
+  2: #695 REF_invokeStatic java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+    Method arguments:
+      #668 ()Ljava/lang/Object;
+      #669 REF_invokeVirtual local/chattranslate/TranslationClient.lambda$translate$0:(Llocal/chattranslate/ProtectedBody;JLjava/net/URI;Llocal/chattranslate/TooltipLine;)Ljava/util/Optional;
+      #672 ()Ljava/util/Optional;
+  3: #689 REF_invokeStatic java/lang/invoke/StringConcatFactory.makeConcatWithConstants:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite;
+    Method arguments:
+      #673 You are a professional English (en) to Japanese (ja) translator. Your goal is to accurately convey the meaning and nuances of the original English text while adhering to Japanese grammar, vocabulary, and cultural sensitivities.\n\u0001Produce only the Japanese translation, without any additional explanations or commentary. Preserve placeholder tokens like \u00010 and \u00011 exactly as written. Please translate the following English text into Japanese:\n\n\n\u0001
+  4: #689 REF_invokeStatic java/lang/invoke/StringConcatFactory.makeConcatWithConstants:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite;
+    Method arguments:
+      #675 \u0001\u0001
+  5: #689 REF_invokeStatic java/lang/invoke/StringConcatFactory.makeConcatWithConstants:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite;
+    Method arguments:
+      #677 Ollama HTTP \u0001
+  6: #689 REF_invokeStatic java/lang/invoke/StringConcatFactory.makeConcatWithConstants:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite;
+    Method arguments:
+      #679 \u0001: \u0001
+  7: #689 REF_invokeStatic java/lang/invoke/StringConcatFactory.makeConcatWithConstants:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite;
+    Method arguments:
+      #681 \u0001/api/generate
+  8: #695 REF_invokeStatic java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+    Method arguments:
+      #683 (Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+      #685 REF_invokeStatic local/chattranslate/TranslationClient.lambda$releaseGpu$0:(Ljava/net/http/HttpResponse;Ljava/lang/Throwable;)Ljava/lang/Void;
+      #688 (Ljava/net/http/HttpResponse;Ljava/lang/Throwable;)Ljava/lang/Void;
+InnerClasses:
+  public static #703= #27 of #13;         // Builder=class java/net/http/HttpClient$Builder of class java/net/http/HttpClient
+  #32;                                    // class local/chattranslate/TranslationClient$1
+  public static final #704= #42 of #13;   // Redirect=class java/net/http/HttpClient$Redirect of class java/net/http/HttpClient
+  public static #703= #705 of #73;        // Builder=class java/lang/Thread$Builder of class java/lang/Thread
+  public static #707= #79 of #705;        // OfPlatform=class java/lang/Thread$Builder$OfPlatform of class java/lang/Thread$Builder
+  public static #703= #321 of #313;       // Builder=class java/net/http/HttpRequest$Builder of class java/net/http/HttpRequest
+  public static #708= #342 of #313;       // BodyPublishers=class java/net/http/HttpRequest$BodyPublishers of class java/net/http/HttpRequest
+  public static #711= #709 of #313;       // BodyPublisher=class java/net/http/HttpRequest$BodyPublisher of class java/net/http/HttpRequest
+  public static #712= #355 of #375;       // BodyHandlers=class java/net/http/HttpResponse$BodyHandlers of class java/net/http/HttpResponse
+  public static #715= #713 of #375;       // BodyHandler=class java/net/http/HttpResponse$BodyHandler of class java/net/http/HttpResponse
+  public static final #720= #716 of #718; // Lookup=class java/lang/invoke/MethodHandles$Lookup of class java/lang/invoke/MethodHandles

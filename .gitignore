@@ -1,0 +1,44 @@
+# Gradle / build output
+.gradle/
+build/
+out/
+bin/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Minecraft dev runtime (Loom run dir, logs, crash dumps)
+run/
+hs_err_pid*.log
+replay_pid*.log
+
+# IDE / editor
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+.classpath
+.project
+.settings/
+.factorypath
+*.swp
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Bundled runtime binaries and model (build inputs, too large for Git; sources in RECONSTRUCTION.md)
+bundle/model/
+bundle/llama.cpp/**/*.dll
+bundle/llama.cpp/**/*.exe
+
+# Downloaded toolchains and third-party archives
+reference/jdk25/
+reference/gradle/
+reference/downloads/
+reference/*.zip
+reference/*.jar
+
+# Local Claude Code settings
+.claude/settings.local.json

@@ -1,0 +1,2285 @@
+Classfile jar:file:///C:/programing/mcmod/LocalChatTranslate-0.4.0+26.1.2/localchattranslate-rebuild/reference/original/localchattranslate-0.4.0+26.1.2.jar!/local/chattranslate/LocalChatTranslate.class
+  Last modified 1980/02/01; size 19857 bytes
+  SHA-256 checksum df3c1704028b79a11649eb02e2308d28f28d4ef7209dc5301b8750cebe13e9d4
+  Compiled from "LocalChatTranslate.java"
+public final class local.chattranslate.LocalChatTranslate implements net.fabricmc.api.ClientModInitializer
+  minor version: 0
+  major version: 69
+  flags: (0x0031) ACC_PUBLIC, ACC_FINAL, ACC_SUPER
+  this_class: #11                         // local/chattranslate/LocalChatTranslate
+  super_class: #2                         // java/lang/Object
+  interfaces: 1, fields: 14, methods: 32, attributes: 3
+Constant pool:
+    #1 = Methodref          #2.#3         // java/lang/Object."<init>":()V
+    #2 = Class              #4            // java/lang/Object
+    #3 = NameAndType        #5:#6         // "<init>":()V
+    #4 = Utf8               java/lang/Object
+    #5 = Utf8               <init>
+    #6 = Utf8               ()V
+    #7 = Class              #8            // java/util/LinkedHashSet
+    #8 = Utf8               java/util/LinkedHashSet
+    #9 = Methodref          #7.#3         // java/util/LinkedHashSet."<init>":()V
+   #10 = Fieldref           #11.#12       // local/chattranslate/LocalChatTranslate.seenNames:Ljava/util/LinkedHashSet;
+   #11 = Class              #13           // local/chattranslate/LocalChatTranslate
+   #12 = NameAndType        #14:#15       // seenNames:Ljava/util/LinkedHashSet;
+   #13 = Utf8               local/chattranslate/LocalChatTranslate
+   #14 = Utf8               seenNames
+   #15 = Utf8               Ljava/util/LinkedHashSet;
+   #16 = String             #17           // �Ȃ�
+   #17 = Utf8               �Ȃ�
+   #18 = Fieldref           #11.#19       // local/chattranslate/LocalChatTranslate.lastError:Ljava/lang/String;
+   #19 = NameAndType        #20:#21       // lastError:Ljava/lang/String;
+   #20 = Utf8               lastError
+   #21 = Utf8               Ljava/lang/String;
+   #22 = Fieldref           #11.#23       // local/chattranslate/LocalChatTranslate.instance:Llocal/chattranslate/LocalChatTranslate;
+   #23 = NameAndType        #24:#25       // instance:Llocal/chattranslate/LocalChatTranslate;
+   #24 = Utf8               instance
+   #25 = Utf8               Llocal/chattranslate/LocalChatTranslate;
+   #26 = InterfaceMethodref #27.#28       // net/fabricmc/loader/api/FabricLoader.getInstance:()Lnet/fabricmc/loader/api/FabricLoader;
+   #27 = Class              #29           // net/fabricmc/loader/api/FabricLoader
+   #28 = NameAndType        #30:#31       // getInstance:()Lnet/fabricmc/loader/api/FabricLoader;
+   #29 = Utf8               net/fabricmc/loader/api/FabricLoader
+   #30 = Utf8               getInstance
+   #31 = Utf8               ()Lnet/fabricmc/loader/api/FabricLoader;
+   #32 = InterfaceMethodref #27.#33       // net/fabricmc/loader/api/FabricLoader.getGameDir:()Ljava/nio/file/Path;
+   #33 = NameAndType        #34:#35       // getGameDir:()Ljava/nio/file/Path;
+   #34 = Utf8               getGameDir
+   #35 = Utf8               ()Ljava/nio/file/Path;
+   #36 = String             #37           // logs/localchattranslate.log
+   #37 = Utf8               logs/localchattranslate.log
+   #38 = InterfaceMethodref #39.#40       // java/nio/file/Path.resolve:(Ljava/lang/String;)Ljava/nio/file/Path;
+   #39 = Class              #41           // java/nio/file/Path
+   #40 = NameAndType        #42:#43       // resolve:(Ljava/lang/String;)Ljava/nio/file/Path;
+   #41 = Utf8               java/nio/file/Path
+   #42 = Utf8               resolve
+   #43 = Utf8               (Ljava/lang/String;)Ljava/nio/file/Path;
+   #44 = Class              #45           // local/chattranslate/TranslationClient
+   #45 = Utf8               local/chattranslate/TranslationClient
+   #46 = Class              #47           // local/chattranslate/TranslationLog
+   #47 = Utf8               local/chattranslate/TranslationLog
+   #48 = Methodref          #46.#49       // local/chattranslate/TranslationLog."<init>":(Ljava/nio/file/Path;)V
+   #49 = NameAndType        #5:#50        // "<init>":(Ljava/nio/file/Path;)V
+   #50 = Utf8               (Ljava/nio/file/Path;)V
+   #51 = Methodref          #44.#52       // local/chattranslate/TranslationClient."<init>":(Llocal/chattranslate/TranslationLog;)V
+   #52 = NameAndType        #5:#53        // "<init>":(Llocal/chattranslate/TranslationLog;)V
+   #53 = Utf8               (Llocal/chattranslate/TranslationLog;)V
+   #54 = Fieldref           #11.#55       // local/chattranslate/LocalChatTranslate.api:Llocal/chattranslate/TranslationClient;
+   #55 = NameAndType        #56:#57       // api:Llocal/chattranslate/TranslationClient;
+   #56 = Utf8               api
+   #57 = Utf8               Llocal/chattranslate/TranslationClient;
+   #58 = InterfaceMethodref #27.#59       // net/fabricmc/loader/api/FabricLoader.getConfigDir:()Ljava/nio/file/Path;
+   #59 = NameAndType        #60:#35       // getConfigDir:()Ljava/nio/file/Path;
+   #60 = Utf8               getConfigDir
+   #61 = String             #62           // localchattranslate.json
+   #62 = Utf8               localchattranslate.json
+   #63 = Fieldref           #11.#64       // local/chattranslate/LocalChatTranslate.configPath:Ljava/nio/file/Path;
+   #64 = NameAndType        #65:#66       // configPath:Ljava/nio/file/Path;
+   #65 = Utf8               configPath
+   #66 = Utf8               Ljava/nio/file/Path;
+   #67 = Methodref          #11.#68       // local/chattranslate/LocalChatTranslate.reload:()V
+   #68 = NameAndType        #69:#6        // reload:()V
+   #69 = Utf8               reload
+   #70 = Class              #71           // local/chattranslate/TooltipTranslations
+   #71 = Utf8               local/chattranslate/TooltipTranslations
+   #72 = InvokeDynamic      #0:#73        // #0:get:(Llocal/chattranslate/LocalChatTranslate;)Ljava/util/function/Supplier;
+   #73 = NameAndType        #74:#75       // get:(Llocal/chattranslate/LocalChatTranslate;)Ljava/util/function/Supplier;
+   #74 = Utf8               get
+   #75 = Utf8               (Llocal/chattranslate/LocalChatTranslate;)Ljava/util/function/Supplier;
+   #76 = Methodref          #70.#77       // local/chattranslate/TooltipTranslations."<init>":(Llocal/chattranslate/TranslationClient;Ljava/util/function/Supplier;)V
+   #77 = NameAndType        #5:#78        // "<init>":(Llocal/chattranslate/TranslationClient;Ljava/util/function/Supplier;)V
+   #78 = Utf8               (Llocal/chattranslate/TranslationClient;Ljava/util/function/Supplier;)V
+   #79 = Fieldref           #11.#80       // local/chattranslate/LocalChatTranslate.tooltips:Llocal/chattranslate/TooltipTranslations;
+   #80 = NameAndType        #81:#82       // tooltips:Llocal/chattranslate/TooltipTranslations;
+   #81 = Utf8               tooltips
+   #82 = Utf8               Llocal/chattranslate/TooltipTranslations;
+   #83 = Fieldref           #84.#85       // net/fabricmc/fabric/api/client/event/lifecycle/v1/ClientTickEvents.END_CLIENT_TICK:Lnet/fabricmc/fabric/api/event/Event;
+   #84 = Class              #86           // net/fabricmc/fabric/api/client/event/lifecycle/v1/ClientTickEvents
+   #85 = NameAndType        #87:#88       // END_CLIENT_TICK:Lnet/fabricmc/fabric/api/event/Event;
+   #86 = Utf8               net/fabricmc/fabric/api/client/event/lifecycle/v1/ClientTickEvents
+   #87 = Utf8               END_CLIENT_TICK
+   #88 = Utf8               Lnet/fabricmc/fabric/api/event/Event;
+   #89 = InvokeDynamic      #1:#90        // #1:onEndTick:(Llocal/chattranslate/LocalChatTranslate;)Lnet/fabricmc/fabric/api/client/event/lifecycle/v1/ClientTickEvents$EndTick;
+   #90 = NameAndType        #91:#92       // onEndTick:(Llocal/chattranslate/LocalChatTranslate;)Lnet/fabricmc/fabric/api/client/event/lifecycle/v1/ClientTickEvents$EndTick;
+   #91 = Utf8               onEndTick
+   #92 = Utf8               (Llocal/chattranslate/LocalChatTranslate;)Lnet/fabricmc/fabric/api/client/event/lifecycle/v1/ClientTickEvents$EndTick;
+   #93 = Methodref          #94.#95       // net/fabricmc/fabric/api/event/Event.register:(Ljava/lang/Object;)V
+   #94 = Class              #96           // net/fabricmc/fabric/api/event/Event
+   #95 = NameAndType        #97:#98       // register:(Ljava/lang/Object;)V
+   #96 = Utf8               net/fabricmc/fabric/api/event/Event
+   #97 = Utf8               register
+   #98 = Utf8               (Ljava/lang/Object;)V
+   #99 = Fieldref           #100.#101     // net/fabricmc/fabric/api/client/networking/v1/ClientPlayConnectionEvents.JOIN:Lnet/fabricmc/fabric/api/event/Event;
+  #100 = Class              #102          // net/fabricmc/fabric/api/client/networking/v1/ClientPlayConnectionEvents
+  #101 = NameAndType        #103:#88      // JOIN:Lnet/fabricmc/fabric/api/event/Event;
+  #102 = Utf8               net/fabricmc/fabric/api/client/networking/v1/ClientPlayConnectionEvents
+  #103 = Utf8               JOIN
+  #104 = InvokeDynamic      #2:#105       // #2:onPlayReady:(Llocal/chattranslate/LocalChatTranslate;)Lnet/fabricmc/fabric/api/client/networking/v1/ClientPlayConnectionEvents$Join;
+  #105 = NameAndType        #106:#107     // onPlayReady:(Llocal/chattranslate/LocalChatTranslate;)Lnet/fabricmc/fabric/api/client/networking/v1/ClientPlayConnectionEvents$Join;
+  #106 = Utf8               onPlayReady
+  #107 = Utf8               (Llocal/chattranslate/LocalChatTranslate;)Lnet/fabricmc/fabric/api/client/networking/v1/ClientPlayConnectionEvents$Join;
+  #108 = Fieldref           #100.#109     // net/fabricmc/fabric/api/client/networking/v1/ClientPlayConnectionEvents.DISCONNECT:Lnet/fabricmc/fabric/api/event/Event;
+  #109 = NameAndType        #110:#88      // DISCONNECT:Lnet/fabricmc/fabric/api/event/Event;
+  #110 = Utf8               DISCONNECT
+  #111 = InvokeDynamic      #3:#112       // #3:onPlayDisconnect:(Llocal/chattranslate/LocalChatTranslate;)Lnet/fabricmc/fabric/api/client/networking/v1/ClientPlayConnectionEvents$Disconnect;
+  #112 = NameAndType        #113:#114     // onPlayDisconnect:(Llocal/chattranslate/LocalChatTranslate;)Lnet/fabricmc/fabric/api/client/networking/v1/ClientPlayConnectionEvents$Disconnect;
+  #113 = Utf8               onPlayDisconnect
+  #114 = Utf8               (Llocal/chattranslate/LocalChatTranslate;)Lnet/fabricmc/fabric/api/client/networking/v1/ClientPlayConnectionEvents$Disconnect;
+  #115 = Fieldref           #116.#117     // net/fabricmc/fabric/api/client/event/lifecycle/v1/ClientLifecycleEvents.CLIENT_STOPPING:Lnet/fabricmc/fabric/api/event/Event;
+  #116 = Class              #118          // net/fabricmc/fabric/api/client/event/lifecycle/v1/ClientLifecycleEvents
+  #117 = NameAndType        #119:#88      // CLIENT_STOPPING:Lnet/fabricmc/fabric/api/event/Event;
+  #118 = Utf8               net/fabricmc/fabric/api/client/event/lifecycle/v1/ClientLifecycleEvents
+  #119 = Utf8               CLIENT_STOPPING
+  #120 = InvokeDynamic      #4:#121       // #4:onClientStopping:(Llocal/chattranslate/LocalChatTranslate;)Lnet/fabricmc/fabric/api/client/event/lifecycle/v1/ClientLifecycleEvents$ClientStopping;
+  #121 = NameAndType        #122:#123     // onClientStopping:(Llocal/chattranslate/LocalChatTranslate;)Lnet/fabricmc/fabric/api/client/event/lifecycle/v1/ClientLifecycleEvents$ClientStopping;
+  #122 = Utf8               onClientStopping
+  #123 = Utf8               (Llocal/chattranslate/LocalChatTranslate;)Lnet/fabricmc/fabric/api/client/event/lifecycle/v1/ClientLifecycleEvents$ClientStopping;
+  #124 = Fieldref           #125.#126     // net/fabricmc/fabric/api/client/command/v2/ClientCommandRegistrationCallback.EVENT:Lnet/fabricmc/fabric/api/event/Event;
+  #125 = Class              #127          // net/fabricmc/fabric/api/client/command/v2/ClientCommandRegistrationCallback
+  #126 = NameAndType        #128:#88      // EVENT:Lnet/fabricmc/fabric/api/event/Event;
+  #127 = Utf8               net/fabricmc/fabric/api/client/command/v2/ClientCommandRegistrationCallback
+  #128 = Utf8               EVENT
+  #129 = InvokeDynamic      #5:#130       // #5:register:(Llocal/chattranslate/LocalChatTranslate;)Lnet/fabricmc/fabric/api/client/command/v2/ClientCommandRegistrationCallback;
+  #130 = NameAndType        #97:#131      // register:(Llocal/chattranslate/LocalChatTranslate;)Lnet/fabricmc/fabric/api/client/command/v2/ClientCommandRegistrationCallback;
+  #131 = Utf8               (Llocal/chattranslate/LocalChatTranslate;)Lnet/fabricmc/fabric/api/client/command/v2/ClientCommandRegistrationCallback;
+  #132 = Fieldref           #11.#133      // local/chattranslate/LocalChatTranslate.LOG:Lorg/slf4j/Logger;
+  #133 = NameAndType        #134:#135     // LOG:Lorg/slf4j/Logger;
+  #134 = Utf8               LOG
+  #135 = Utf8               Lorg/slf4j/Logger;
+  #136 = String             #137          // [LCT] �������� | TranslateGemma 4B | �|��={} | Ollama={} | �|�󃍃O={}
+  #137 = Utf8               [LCT] �������� | TranslateGemma 4B | �|��={} | Ollama={} | �|�󃍃O={}
+  #138 = Fieldref           #11.#139      // local/chattranslate/LocalChatTranslate.config:Llocal/chattranslate/ModConfig;
+  #139 = NameAndType        #140:#141     // config:Llocal/chattranslate/ModConfig;
+  #140 = Utf8               config
+  #141 = Utf8               Llocal/chattranslate/ModConfig;
+  #142 = Fieldref           #143.#144     // local/chattranslate/ModConfig.enabled:Z
+  #143 = Class              #145          // local/chattranslate/ModConfig
+  #144 = NameAndType        #146:#147     // enabled:Z
+  #145 = Utf8               local/chattranslate/ModConfig
+  #146 = Utf8               enabled
+  #147 = Utf8               Z
+  #148 = Methodref          #149.#150     // java/lang/Boolean.valueOf:(Z)Ljava/lang/Boolean;
+  #149 = Class              #151          // java/lang/Boolean
+  #150 = NameAndType        #152:#153     // valueOf:(Z)Ljava/lang/Boolean;
+  #151 = Utf8               java/lang/Boolean
+  #152 = Utf8               valueOf
+  #153 = Utf8               (Z)Ljava/lang/Boolean;
+  #154 = Fieldref           #143.#155     // local/chattranslate/ModConfig.endpoint:Ljava/lang/String;
+  #155 = NameAndType        #156:#21      // endpoint:Ljava/lang/String;
+  #156 = Utf8               endpoint
+  #157 = InterfaceMethodref #158.#159     // org/slf4j/Logger.info:(Ljava/lang/String;[Ljava/lang/Object;)V
+  #158 = Class              #160          // org/slf4j/Logger
+  #159 = NameAndType        #161:#162     // info:(Ljava/lang/String;[Ljava/lang/Object;)V
+  #160 = Utf8               org/slf4j/Logger
+  #161 = Utf8               info
+  #162 = Utf8               (Ljava/lang/String;[Ljava/lang/Object;)V
+  #163 = Methodref          #143.#164     // local/chattranslate/ModConfig.load:(Ljava/nio/file/Path;)Llocal/chattranslate/ModConfig;
+  #164 = NameAndType        #165:#166     // load:(Ljava/nio/file/Path;)Llocal/chattranslate/ModConfig;
+  #165 = Utf8               load
+  #166 = Utf8               (Ljava/nio/file/Path;)Llocal/chattranslate/ModConfig;
+  #167 = Class              #168          // java/lang/Exception
+  #168 = Utf8               java/lang/Exception
+  #169 = Methodref          #143.#3       // local/chattranslate/ModConfig."<init>":()V
+  #170 = String             #171          // Cannot read localchattranslate.json; translation disabled
+  #171 = Utf8               Cannot read localchattranslate.json; translation disabled
+  #172 = InterfaceMethodref #158.#173     // org/slf4j/Logger.error:(Ljava/lang/String;Ljava/lang/Throwable;)V
+  #173 = NameAndType        #174:#175     // error:(Ljava/lang/String;Ljava/lang/Throwable;)V
+  #174 = Utf8               error
+  #175 = Utf8               (Ljava/lang/String;Ljava/lang/Throwable;)V
+  #176 = Fieldref           #11.#177      // local/chattranslate/LocalChatTranslate.generation:J
+  #177 = NameAndType        #178:#179     // generation:J
+  #178 = Utf8               generation
+  #179 = Utf8               J
+  #180 = Methodref          #7.#181       // java/util/LinkedHashSet.clear:()V
+  #181 = NameAndType        #182:#6       // clear:()V
+  #182 = Utf8               clear
+  #183 = Methodref          #44.#184      // local/chattranslate/TranslationClient.clearQueued:()V
+  #184 = NameAndType        #185:#6       // clearQueued:()V
+  #185 = Utf8               clearQueued
+  #186 = Methodref          #70.#187      // local/chattranslate/TooltipTranslations.reset:()V
+  #187 = NameAndType        #188:#6       // reset:()V
+  #188 = Utf8               reset
+  #189 = Methodref          #70.#190      // local/chattranslate/TooltipTranslations.hover:(Lnet/minecraft/client/gui/screens/Screen;Lnet/minecraft/world/inventory/Slot;)V
+  #190 = NameAndType        #191:#192     // hover:(Lnet/minecraft/client/gui/screens/Screen;Lnet/minecraft/world/inventory/Slot;)V
+  #191 = Utf8               hover
+  #192 = Utf8               (Lnet/minecraft/client/gui/screens/Screen;Lnet/minecraft/world/inventory/Slot;)V
+  #193 = Methodref          #70.#194      // local/chattranslate/TooltipTranslations.render:(Ljava/util/List;)Ljava/util/List;
+  #194 = NameAndType        #195:#196     // render:(Ljava/util/List;)Ljava/util/List;
+  #195 = Utf8               render
+  #196 = Utf8               (Ljava/util/List;)Ljava/util/List;
+  #197 = Methodref          #70.#198      // local/chattranslate/TooltipTranslations.keyPressed:(Lnet/minecraft/client/gui/screens/Screen;Lnet/minecraft/world/inventory/Slot;Lnet/minecraft/client/input/KeyEvent;)Z
+  #198 = NameAndType        #199:#200     // keyPressed:(Lnet/minecraft/client/gui/screens/Screen;Lnet/minecraft/world/inventory/Slot;Lnet/minecraft/client/input/KeyEvent;)Z
+  #199 = Utf8               keyPressed
+  #200 = Utf8               (Lnet/minecraft/client/gui/screens/Screen;Lnet/minecraft/world/inventory/Slot;Lnet/minecraft/client/input/KeyEvent;)Z
+  #201 = Methodref          #143.#202     // local/chattranslate/ModConfig.copy:()Llocal/chattranslate/ModConfig;
+  #202 = NameAndType        #203:#204     // copy:()Llocal/chattranslate/ModConfig;
+  #203 = Utf8               copy
+  #204 = Utf8               ()Llocal/chattranslate/ModConfig;
+  #205 = Methodref          #44.#206      // local/chattranslate/TranslationClient.validateEndpoint:(Ljava/lang/String;)Ljava/net/URI;
+  #206 = NameAndType        #207:#208     // validateEndpoint:(Ljava/lang/String;)Ljava/net/URI;
+  #207 = Utf8               validateEndpoint
+  #208 = Utf8               (Ljava/lang/String;)Ljava/net/URI;
+  #209 = Methodref          #210.#211     // java/net/URI.toString:()Ljava/lang/String;
+  #210 = Class              #212          // java/net/URI
+  #211 = NameAndType        #213:#214     // toString:()Ljava/lang/String;
+  #212 = Utf8               java/net/URI
+  #213 = Utf8               toString
+  #214 = Utf8               ()Ljava/lang/String;
+  #215 = Methodref          #143.#216     // local/chattranslate/ModConfig.save:(Ljava/nio/file/Path;)V
+  #216 = NameAndType        #217:#50      // save:(Ljava/nio/file/Path;)V
+  #217 = Utf8               save
+  #218 = Methodref          #219.#220     // java/lang/String.equals:(Ljava/lang/Object;)Z
+  #219 = Class              #221          // java/lang/String
+  #220 = NameAndType        #222:#223     // equals:(Ljava/lang/Object;)Z
+  #221 = Utf8               java/lang/String
+  #222 = Utf8               equals
+  #223 = Utf8               (Ljava/lang/Object;)Z
+  #224 = Methodref          #11.#225      // local/chattranslate/LocalChatTranslate.releaseGpu:()V
+  #225 = NameAndType        #226:#6       // releaseGpu:()V
+  #226 = Utf8               releaseGpu
+  #227 = Methodref          #11.#187      // local/chattranslate/LocalChatTranslate.reset:()V
+  #228 = String             #229          // [LCT] �ݒ�ύX | TranslateGemma 4B | �|��={} | NPC={} | �A�C�e������={}
+  #229 = Utf8               [LCT] �ݒ�ύX | TranslateGemma 4B | �|��={} | NPC={} | �A�C�e������={}
+  #230 = Fieldref           #143.#231     // local/chattranslate/ModConfig.translateNpc:Z
+  #231 = NameAndType        #232:#147     // translateNpc:Z
+  #232 = Utf8               translateNpc
+  #233 = Fieldref           #143.#234     // local/chattranslate/ModConfig.translateTooltips:Z
+  #234 = NameAndType        #235:#147     // translateTooltips:Z
+  #235 = Utf8               translateTooltips
+  #236 = Methodref          #44.#237      // local/chattranslate/TranslationClient.releaseGpu:(Ljava/net/URI;)Ljava/util/concurrent/CompletableFuture;
+  #237 = NameAndType        #226:#238     // releaseGpu:(Ljava/net/URI;)Ljava/util/concurrent/CompletableFuture;
+  #238 = Utf8               (Ljava/net/URI;)Ljava/util/concurrent/CompletableFuture;
+  #239 = Methodref          #44.#240      // local/chattranslate/TranslationClient.testConnection:(Ljava/net/URI;)Ljava/util/concurrent/CompletableFuture;
+  #240 = NameAndType        #241:#238     // testConnection:(Ljava/net/URI;)Ljava/util/concurrent/CompletableFuture;
+  #241 = Utf8               testConnection
+  #242 = Methodref          #243.#244     // java/lang/Throwable.getCause:()Ljava/lang/Throwable;
+  #243 = Class              #245          // java/lang/Throwable
+  #244 = NameAndType        #246:#247     // getCause:()Ljava/lang/Throwable;
+  #245 = Utf8               java/lang/Throwable
+  #246 = Utf8               getCause
+  #247 = Utf8               ()Ljava/lang/Throwable;
+  #248 = Class              #249          // java/net/ConnectException
+  #249 = Utf8               java/net/ConnectException
+  #250 = Class              #251          // java/nio/channels/ClosedChannelException
+  #251 = Utf8               java/nio/channels/ClosedChannelException
+  #252 = String             #253          // Ollama�ɐڑ��ł��܂���BOllama���N��bat�����s���Ă��������B
+  #253 = Utf8               Ollama�ɐڑ��ł��܂���BOllama���N��bat�����s���Ă��������B
+  #254 = Class              #255          // java/util/concurrent/TimeoutException
+  #255 = Utf8               java/util/concurrent/TimeoutException
+  #256 = Class              #257          // java/net/http/HttpTimeoutException
+  #257 = Utf8               java/net/http/HttpTimeoutException
+  #258 = String             #259          // �|�󂪃^�C���A�E�g���܂����B����̃��f���ǂݍ��ݒ��̏ꍇ������܂��B
+  #259 = Utf8               �|�󂪃^�C���A�E�g���܂����B����̃��f���ǂݍ��ݒ��̏ꍇ������܂��B
+  #260 = Methodref          #243.#261     // java/lang/Throwable.getMessage:()Ljava/lang/String;
+  #261 = NameAndType        #262:#214     // getMessage:()Ljava/lang/String;
+  #262 = Utf8               getMessage
+  #263 = Methodref          #2.#264       // java/lang/Object.getClass:()Ljava/lang/Class;
+  #264 = NameAndType        #265:#266     // getClass:()Ljava/lang/Class;
+  #265 = Utf8               getClass
+  #266 = Utf8               ()Ljava/lang/Class;
+  #267 = Methodref          #268.#269     // java/lang/Class.getSimpleName:()Ljava/lang/String;
+  #268 = Class              #270          // java/lang/Class
+  #269 = NameAndType        #271:#214     // getSimpleName:()Ljava/lang/String;
+  #270 = Utf8               java/lang/Class
+  #271 = Utf8               getSimpleName
+  #272 = String             #273          // [\\r\\n]+
+  #273 = Utf8               [\\r\\n]+
+  #274 = String             #275          //
+  #275 = Utf8
+  #276 = Methodref          #219.#277     // java/lang/String.replaceAll:(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+  #277 = NameAndType        #278:#279     // replaceAll:(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+  #278 = Utf8               replaceAll
+  #279 = Utf8               (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+  #280 = Methodref          #219.#281     // java/lang/String.length:()I
+  #281 = NameAndType        #282:#283     // length:()I
+  #282 = Utf8               length
+  #283 = Utf8               ()I
+  #284 = Methodref          #285.#286     // java/lang/Math.min:(II)I
+  #285 = Class              #287          // java/lang/Math
+  #286 = NameAndType        #288:#289     // min:(II)I
+  #287 = Utf8               java/lang/Math
+  #288 = Utf8               min
+  #289 = Utf8               (II)I
+  #290 = Methodref          #219.#291     // java/lang/String.substring:(II)Ljava/lang/String;
+  #291 = NameAndType        #292:#293     // substring:(II)Ljava/lang/String;
+  #292 = Utf8               substring
+  #293 = Utf8               (II)Ljava/lang/String;
+  #294 = Methodref          #11.#295      // local/chattranslate/LocalChatTranslate.onReceived:(Llocal/chattranslate/ChatBridge;Lnet/minecraft/client/multiplayer/chat/GuiMessage;)V
+  #295 = NameAndType        #296:#297     // onReceived:(Llocal/chattranslate/ChatBridge;Lnet/minecraft/client/multiplayer/chat/GuiMessage;)V
+  #296 = Utf8               onReceived
+  #297 = Utf8               (Llocal/chattranslate/ChatBridge;Lnet/minecraft/client/multiplayer/chat/GuiMessage;)V
+  #298 = Methodref          #299.#300     // net/minecraft/client/multiplayer/chat/GuiMessage.source:()Lnet/minecraft/client/multiplayer/chat/GuiMessageSource;
+  #299 = Class              #301          // net/minecraft/client/multiplayer/chat/GuiMessage
+  #300 = NameAndType        #302:#303     // source:()Lnet/minecraft/client/multiplayer/chat/GuiMessageSource;
+  #301 = Utf8               net/minecraft/client/multiplayer/chat/GuiMessage
+  #302 = Utf8               source
+  #303 = Utf8               ()Lnet/minecraft/client/multiplayer/chat/GuiMessageSource;
+  #304 = Fieldref           #305.#306     // net/minecraft/client/multiplayer/chat/GuiMessageSource.SYSTEM_CLIENT:Lnet/minecraft/client/multiplayer/chat/GuiMessageSource;
+  #305 = Class              #307          // net/minecraft/client/multiplayer/chat/GuiMessageSource
+  #306 = NameAndType        #308:#309     // SYSTEM_CLIENT:Lnet/minecraft/client/multiplayer/chat/GuiMessageSource;
+  #307 = Utf8               net/minecraft/client/multiplayer/chat/GuiMessageSource
+  #308 = Utf8               SYSTEM_CLIENT
+  #309 = Utf8               Lnet/minecraft/client/multiplayer/chat/GuiMessageSource;
+  #310 = Methodref          #299.#311     // net/minecraft/client/multiplayer/chat/GuiMessage.content:()Lnet/minecraft/network/chat/Component;
+  #311 = NameAndType        #312:#313     // content:()Lnet/minecraft/network/chat/Component;
+  #312 = Utf8               content
+  #313 = Utf8               ()Lnet/minecraft/network/chat/Component;
+  #314 = InterfaceMethodref #315.#316     // net/minecraft/network/chat/Component.getString:()Ljava/lang/String;
+  #315 = Class              #317          // net/minecraft/network/chat/Component
+  #316 = NameAndType        #318:#214     // getString:()Ljava/lang/String;
+  #317 = Utf8               net/minecraft/network/chat/Component
+  #318 = Utf8               getString
+  #319 = Methodref          #320.#321     // local/chattranslate/IncomingChat.parse:(Ljava/lang/String;)Ljava/util/Optional;
+  #320 = Class              #322          // local/chattranslate/IncomingChat
+  #321 = NameAndType        #323:#324     // parse:(Ljava/lang/String;)Ljava/util/Optional;
+  #322 = Utf8               local/chattranslate/IncomingChat
+  #323 = Utf8               parse
+  #324 = Utf8               (Ljava/lang/String;)Ljava/util/Optional;
+  #325 = Methodref          #326.#327     // java/util/Optional.isEmpty:()Z
+  #326 = Class              #328          // java/util/Optional
+  #327 = NameAndType        #329:#330     // isEmpty:()Z
+  #328 = Utf8               java/util/Optional
+  #329 = Utf8               isEmpty
+  #330 = Utf8               ()Z
+  #331 = Methodref          #326.#332     // java/util/Optional.get:()Ljava/lang/Object;
+  #332 = NameAndType        #74:#333      // get:()Ljava/lang/Object;
+  #333 = Utf8               ()Ljava/lang/Object;
+  #334 = Methodref          #320.#335     // local/chattranslate/IncomingChat.npc:()Z
+  #335 = NameAndType        #336:#330     // npc:()Z
+  #336 = Utf8               npc
+  #337 = Fieldref           #11.#338      // local/chattranslate/LocalChatTranslate.candidates:J
+  #338 = NameAndType        #339:#179     // candidates:J
+  #339 = Utf8               candidates
+  #340 = Methodref          #320.#341     // local/chattranslate/IncomingChat.sender:()Ljava/lang/String;
+  #341 = NameAndType        #342:#214     // sender:()Ljava/lang/String;
+  #342 = Utf8               sender
+  #343 = Methodref          #7.#344       // java/util/LinkedHashSet.add:(Ljava/lang/Object;)Z
+  #344 = NameAndType        #345:#223     // add:(Ljava/lang/Object;)Z
+  #345 = Utf8               add
+  #346 = Methodref          #7.#347       // java/util/LinkedHashSet.size:()I
+  #347 = NameAndType        #348:#283     // size:()I
+  #348 = Utf8               size
+  #349 = Methodref          #7.#350       // java/util/LinkedHashSet.removeFirst:()Ljava/lang/Object;
+  #350 = NameAndType        #351:#333     // removeFirst:()Ljava/lang/Object;
+  #351 = Utf8               removeFirst
+  #352 = Methodref          #7.#353       // java/util/LinkedHashSet."<init>":(Ljava/util/Collection;)V
+  #353 = NameAndType        #5:#354       // "<init>":(Ljava/util/Collection;)V
+  #354 = Utf8               (Ljava/util/Collection;)V
+  #355 = Methodref          #356.#357     // net/minecraft/client/Minecraft.getInstance:()Lnet/minecraft/client/Minecraft;
+  #356 = Class              #358          // net/minecraft/client/Minecraft
+  #357 = NameAndType        #30:#359      // getInstance:()Lnet/minecraft/client/Minecraft;
+  #358 = Utf8               net/minecraft/client/Minecraft
+  #359 = Utf8               ()Lnet/minecraft/client/Minecraft;
+  #360 = Methodref          #356.#361     // net/minecraft/client/Minecraft.getConnection:()Lnet/minecraft/client/multiplayer/ClientPacketListener;
+  #361 = NameAndType        #362:#363     // getConnection:()Lnet/minecraft/client/multiplayer/ClientPacketListener;
+  #362 = Utf8               getConnection
+  #363 = Utf8               ()Lnet/minecraft/client/multiplayer/ClientPacketListener;
+  #364 = Methodref          #365.#366     // net/minecraft/client/multiplayer/ClientPacketListener.getOnlinePlayers:()Ljava/util/Collection;
+  #365 = Class              #367          // net/minecraft/client/multiplayer/ClientPacketListener
+  #366 = NameAndType        #368:#369     // getOnlinePlayers:()Ljava/util/Collection;
+  #367 = Utf8               net/minecraft/client/multiplayer/ClientPacketListener
+  #368 = Utf8               getOnlinePlayers
+  #369 = Utf8               ()Ljava/util/Collection;
+  #370 = InterfaceMethodref #371.#372     // java/util/Collection.iterator:()Ljava/util/Iterator;
+  #371 = Class              #373          // java/util/Collection
+  #372 = NameAndType        #374:#375     // iterator:()Ljava/util/Iterator;
+  #373 = Utf8               java/util/Collection
+  #374 = Utf8               iterator
+  #375 = Utf8               ()Ljava/util/Iterator;
+  #376 = InterfaceMethodref #377.#378     // java/util/Iterator.hasNext:()Z
+  #377 = Class              #379          // java/util/Iterator
+  #378 = NameAndType        #380:#330     // hasNext:()Z
+  #379 = Utf8               java/util/Iterator
+  #380 = Utf8               hasNext
+  #381 = InterfaceMethodref #377.#382     // java/util/Iterator.next:()Ljava/lang/Object;
+  #382 = NameAndType        #383:#333     // next:()Ljava/lang/Object;
+  #383 = Utf8               next
+  #384 = Class              #385          // net/minecraft/client/multiplayer/PlayerInfo
+  #385 = Utf8               net/minecraft/client/multiplayer/PlayerInfo
+  #386 = Methodref          #384.#387     // net/minecraft/client/multiplayer/PlayerInfo.getProfile:()Lcom/mojang/authlib/GameProfile;
+  #387 = NameAndType        #388:#389     // getProfile:()Lcom/mojang/authlib/GameProfile;
+  #388 = Utf8               getProfile
+  #389 = Utf8               ()Lcom/mojang/authlib/GameProfile;
+  #390 = Methodref          #391.#392     // com/mojang/authlib/GameProfile.name:()Ljava/lang/String;
+  #391 = Class              #393          // com/mojang/authlib/GameProfile
+  #392 = NameAndType        #394:#214     // name:()Ljava/lang/String;
+  #393 = Utf8               com/mojang/authlib/GameProfile
+  #394 = Utf8               name
+  #395 = Methodref          #356.#396     // net/minecraft/client/Minecraft.getGameProfile:()Lcom/mojang/authlib/GameProfile;
+  #396 = NameAndType        #397:#389     // getGameProfile:()Lcom/mojang/authlib/GameProfile;
+  #397 = Utf8               getGameProfile
+  #398 = Methodref          #320.#399     // local/chattranslate/IncomingChat.body:()Ljava/lang/String;
+  #399 = NameAndType        #400:#214     // body:()Ljava/lang/String;
+  #400 = Utf8               body
+  #401 = Methodref          #402.#403     // local/chattranslate/ProtectedBody.prepare:(Ljava/lang/String;Ljava/util/Collection;)Llocal/chattranslate/ProtectedBody;
+  #402 = Class              #404          // local/chattranslate/ProtectedBody
+  #403 = NameAndType        #405:#406     // prepare:(Ljava/lang/String;Ljava/util/Collection;)Llocal/chattranslate/ProtectedBody;
+  #404 = Utf8               local/chattranslate/ProtectedBody
+  #405 = Utf8               prepare
+  #406 = Utf8               (Ljava/lang/String;Ljava/util/Collection;)Llocal/chattranslate/ProtectedBody;
+  #407 = Methodref          #402.#408     // local/chattranslate/ProtectedBody.hasEnglishCandidate:()Z
+  #408 = NameAndType        #409:#330     // hasEnglishCandidate:()Z
+  #409 = Utf8               hasEnglishCandidate
+  #410 = Fieldref           #11.#411      // local/chattranslate/LocalChatTranslate.skipped:J
+  #411 = NameAndType        #412:#179     // skipped:J
+  #412 = Utf8               skipped
+  #413 = Methodref          #44.#414      // local/chattranslate/TranslationClient.translate:(Ljava/net/URI;Llocal/chattranslate/ProtectedBody;)Ljava/util/concurrent/CompletableFuture;
+  #414 = NameAndType        #415:#416     // translate:(Ljava/net/URI;Llocal/chattranslate/ProtectedBody;)Ljava/util/concurrent/CompletableFuture;
+  #415 = Utf8               translate
+  #416 = Utf8               (Ljava/net/URI;Llocal/chattranslate/ProtectedBody;)Ljava/util/concurrent/CompletableFuture;
+  #417 = InvokeDynamic      #6:#418       // #6:accept:(Llocal/chattranslate/LocalChatTranslate;Lnet/minecraft/client/Minecraft;JLlocal/chattranslate/ChatBridge;Lnet/minecraft/client/multiplayer/chat/GuiMessage;)Ljava/util/function/BiConsumer;
+  #418 = NameAndType        #419:#420     // accept:(Llocal/chattranslate/LocalChatTranslate;Lnet/minecraft/client/Minecraft;JLlocal/chattranslate/ChatBridge;Lnet/minecraft/client/multiplayer/chat/GuiMessage;)Ljava/util/function/BiConsumer;
+  #419 = Utf8               accept
+  #420 = Utf8               (Llocal/chattranslate/LocalChatTranslate;Lnet/minecraft/client/Minecraft;JLlocal/chattranslate/ChatBridge;Lnet/minecraft/client/multiplayer/chat/GuiMessage;)Ljava/util/function/BiConsumer;
+  #421 = Methodref          #422.#423     // java/util/concurrent/CompletableFuture.whenComplete:(Ljava/util/function/BiConsumer;)Ljava/util/concurrent/CompletableFuture;
+  #422 = Class              #424          // java/util/concurrent/CompletableFuture
+  #423 = NameAndType        #425:#426     // whenComplete:(Ljava/util/function/BiConsumer;)Ljava/util/concurrent/CompletableFuture;
+  #424 = Utf8               java/util/concurrent/CompletableFuture
+  #425 = Utf8               whenComplete
+  #426 = Utf8               (Ljava/util/function/BiConsumer;)Ljava/util/concurrent/CompletableFuture;
+  #427 = Class              #428          // java/util/concurrent/RejectedExecutionException
+  #428 = Utf8               java/util/concurrent/RejectedExecutionException
+  #429 = String             #430          // Could not save translation setting
+  #430 = Utf8               Could not save translation setting
+  #431 = InterfaceMethodref #158.#432     // org/slf4j/Logger.warn:(Ljava/lang/String;Ljava/lang/Throwable;)V
+  #432 = NameAndType        #433:#175     // warn:(Ljava/lang/String;Ljava/lang/Throwable;)V
+  #433 = Utf8               warn
+  #434 = Methodref          #11.#435      // local/chattranslate/LocalChatTranslate.status:(Ljava/util/function/Consumer;)I
+  #435 = NameAndType        #436:#437     // status:(Ljava/util/function/Consumer;)I
+  #436 = Utf8               status
+  #437 = Utf8               (Ljava/util/function/Consumer;)I
+  #438 = String             #439          // ON
+  #439 = Utf8               ON
+  #440 = String             #441          // OFF
+  #441 = Utf8               OFF
+  #442 = InvokeDynamic      #7:#443       // #7:makeConcatWithConstants:(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+  #443 = NameAndType        #444:#445     // makeConcatWithConstants:(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+  #444 = Utf8               makeConcatWithConstants
+  #445 = Utf8               (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+  #446 = InterfaceMethodref #315.#447     // net/minecraft/network/chat/Component.literal:(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;
+  #447 = NameAndType        #448:#449     // literal:(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;
+  #448 = Utf8               literal
+  #449 = Utf8               (Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;
+  #450 = InterfaceMethodref #451.#452     // java/util/function/Consumer.accept:(Ljava/lang/Object;)V
+  #451 = Class              #453          // java/util/function/Consumer
+  #452 = NameAndType        #419:#98      // accept:(Ljava/lang/Object;)V
+  #453 = Utf8               java/util/function/Consumer
+  #454 = Fieldref           #11.#455      // local/chattranslate/LocalChatTranslate.translated:J
+  #455 = NameAndType        #456:#179     // translated:J
+  #456 = Utf8               translated
+  #457 = Methodref          #44.#458      // local/chattranslate/TranslationClient.pending:()I
+  #458 = NameAndType        #459:#283     // pending:()I
+  #459 = Utf8               pending
+  #460 = Fieldref           #11.#461      // local/chattranslate/LocalChatTranslate.failures:J
+  #461 = NameAndType        #462:#179     // failures:J
+  #462 = Utf8               failures
+  #463 = InvokeDynamic      #8:#464       // #8:makeConcatWithConstants:(JIJJJ)Ljava/lang/String;
+  #464 = NameAndType        #444:#465     // makeConcatWithConstants:(JIJJJ)Ljava/lang/String;
+  #465 = Utf8               (JIJJJ)Ljava/lang/String;
+  #466 = InvokeDynamic      #9:#467       // #9:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+  #467 = NameAndType        #444:#468     // makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+  #468 = Utf8               (Ljava/lang/String;)Ljava/lang/String;
+  #469 = InvokeDynamic      #10:#470      // #10:run:(Llocal/chattranslate/LocalChatTranslate;JLjava/lang/Throwable;Ljava/util/Optional;Llocal/chattranslate/ChatBridge;Lnet/minecraft/client/multiplayer/chat/GuiMessage;)Ljava/lang/Runnable;
+  #470 = NameAndType        #471:#472     // run:(Llocal/chattranslate/LocalChatTranslate;JLjava/lang/Throwable;Ljava/util/Optional;Llocal/chattranslate/ChatBridge;Lnet/minecraft/client/multiplayer/chat/GuiMessage;)Ljava/lang/Runnable;
+  #471 = Utf8               run
+  #472 = Utf8               (Llocal/chattranslate/LocalChatTranslate;JLjava/lang/Throwable;Ljava/util/Optional;Llocal/chattranslate/ChatBridge;Lnet/minecraft/client/multiplayer/chat/GuiMessage;)Ljava/lang/Runnable;
+  #473 = Methodref          #356.#474     // net/minecraft/client/Minecraft.execute:(Ljava/lang/Runnable;)V
+  #474 = NameAndType        #475:#476     // execute:(Ljava/lang/Runnable;)V
+  #475 = Utf8               execute
+  #476 = Utf8               (Ljava/lang/Runnable;)V
+  #477 = Methodref          #11.#478      // local/chattranslate/LocalChatTranslate.errorMessage:(Ljava/lang/Throwable;)Ljava/lang/String;
+  #478 = NameAndType        #479:#480     // errorMessage:(Ljava/lang/Throwable;)Ljava/lang/String;
+  #479 = Utf8               errorMessage
+  #480 = Utf8               (Ljava/lang/Throwable;)Ljava/lang/String;
+  #481 = Methodref          #482.#483     // java/lang/System.currentTimeMillis:()J
+  #482 = Class              #484          // java/lang/System
+  #483 = NameAndType        #485:#486     // currentTimeMillis:()J
+  #484 = Utf8               java/lang/System
+  #485 = Utf8               currentTimeMillis
+  #486 = Utf8               ()J
+  #487 = Fieldref           #11.#488      // local/chattranslate/LocalChatTranslate.nextWarning:J
+  #488 = NameAndType        #489:#179     // nextWarning:J
+  #489 = Utf8               nextWarning
+  #490 = Long               60000l
+  #492 = String             #493          // [LCT] TranslateGemma 4B | ������ێ� | {}
+  #493 = Utf8               [LCT] TranslateGemma 4B | ������ێ� | {}
+  #494 = InterfaceMethodref #158.#495     // org/slf4j/Logger.warn:(Ljava/lang/String;Ljava/lang/Object;)V
+  #495 = NameAndType        #433:#496     // warn:(Ljava/lang/String;Ljava/lang/Object;)V
+  #496 = Utf8               (Ljava/lang/String;Ljava/lang/Object;)V
+  #497 = Methodref          #326.#498     // java/util/Optional.isPresent:()Z
+  #498 = NameAndType        #499:#330     // isPresent:()Z
+  #499 = Utf8               isPresent
+  #500 = InterfaceMethodref #501.#502     // local/chattranslate/ChatBridge.lct$attach:(Lnet/minecraft/client/multiplayer/chat/GuiMessage;Ljava/lang/String;)Z
+  #501 = Class              #503          // local/chattranslate/ChatBridge
+  #502 = NameAndType        #504:#505     // lct$attach:(Lnet/minecraft/client/multiplayer/chat/GuiMessage;Ljava/lang/String;)Z
+  #503 = Utf8               local/chattranslate/ChatBridge
+  #504 = Utf8               lct$attach
+  #505 = Utf8               (Lnet/minecraft/client/multiplayer/chat/GuiMessage;Ljava/lang/String;)Z
+  #506 = String             #507          // lct
+  #507 = Utf8               lct
+  #508 = Methodref          #509.#510     // net/fabricmc/fabric/api/client/command/v2/ClientCommands.literal:(Ljava/lang/String;)Lcom/mojang/brigadier/builder/LiteralArgumentBuilder;
+  #509 = Class              #511          // net/fabricmc/fabric/api/client/command/v2/ClientCommands
+  #510 = NameAndType        #448:#512     // literal:(Ljava/lang/String;)Lcom/mojang/brigadier/builder/LiteralArgumentBuilder;
+  #511 = Utf8               net/fabricmc/fabric/api/client/command/v2/ClientCommands
+  #512 = Utf8               (Ljava/lang/String;)Lcom/mojang/brigadier/builder/LiteralArgumentBuilder;
+  #513 = InvokeDynamic      #11:#514      // #11:run:(Llocal/chattranslate/LocalChatTranslate;)Lcom/mojang/brigadier/Command;
+  #514 = NameAndType        #471:#515     // run:(Llocal/chattranslate/LocalChatTranslate;)Lcom/mojang/brigadier/Command;
+  #515 = Utf8               (Llocal/chattranslate/LocalChatTranslate;)Lcom/mojang/brigadier/Command;
+  #516 = Methodref          #517.#518     // com/mojang/brigadier/builder/LiteralArgumentBuilder.executes:(Lcom/mojang/brigadier/Command;)Lcom/mojang/brigadier/builder/ArgumentBuilder;
+  #517 = Class              #519          // com/mojang/brigadier/builder/LiteralArgumentBuilder
+  #518 = NameAndType        #520:#521     // executes:(Lcom/mojang/brigadier/Command;)Lcom/mojang/brigadier/builder/ArgumentBuilder;
+  #519 = Utf8               com/mojang/brigadier/builder/LiteralArgumentBuilder
+  #520 = Utf8               executes
+  #521 = Utf8               (Lcom/mojang/brigadier/Command;)Lcom/mojang/brigadier/builder/ArgumentBuilder;
+  #522 = String             #523          // on
+  #523 = Utf8               on
+  #524 = InvokeDynamic      #12:#514      // #12:run:(Llocal/chattranslate/LocalChatTranslate;)Lcom/mojang/brigadier/Command;
+  #525 = Methodref          #517.#526     // com/mojang/brigadier/builder/LiteralArgumentBuilder.then:(Lcom/mojang/brigadier/builder/ArgumentBuilder;)Lcom/mojang/brigadier/builder/ArgumentBuilder;
+  #526 = NameAndType        #527:#528     // then:(Lcom/mojang/brigadier/builder/ArgumentBuilder;)Lcom/mojang/brigadier/builder/ArgumentBuilder;
+  #527 = Utf8               then
+  #528 = Utf8               (Lcom/mojang/brigadier/builder/ArgumentBuilder;)Lcom/mojang/brigadier/builder/ArgumentBuilder;
+  #529 = String             #530          // off
+  #530 = Utf8               off
+  #531 = InvokeDynamic      #13:#514      // #13:run:(Llocal/chattranslate/LocalChatTranslate;)Lcom/mojang/brigadier/Command;
+  #532 = String             #533          // settings
+  #533 = Utf8               settings
+  #534 = InvokeDynamic      #14:#535      // #14:run:()Lcom/mojang/brigadier/Command;
+  #535 = NameAndType        #471:#536     // run:()Lcom/mojang/brigadier/Command;
+  #536 = Utf8               ()Lcom/mojang/brigadier/Command;
+  #537 = String             #69           // reload
+  #538 = InvokeDynamic      #15:#514      // #15:run:(Llocal/chattranslate/LocalChatTranslate;)Lcom/mojang/brigadier/Command;
+  #539 = Methodref          #540.#541     // com/mojang/brigadier/CommandDispatcher.register:(Lcom/mojang/brigadier/builder/LiteralArgumentBuilder;)Lcom/mojang/brigadier/tree/LiteralCommandNode;
+  #540 = Class              #542          // com/mojang/brigadier/CommandDispatcher
+  #541 = NameAndType        #97:#543      // register:(Lcom/mojang/brigadier/builder/LiteralArgumentBuilder;)Lcom/mojang/brigadier/tree/LiteralCommandNode;
+  #542 = Utf8               com/mojang/brigadier/CommandDispatcher
+  #543 = Utf8               (Lcom/mojang/brigadier/builder/LiteralArgumentBuilder;)Lcom/mojang/brigadier/tree/LiteralCommandNode;
+  #544 = Methodref          #545.#546     // com/mojang/brigadier/context/CommandContext.getSource:()Ljava/lang/Object;
+  #545 = Class              #547          // com/mojang/brigadier/context/CommandContext
+  #546 = NameAndType        #548:#333     // getSource:()Ljava/lang/Object;
+  #547 = Utf8               com/mojang/brigadier/context/CommandContext
+  #548 = Utf8               getSource
+  #549 = Class              #550          // net/fabricmc/fabric/api/client/command/v2/FabricClientCommandSource
+  #550 = Utf8               net/fabricmc/fabric/api/client/command/v2/FabricClientCommandSource
+  #551 = Methodref          #552.#553     // java/util/Objects.requireNonNull:(Ljava/lang/Object;)Ljava/lang/Object;
+  #552 = Class              #554          // java/util/Objects
+  #553 = NameAndType        #555:#556     // requireNonNull:(Ljava/lang/Object;)Ljava/lang/Object;
+  #554 = Utf8               java/util/Objects
+  #555 = Utf8               requireNonNull
+  #556 = Utf8               (Ljava/lang/Object;)Ljava/lang/Object;
+  #557 = InvokeDynamic      #16:#558      // #16:accept:(Lnet/fabricmc/fabric/api/client/command/v2/FabricClientCommandSource;)Ljava/util/function/Consumer;
+  #558 = NameAndType        #419:#559     // accept:(Lnet/fabricmc/fabric/api/client/command/v2/FabricClientCommandSource;)Ljava/util/function/Consumer;
+  #559 = Utf8               (Lnet/fabricmc/fabric/api/client/command/v2/FabricClientCommandSource;)Ljava/util/function/Consumer;
+  #560 = InvokeDynamic      #17:#561      // #17:run:()Ljava/lang/Runnable;
+  #561 = NameAndType        #471:#562     // run:()Ljava/lang/Runnable;
+  #562 = Utf8               ()Ljava/lang/Runnable;
+  #563 = Methodref          #356.#564     // net/minecraft/client/Minecraft.schedule:(Ljava/lang/Runnable;)V
+  #564 = NameAndType        #565:#476     // schedule:(Ljava/lang/Runnable;)V
+  #565 = Utf8               schedule
+  #566 = Class              #567          // local/chattranslate/ConfigScreen
+  #567 = Utf8               local/chattranslate/ConfigScreen
+  #568 = Methodref          #566.#569     // local/chattranslate/ConfigScreen."<init>":(Lnet/minecraft/client/gui/screens/Screen;)V
+  #569 = NameAndType        #5:#570       // "<init>":(Lnet/minecraft/client/gui/screens/Screen;)V
+  #570 = Utf8               (Lnet/minecraft/client/gui/screens/Screen;)V
+  #571 = Methodref          #356.#572     // net/minecraft/client/Minecraft.setScreen:(Lnet/minecraft/client/gui/screens/Screen;)V
+  #572 = NameAndType        #573:#570     // setScreen:(Lnet/minecraft/client/gui/screens/Screen;)V
+  #573 = Utf8               setScreen
+  #574 = Methodref          #11.#575      // local/chattranslate/LocalChatTranslate.toggle:(ZLjava/util/function/Consumer;)I
+  #575 = NameAndType        #576:#577     // toggle:(ZLjava/util/function/Consumer;)I
+  #576 = Utf8               toggle
+  #577 = Utf8               (ZLjava/util/function/Consumer;)I
+  #578 = InvokeDynamic      #18:#579      // #18:accept:(Llocal/chattranslate/LocalChatTranslate;)Ljava/util/function/BiConsumer;
+  #579 = NameAndType        #419:#580     // accept:(Llocal/chattranslate/LocalChatTranslate;)Ljava/util/function/BiConsumer;
+  #580 = Utf8               (Llocal/chattranslate/LocalChatTranslate;)Ljava/util/function/BiConsumer;
+  #581 = Methodref          #44.#582      // local/chattranslate/TranslationClient.close:()V
+  #582 = NameAndType        #583:#6       // close:()V
+  #583 = Utf8               close
+  #584 = Fieldref           #356.#585     // net/minecraft/client/Minecraft.screen:Lnet/minecraft/client/gui/screens/Screen;
+  #585 = NameAndType        #586:#587     // screen:Lnet/minecraft/client/gui/screens/Screen;
+  #586 = Utf8               screen
+  #587 = Utf8               Lnet/minecraft/client/gui/screens/Screen;
+  #588 = Methodref          #70.#589      // local/chattranslate/TooltipTranslations.screenChanged:(Lnet/minecraft/client/gui/screens/Screen;)V
+  #589 = NameAndType        #590:#570     // screenChanged:(Lnet/minecraft/client/gui/screens/Screen;)V
+  #590 = Utf8               screenChanged
+  #591 = String             #592          // localchattranslate
+  #592 = Utf8               localchattranslate
+  #593 = Methodref          #594.#595     // org/slf4j/LoggerFactory.getLogger:(Ljava/lang/String;)Lorg/slf4j/Logger;
+  #594 = Class              #596          // org/slf4j/LoggerFactory
+  #595 = NameAndType        #597:#598     // getLogger:(Ljava/lang/String;)Lorg/slf4j/Logger;
+  #596 = Utf8               org/slf4j/LoggerFactory
+  #597 = Utf8               getLogger
+  #598 = Utf8               (Ljava/lang/String;)Lorg/slf4j/Logger;
+  #599 = Class              #600          // net/fabricmc/api/ClientModInitializer
+  #600 = Utf8               net/fabricmc/api/ClientModInitializer
+  #601 = Utf8               Signature
+  #602 = Utf8               Ljava/util/LinkedHashSet<Ljava/lang/String;>;
+  #603 = Utf8               Code
+  #604 = Utf8               LineNumberTable
+  #605 = Utf8               LocalVariableTable
+  #606 = Utf8               this
+  #607 = Utf8               onInitializeClient
+  #608 = Utf8               logPath
+  #609 = Utf8               e
+  #610 = Utf8               Ljava/lang/Exception;
+  #611 = Utf8               StackMapTable
+  #612 = Utf8               tooltipHover
+  #613 = Utf8               slot
+  #614 = Utf8               Lnet/minecraft/world/inventory/Slot;
+  #615 = Utf8               tooltipLines
+  #616 = Utf8               original
+  #617 = Utf8               Ljava/util/List;
+  #618 = Utf8               LocalVariableTypeTable
+  #619 = Utf8               Ljava/util/List<Lnet/minecraft/network/chat/Component;>;
+  #620 = Class              #621          // java/util/List
+  #621 = Utf8               java/util/List
+  #622 = Utf8               (Ljava/util/List<Lnet/minecraft/network/chat/Component;>;)Ljava/util/List<Lnet/minecraft/network/chat/Component;>;
+  #623 = Utf8               tooltipKey
+  #624 = Utf8               key
+  #625 = Utf8               Lnet/minecraft/client/input/KeyEvent;
+  #626 = Utf8               saveSettings
+  #627 = Utf8               (Llocal/chattranslate/ModConfig;)V
+  #628 = Utf8               Exceptions
+  #629 = Class              #630          // java/io/IOException
+  #630 = Utf8               java/io/IOException
+  #631 = Utf8               (Llocal/chattranslate/ModConfig;)Ljava/util/concurrent/CompletableFuture;
+  #632 = Utf8               (Llocal/chattranslate/ModConfig;)Ljava/util/concurrent/CompletableFuture<Ljava/util/Optional<Ljava/lang/String;>;>;
+  #633 = Utf8               Ljava/lang/Throwable;
+  #634 = Utf8               message
+  #635 = Utf8               received
+  #636 = Utf8               chat
+  #637 = Utf8               Llocal/chattranslate/ChatBridge;
+  #638 = Utf8               Lnet/minecraft/client/multiplayer/chat/GuiMessage;
+  #639 = Utf8               Lnet/minecraft/client/multiplayer/PlayerInfo;
+  #640 = Utf8               Ljava/util/concurrent/RejectedExecutionException;
+  #641 = Utf8               parsed
+  #642 = Utf8               Ljava/util/Optional;
+  #643 = Utf8               publicChat
+  #644 = Utf8               Llocal/chattranslate/IncomingChat;
+  #645 = Utf8               names
+  #646 = Utf8               client
+  #647 = Utf8               Lnet/minecraft/client/Minecraft;
+  #648 = Utf8               Llocal/chattranslate/ProtectedBody;
+  #649 = Utf8               requestGeneration
+  #650 = Utf8               Ljava/util/Optional<Llocal/chattranslate/IncomingChat;>;
+  #651 = Utf8               feedback
+  #652 = Utf8               Ljava/util/function/Consumer;
+  #653 = Utf8               Ljava/util/function/Consumer<Lnet/minecraft/network/chat/Component;>;
+  #654 = Utf8               (ZLjava/util/function/Consumer<Lnet/minecraft/network/chat/Component;>;)I
+  #655 = Utf8               (Ljava/util/function/Consumer<Lnet/minecraft/network/chat/Component;>;)I
+  #656 = Utf8               lambda$onReceived$0
+  #657 = Utf8               (Lnet/minecraft/client/Minecraft;JLlocal/chattranslate/ChatBridge;Lnet/minecraft/client/multiplayer/chat/GuiMessage;Ljava/util/Optional;Ljava/lang/Throwable;)V
+  #658 = Utf8               result
+  #659 = Utf8               lambda$onReceived$1
+  #660 = Utf8               (JLjava/lang/Throwable;Ljava/util/Optional;Llocal/chattranslate/ChatBridge;Lnet/minecraft/client/multiplayer/chat/GuiMessage;)V
+  #661 = Utf8               lambda$onInitializeClient$6
+  #662 = Utf8               (Lcom/mojang/brigadier/CommandDispatcher;Lnet/minecraft/commands/CommandBuildContext;)V
+  #663 = Utf8               dispatcher
+  #664 = Utf8               Lcom/mojang/brigadier/CommandDispatcher;
+  #665 = Utf8               registry
+  #666 = Utf8               Lnet/minecraft/commands/CommandBuildContext;
+  #667 = Utf8               lambda$onInitializeClient$12
+  #668 = Utf8               (Lcom/mojang/brigadier/context/CommandContext;)I
+  #669 = Utf8               context
+  #670 = Utf8               Lcom/mojang/brigadier/context/CommandContext;
+  #671 = Class              #672          // com/mojang/brigadier/exceptions/CommandSyntaxException
+  #672 = Utf8               com/mojang/brigadier/exceptions/CommandSyntaxException
+  #673 = Utf8               lambda$onInitializeClient$10
+  #674 = Utf8               lambda$onInitializeClient$11
+  #675 = Utf8               lambda$onInitializeClient$9
+  #676 = Utf8               lambda$onInitializeClient$8
+  #677 = Utf8               lambda$onInitializeClient$7
+  #678 = Utf8               lambda$onInitializeClient$4
+  #679 = Utf8               (Lnet/minecraft/client/Minecraft;)V
+  #680 = Utf8               lambda$onInitializeClient$5
+  #681 = Utf8               (Ljava/lang/Void;Ljava/lang/Throwable;)V
+  #682 = Utf8               Ljava/lang/Void;
+  #683 = Utf8               lambda$onInitializeClient$3
+  #684 = Utf8               (Lnet/minecraft/client/multiplayer/ClientPacketListener;Lnet/minecraft/client/Minecraft;)V
+  #685 = Utf8               handler
+  #686 = Utf8               Lnet/minecraft/client/multiplayer/ClientPacketListener;
+  #687 = Utf8               lambda$onInitializeClient$2
+  #688 = Utf8               (Lnet/minecraft/client/multiplayer/ClientPacketListener;Lnet/fabricmc/fabric/api/networking/v1/PacketSender;Lnet/minecraft/client/Minecraft;)V
+  #689 = Utf8               Lnet/fabricmc/fabric/api/networking/v1/PacketSender;
+  #690 = Utf8               lambda$onInitializeClient$1
+  #691 = Utf8               lambda$onInitializeClient$0
+  #692 = Utf8               <clinit>
+  #693 = Utf8               SourceFile
+  #694 = Utf8               LocalChatTranslate.java
+  #695 = Utf8               BootstrapMethods
+  #696 = MethodType         #333          //  ()Ljava/lang/Object;
+  #697 = MethodHandle       5:#698        // REF_invokeVirtual local/chattranslate/LocalChatTranslate.lambda$onInitializeClient$0:()Llocal/chattranslate/ModConfig;
+  #698 = Methodref          #11.#699      // local/chattranslate/LocalChatTranslate.lambda$onInitializeClient$0:()Llocal/chattranslate/ModConfig;
+  #699 = NameAndType        #691:#204     // lambda$onInitializeClient$0:()Llocal/chattranslate/ModConfig;
+  #700 = MethodType         #204          //  ()Llocal/chattranslate/ModConfig;
+  #701 = MethodType         #679          //  (Lnet/minecraft/client/Minecraft;)V
+  #702 = MethodHandle       5:#703        // REF_invokeVirtual local/chattranslate/LocalChatTranslate.lambda$onInitializeClient$1:(Lnet/minecraft/client/Minecraft;)V
+  #703 = Methodref          #11.#704      // local/chattranslate/LocalChatTranslate.lambda$onInitializeClient$1:(Lnet/minecraft/client/Minecraft;)V
+  #704 = NameAndType        #690:#679     // lambda$onInitializeClient$1:(Lnet/minecraft/client/Minecraft;)V
+  #705 = MethodType         #688          //  (Lnet/minecraft/client/multiplayer/ClientPacketListener;Lnet/fabricmc/fabric/api/networking/v1/PacketSender;Lnet/minecraft/client/Minecraft;)V
+  #706 = MethodHandle       5:#707        // REF_invokeVirtual local/chattranslate/LocalChatTranslate.lambda$onInitializeClient$2:(Lnet/minecraft/client/multiplayer/ClientPacketListener;Lnet/fabricmc/fabric/api/networking/v1/PacketSender;Lnet/minecraft/client/Minecraft;)V
+  #707 = Methodref          #11.#708      // local/chattranslate/LocalChatTranslate.lambda$onInitializeClient$2:(Lnet/minecraft/client/multiplayer/ClientPacketListener;Lnet/fabricmc/fabric/api/networking/v1/PacketSender;Lnet/minecraft/client/Minecraft;)V
+  #708 = NameAndType        #687:#688     // lambda$onInitializeClient$2:(Lnet/minecraft/client/multiplayer/ClientPacketListener;Lnet/fabricmc/fabric/api/networking/v1/PacketSender;Lnet/minecraft/client/Minecraft;)V
+  #709 = MethodType         #684          //  (Lnet/minecraft/client/multiplayer/ClientPacketListener;Lnet/minecraft/client/Minecraft;)V
+  #710 = MethodHandle       5:#711        // REF_invokeVirtual local/chattranslate/LocalChatTranslate.lambda$onInitializeClient$3:(Lnet/minecraft/client/multiplayer/ClientPacketListener;Lnet/minecraft/client/Minecraft;)V
+  #711 = Methodref          #11.#712      // local/chattranslate/LocalChatTranslate.lambda$onInitializeClient$3:(Lnet/minecraft/client/multiplayer/ClientPacketListener;Lnet/minecraft/client/Minecraft;)V
+  #712 = NameAndType        #683:#684     // lambda$onInitializeClient$3:(Lnet/minecraft/client/multiplayer/ClientPacketListener;Lnet/minecraft/client/Minecraft;)V
+  #713 = MethodHandle       5:#714        // REF_invokeVirtual local/chattranslate/LocalChatTranslate.lambda$onInitializeClient$4:(Lnet/minecraft/client/Minecraft;)V
+  #714 = Methodref          #11.#715      // local/chattranslate/LocalChatTranslate.lambda$onInitializeClient$4:(Lnet/minecraft/client/Minecraft;)V
+  #715 = NameAndType        #678:#679     // lambda$onInitializeClient$4:(Lnet/minecraft/client/Minecraft;)V
+  #716 = MethodType         #662          //  (Lcom/mojang/brigadier/CommandDispatcher;Lnet/minecraft/commands/CommandBuildContext;)V
+  #717 = MethodHandle       5:#718        // REF_invokeVirtual local/chattranslate/LocalChatTranslate.lambda$onInitializeClient$6:(Lcom/mojang/brigadier/CommandDispatcher;Lnet/minecraft/commands/CommandBuildContext;)V
+  #718 = Methodref          #11.#719      // local/chattranslate/LocalChatTranslate.lambda$onInitializeClient$6:(Lcom/mojang/brigadier/CommandDispatcher;Lnet/minecraft/commands/CommandBuildContext;)V
+  #719 = NameAndType        #661:#662     // lambda$onInitializeClient$6:(Lcom/mojang/brigadier/CommandDispatcher;Lnet/minecraft/commands/CommandBuildContext;)V
+  #720 = MethodType         #721          //  (Ljava/lang/Object;Ljava/lang/Object;)V
+  #721 = Utf8               (Ljava/lang/Object;Ljava/lang/Object;)V
+  #722 = MethodHandle       5:#723        // REF_invokeVirtual local/chattranslate/LocalChatTranslate.lambda$onReceived$0:(Lnet/minecraft/client/Minecraft;JLlocal/chattranslate/ChatBridge;Lnet/minecraft/client/multiplayer/chat/GuiMessage;Ljava/util/Optional;Ljava/lang/Throwable;)V
+  #723 = Methodref          #11.#724      // local/chattranslate/LocalChatTranslate.lambda$onReceived$0:(Lnet/minecraft/client/Minecraft;JLlocal/chattranslate/ChatBridge;Lnet/minecraft/client/multiplayer/chat/GuiMessage;Ljava/util/Optional;Ljava/lang/Throwable;)V
+  #724 = NameAndType        #656:#657     // lambda$onReceived$0:(Lnet/minecraft/client/Minecraft;JLlocal/chattranslate/ChatBridge;Lnet/minecraft/client/multiplayer/chat/GuiMessage;Ljava/util/Optional;Ljava/lang/Throwable;)V
+  #725 = MethodType         #726          //  (Ljava/util/Optional;Ljava/lang/Throwable;)V
+  #726 = Utf8               (Ljava/util/Optional;Ljava/lang/Throwable;)V
+  #727 = String             #728          // [LCT] TranslateGemma 4B | �p�ꁨ���{�� \u0001 | NPC \u0001 | �A�C�e������ \u0001
+  #728 = Utf8               [LCT] TranslateGemma 4B | �p�ꁨ���{�� \u0001 | NPC \u0001 | �A�C�e������ \u0001
+  #729 = String             #730          //   �`���b�g�|�� \u0001�� / �ҋ@�i���ʁj \u0001�� / ���s \u0001�� / �Ώ� \u0001�� / �ȗ� \u0001��
+  #730 = Utf8                 �`���b�g�|�� \u0001�� / �ҋ@�i���ʁj \u0001�� / ���s \u0001�� / �Ώ� \u0001�� / �ȗ� \u0001��
+  #731 = String             #732          //   �Ō�̃G���[: \u0001
+  #732 = Utf8                 �Ō�̃G���[: \u0001
+  #733 = MethodType         #6            //  ()V
+  #734 = MethodHandle       5:#735        // REF_invokeVirtual local/chattranslate/LocalChatTranslate.lambda$onReceived$1:(JLjava/lang/Throwable;Ljava/util/Optional;Llocal/chattranslate/ChatBridge;Lnet/minecraft/client/multiplayer/chat/GuiMessage;)V
+  #735 = Methodref          #11.#736      // local/chattranslate/LocalChatTranslate.lambda$onReceived$1:(JLjava/lang/Throwable;Ljava/util/Optional;Llocal/chattranslate/ChatBridge;Lnet/minecraft/client/multiplayer/chat/GuiMessage;)V
+  #736 = NameAndType        #659:#660     // lambda$onReceived$1:(JLjava/lang/Throwable;Ljava/util/Optional;Llocal/chattranslate/ChatBridge;Lnet/minecraft/client/multiplayer/chat/GuiMessage;)V
+  #737 = MethodType         #668          //  (Lcom/mojang/brigadier/context/CommandContext;)I
+  #738 = MethodHandle       5:#739        // REF_invokeVirtual local/chattranslate/LocalChatTranslate.lambda$onInitializeClient$7:(Lcom/mojang/brigadier/context/CommandContext;)I
+  #739 = Methodref          #11.#740      // local/chattranslate/LocalChatTranslate.lambda$onInitializeClient$7:(Lcom/mojang/brigadier/context/CommandContext;)I
+  #740 = NameAndType        #677:#668     // lambda$onInitializeClient$7:(Lcom/mojang/brigadier/context/CommandContext;)I
+  #741 = MethodHandle       5:#742        // REF_invokeVirtual local/chattranslate/LocalChatTranslate.lambda$onInitializeClient$8:(Lcom/mojang/brigadier/context/CommandContext;)I
+  #742 = Methodref          #11.#743      // local/chattranslate/LocalChatTranslate.lambda$onInitializeClient$8:(Lcom/mojang/brigadier/context/CommandContext;)I
+  #743 = NameAndType        #676:#668     // lambda$onInitializeClient$8:(Lcom/mojang/brigadier/context/CommandContext;)I
+  #744 = MethodHandle       5:#745        // REF_invokeVirtual local/chattranslate/LocalChatTranslate.lambda$onInitializeClient$9:(Lcom/mojang/brigadier/context/CommandContext;)I
+  #745 = Methodref          #11.#746      // local/chattranslate/LocalChatTranslate.lambda$onInitializeClient$9:(Lcom/mojang/brigadier/context/CommandContext;)I
+  #746 = NameAndType        #675:#668     // lambda$onInitializeClient$9:(Lcom/mojang/brigadier/context/CommandContext;)I
+  #747 = MethodHandle       6:#748        // REF_invokeStatic local/chattranslate/LocalChatTranslate.lambda$onInitializeClient$10:(Lcom/mojang/brigadier/context/CommandContext;)I
+  #748 = Methodref          #11.#749      // local/chattranslate/LocalChatTranslate.lambda$onInitializeClient$10:(Lcom/mojang/brigadier/context/CommandContext;)I
+  #749 = NameAndType        #673:#668     // lambda$onInitializeClient$10:(Lcom/mojang/brigadier/context/CommandContext;)I
+  #750 = MethodHandle       5:#751        // REF_invokeVirtual local/chattranslate/LocalChatTranslate.lambda$onInitializeClient$12:(Lcom/mojang/brigadier/context/CommandContext;)I
+  #751 = Methodref          #11.#752      // local/chattranslate/LocalChatTranslate.lambda$onInitializeClient$12:(Lcom/mojang/brigadier/context/CommandContext;)I
+  #752 = NameAndType        #667:#668     // lambda$onInitializeClient$12:(Lcom/mojang/brigadier/context/CommandContext;)I
+  #753 = MethodType         #98           //  (Ljava/lang/Object;)V
+  #754 = MethodHandle       9:#755        // REF_invokeInterface net/fabricmc/fabric/api/client/command/v2/FabricClientCommandSource.sendFeedback:(Lnet/minecraft/network/chat/Component;)V
+  #755 = InterfaceMethodref #549.#756     // net/fabricmc/fabric/api/client/command/v2/FabricClientCommandSource.sendFeedback:(Lnet/minecraft/network/chat/Component;)V
+  #756 = NameAndType        #757:#758     // sendFeedback:(Lnet/minecraft/network/chat/Component;)V
+  #757 = Utf8               sendFeedback
+  #758 = Utf8               (Lnet/minecraft/network/chat/Component;)V
+  #759 = MethodType         #758          //  (Lnet/minecraft/network/chat/Component;)V
+  #760 = MethodHandle       6:#761        // REF_invokeStatic local/chattranslate/LocalChatTranslate.lambda$onInitializeClient$11:()V
+  #761 = Methodref          #11.#762      // local/chattranslate/LocalChatTranslate.lambda$onInitializeClient$11:()V
+  #762 = NameAndType        #674:#6       // lambda$onInitializeClient$11:()V
+  #763 = MethodHandle       5:#764        // REF_invokeVirtual local/chattranslate/LocalChatTranslate.lambda$onInitializeClient$5:(Ljava/lang/Void;Ljava/lang/Throwable;)V
+  #764 = Methodref          #11.#765      // local/chattranslate/LocalChatTranslate.lambda$onInitializeClient$5:(Ljava/lang/Void;Ljava/lang/Throwable;)V
+  #765 = NameAndType        #680:#681     // lambda$onInitializeClient$5:(Ljava/lang/Void;Ljava/lang/Throwable;)V
+  #766 = MethodType         #681          //  (Ljava/lang/Void;Ljava/lang/Throwable;)V
+  #767 = MethodHandle       6:#768        // REF_invokeStatic java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+  #768 = Methodref          #769.#770     // java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+  #769 = Class              #771          // java/lang/invoke/LambdaMetafactory
+  #770 = NameAndType        #772:#773     // metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+  #771 = Utf8               java/lang/invoke/LambdaMetafactory
+  #772 = Utf8               metafactory
+  #773 = Utf8               (Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+  #774 = MethodHandle       6:#775        // REF_invokeStatic java/lang/invoke/StringConcatFactory.makeConcatWithConstants:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite;
+  #775 = Methodref          #776.#777     // java/lang/invoke/StringConcatFactory.makeConcatWithConstants:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite;
+  #776 = Class              #778          // java/lang/invoke/StringConcatFactory
+  #777 = NameAndType        #444:#779     // makeConcatWithConstants:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite;
+  #778 = Utf8               java/lang/invoke/StringConcatFactory
+  #779 = Utf8               (Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite;
+  #780 = Utf8               InnerClasses
+  #781 = Class              #782          // net/fabricmc/fabric/api/client/event/lifecycle/v1/ClientTickEvents$EndTick
+  #782 = Utf8               net/fabricmc/fabric/api/client/event/lifecycle/v1/ClientTickEvents$EndTick
+  #783 = Utf8               EndTick
+  #784 = Class              #785          // net/fabricmc/fabric/api/client/networking/v1/ClientPlayConnectionEvents$Join
+  #785 = Utf8               net/fabricmc/fabric/api/client/networking/v1/ClientPlayConnectionEvents$Join
+  #786 = Utf8               Join
+  #787 = Class              #788          // net/fabricmc/fabric/api/client/networking/v1/ClientPlayConnectionEvents$Disconnect
+  #788 = Utf8               net/fabricmc/fabric/api/client/networking/v1/ClientPlayConnectionEvents$Disconnect
+  #789 = Utf8               Disconnect
+  #790 = Class              #791          // net/fabricmc/fabric/api/client/event/lifecycle/v1/ClientLifecycleEvents$ClientStopping
+  #791 = Utf8               net/fabricmc/fabric/api/client/event/lifecycle/v1/ClientLifecycleEvents$ClientStopping
+  #792 = Utf8               ClientStopping
+  #793 = Class              #794          // java/lang/invoke/MethodHandles$Lookup
+  #794 = Utf8               java/lang/invoke/MethodHandles$Lookup
+  #795 = Class              #796          // java/lang/invoke/MethodHandles
+  #796 = Utf8               java/lang/invoke/MethodHandles
+  #797 = Utf8               Lookup
+{
+  public static final org.slf4j.Logger LOG;
+    descriptor: Lorg/slf4j/Logger;
+    flags: (0x0019) ACC_PUBLIC, ACC_STATIC, ACC_FINAL
+
+  private static local.chattranslate.LocalChatTranslate instance;
+    descriptor: Llocal/chattranslate/LocalChatTranslate;
+    flags: (0x000a) ACC_PRIVATE, ACC_STATIC
+
+  private local.chattranslate.TranslationClient api;
+    descriptor: Llocal/chattranslate/TranslationClient;
+    flags: (0x0002) ACC_PRIVATE
+
+  private local.chattranslate.TooltipTranslations tooltips;
+    descriptor: Llocal/chattranslate/TooltipTranslations;
+    flags: (0x0002) ACC_PRIVATE
+
+  private final java.util.LinkedHashSet<java.lang.String> seenNames;
+    descriptor: Ljava/util/LinkedHashSet;
+    flags: (0x0012) ACC_PRIVATE, ACC_FINAL
+    Signature: #602                         // Ljava/util/LinkedHashSet<Ljava/lang/String;>;
+
+  private local.chattranslate.ModConfig config;
+    descriptor: Llocal/chattranslate/ModConfig;
+    flags: (0x0002) ACC_PRIVATE
+
+  private java.nio.file.Path configPath;
+    descriptor: Ljava/nio/file/Path;
+    flags: (0x0002) ACC_PRIVATE
+
+  private long generation;
+    descriptor: J
+    flags: (0x0002) ACC_PRIVATE
+
+  private long candidates;
+    descriptor: J
+    flags: (0x0002) ACC_PRIVATE
+
+  private long translated;
+    descriptor: J
+    flags: (0x0002) ACC_PRIVATE
+
+  private long failures;
+    descriptor: J
+    flags: (0x0002) ACC_PRIVATE
+
+  private long skipped;
+    descriptor: J
+    flags: (0x0002) ACC_PRIVATE
+
+  private long nextWarning;
+    descriptor: J
+    flags: (0x0002) ACC_PRIVATE
+
+  private java.lang.String lastError;
+    descriptor: Ljava/lang/String;
+    flags: (0x0002) ACC_PRIVATE
+
+  public local.chattranslate.LocalChatTranslate();
+    descriptor: ()V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=3, locals=1, args_size=1
+         0: aload_0
+         1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+         4: aload_0
+         5: new           #7                  // class java/util/LinkedHashSet
+         8: dup
+         9: invokespecial #9                  // Method java/util/LinkedHashSet."<init>":()V
+        12: putfield      #10                 // Field seenNames:Ljava/util/LinkedHashSet;
+        15: aload_0
+        16: ldc           #16                 // String �Ȃ�
+        18: putfield      #18                 // Field lastError:Ljava/lang/String;
+        21: return
+      LineNumberTable:
+        line 19: 0
+        line 24: 4
+        line 30: 15
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      22     0  this   Llocal/chattranslate/LocalChatTranslate;
+
+  public void onInitializeClient();
+    descriptor: ()V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=6, locals=2, args_size=1
+         0: aload_0
+         1: putstatic     #22                 // Field instance:Llocal/chattranslate/LocalChatTranslate;
+         4: invokestatic  #26                 // InterfaceMethod net/fabricmc/loader/api/FabricLoader.getInstance:()Lnet/fabricmc/loader/api/FabricLoader;
+         7: invokeinterface #32,  1           // InterfaceMethod net/fabricmc/loader/api/FabricLoader.getGameDir:()Ljava/nio/file/Path;
+        12: ldc           #36                 // String logs/localchattranslate.log
+        14: invokeinterface #38,  2           // InterfaceMethod java/nio/file/Path.resolve:(Ljava/lang/String;)Ljava/nio/file/Path;
+        19: astore_1
+        20: aload_0
+        21: new           #44                 // class local/chattranslate/TranslationClient
+        24: dup
+        25: new           #46                 // class local/chattranslate/TranslationLog
+        28: dup
+        29: aload_1
+        30: invokespecial #48                 // Method local/chattranslate/TranslationLog."<init>":(Ljava/nio/file/Path;)V
+        33: invokespecial #51                 // Method local/chattranslate/TranslationClient."<init>":(Llocal/chattranslate/TranslationLog;)V
+        36: putfield      #54                 // Field api:Llocal/chattranslate/TranslationClient;
+        39: aload_0
+        40: invokestatic  #26                 // InterfaceMethod net/fabricmc/loader/api/FabricLoader.getInstance:()Lnet/fabricmc/loader/api/FabricLoader;
+        43: invokeinterface #58,  1           // InterfaceMethod net/fabricmc/loader/api/FabricLoader.getConfigDir:()Ljava/nio/file/Path;
+        48: ldc           #61                 // String localchattranslate.json
+        50: invokeinterface #38,  2           // InterfaceMethod java/nio/file/Path.resolve:(Ljava/lang/String;)Ljava/nio/file/Path;
+        55: putfield      #63                 // Field configPath:Ljava/nio/file/Path;
+        58: aload_0
+        59: invokevirtual #67                 // Method reload:()V
+        62: aload_0
+        63: new           #70                 // class local/chattranslate/TooltipTranslations
+        66: dup
+        67: aload_0
+        68: getfield      #54                 // Field api:Llocal/chattranslate/TranslationClient;
+        71: aload_0
+        72: invokedynamic #72,  0             // InvokeDynamic #0:get:(Llocal/chattranslate/LocalChatTranslate;)Ljava/util/function/Supplier;
+        77: invokespecial #76                 // Method local/chattranslate/TooltipTranslations."<init>":(Llocal/chattranslate/TranslationClient;Ljava/util/function/Supplier;)V
+        80: putfield      #79                 // Field tooltips:Llocal/chattranslate/TooltipTranslations;
+        83: getstatic     #83                 // Field net/fabricmc/fabric/api/client/event/lifecycle/v1/ClientTickEvents.END_CLIENT_TICK:Lnet/fabricmc/fabric/api/event/Event;
+        86: aload_0
+        87: invokedynamic #89,  0             // InvokeDynamic #1:onEndTick:(Llocal/chattranslate/LocalChatTranslate;)Lnet/fabricmc/fabric/api/client/event/lifecycle/v1/ClientTickEvents$EndTick;
+        92: invokevirtual #93                 // Method net/fabricmc/fabric/api/event/Event.register:(Ljava/lang/Object;)V
+        95: getstatic     #99                 // Field net/fabricmc/fabric/api/client/networking/v1/ClientPlayConnectionEvents.JOIN:Lnet/fabricmc/fabric/api/event/Event;
+        98: aload_0
+        99: invokedynamic #104,  0            // InvokeDynamic #2:onPlayReady:(Llocal/chattranslate/LocalChatTranslate;)Lnet/fabricmc/fabric/api/client/networking/v1/ClientPlayConnectionEvents$Join;
+       104: invokevirtual #93                 // Method net/fabricmc/fabric/api/event/Event.register:(Ljava/lang/Object;)V
+       107: getstatic     #108                // Field net/fabricmc/fabric/api/client/networking/v1/ClientPlayConnectionEvents.DISCONNECT:Lnet/fabricmc/fabric/api/event/Event;
+       110: aload_0
+       111: invokedynamic #111,  0            // InvokeDynamic #3:onPlayDisconnect:(Llocal/chattranslate/LocalChatTranslate;)Lnet/fabricmc/fabric/api/client/networking/v1/ClientPlayConnectionEvents$Disconnect;
+       116: invokevirtual #93                 // Method net/fabricmc/fabric/api/event/Event.register:(Ljava/lang/Object;)V
+       119: getstatic     #115                // Field net/fabricmc/fabric/api/client/event/lifecycle/v1/ClientLifecycleEvents.CLIENT_STOPPING:Lnet/fabricmc/fabric/api/event/Event;
+       122: aload_0
+       123: invokedynamic #120,  0            // InvokeDynamic #4:onClientStopping:(Llocal/chattranslate/LocalChatTranslate;)Lnet/fabricmc/fabric/api/client/event/lifecycle/v1/ClientLifecycleEvents$ClientStopping;
+       128: invokevirtual #93                 // Method net/fabricmc/fabric/api/event/Event.register:(Ljava/lang/Object;)V
+       131: getstatic     #124                // Field net/fabricmc/fabric/api/client/command/v2/ClientCommandRegistrationCallback.EVENT:Lnet/fabricmc/fabric/api/event/Event;
+       134: aload_0
+       135: invokedynamic #129,  0            // InvokeDynamic #5:register:(Llocal/chattranslate/LocalChatTranslate;)Lnet/fabricmc/fabric/api/client/command/v2/ClientCommandRegistrationCallback;
+       140: invokevirtual #93                 // Method net/fabricmc/fabric/api/event/Event.register:(Ljava/lang/Object;)V
+       143: getstatic     #132                // Field LOG:Lorg/slf4j/Logger;
+       146: ldc           #136                // String [LCT] �������� | TranslateGemma 4B | �|��={} | Ollama={} | �|�󃍃O={}
+       148: iconst_3
+       149: anewarray     #2                  // class java/lang/Object
+       152: dup
+       153: iconst_0
+       154: aload_0
+       155: getfield      #138                // Field config:Llocal/chattranslate/ModConfig;
+       158: getfield      #142                // Field local/chattranslate/ModConfig.enabled:Z
+       161: invokestatic  #148                // Method java/lang/Boolean.valueOf:(Z)Ljava/lang/Boolean;
+       164: aastore
+       165: dup
+       166: iconst_1
+       167: aload_0
+       168: getfield      #138                // Field config:Llocal/chattranslate/ModConfig;
+       171: getfield      #154                // Field local/chattranslate/ModConfig.endpoint:Ljava/lang/String;
+       174: aastore
+       175: dup
+       176: iconst_2
+       177: aload_1
+       178: aastore
+       179: invokeinterface #157,  3          // InterfaceMethod org/slf4j/Logger.info:(Ljava/lang/String;[Ljava/lang/Object;)V
+       184: return
+      LineNumberTable:
+        line 33: 0
+        line 34: 4
+        line 35: 20
+        line 36: 39
+        line 37: 58
+        line 38: 62
+        line 39: 83
+        line 41: 95
+        line 42: 107
+        line 46: 119
+        line 50: 131
+        line 64: 143
+        line 65: 184
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0     185     0  this   Llocal/chattranslate/LocalChatTranslate;
+           20     165     1 logPath   Ljava/nio/file/Path;
+
+  private void reload();
+    descriptor: ()V
+    flags: (0x0002) ACC_PRIVATE
+    Code:
+      stack=3, locals=2, args_size=1
+         0: aload_0
+         1: aload_0
+         2: getfield      #63                 // Field configPath:Ljava/nio/file/Path;
+         5: invokestatic  #163                // Method local/chattranslate/ModConfig.load:(Ljava/nio/file/Path;)Llocal/chattranslate/ModConfig;
+         8: putfield      #138                // Field config:Llocal/chattranslate/ModConfig;
+        11: goto          45
+        14: astore_1
+        15: aload_0
+        16: new           #143                // class local/chattranslate/ModConfig
+        19: dup
+        20: invokespecial #169                // Method local/chattranslate/ModConfig."<init>":()V
+        23: putfield      #138                // Field config:Llocal/chattranslate/ModConfig;
+        26: aload_0
+        27: getfield      #138                // Field config:Llocal/chattranslate/ModConfig;
+        30: iconst_0
+        31: putfield      #142                // Field local/chattranslate/ModConfig.enabled:Z
+        34: getstatic     #132                // Field LOG:Lorg/slf4j/Logger;
+        37: ldc           #170                // String Cannot read localchattranslate.json; translation disabled
+        39: aload_1
+        40: invokeinterface #172,  3          // InterfaceMethod org/slf4j/Logger.error:(Ljava/lang/String;Ljava/lang/Throwable;)V
+        45: return
+      Exception table:
+         from    to  target type
+             0    11    14   Class java/lang/Exception
+      LineNumberTable:
+        line 68: 0
+        line 73: 11
+        line 69: 14
+        line 70: 15
+        line 71: 26
+        line 72: 34
+        line 74: 45
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+           15      30     1     e   Ljava/lang/Exception;
+            0      46     0  this   Llocal/chattranslate/LocalChatTranslate;
+      StackMapTable: number_of_entries = 2
+        frame_type = 78 /* same_locals_1_stack_item */
+          stack = [ class java/lang/Exception ]
+        frame_type = 30 /* same */
+
+  private void reset();
+    descriptor: ()V
+    flags: (0x0002) ACC_PRIVATE
+    Code:
+      stack=5, locals=1, args_size=1
+         0: aload_0
+         1: dup
+         2: getfield      #176                // Field generation:J
+         5: lconst_1
+         6: ladd
+         7: putfield      #176                // Field generation:J
+        10: aload_0
+        11: getfield      #10                 // Field seenNames:Ljava/util/LinkedHashSet;
+        14: invokevirtual #180                // Method java/util/LinkedHashSet.clear:()V
+        17: aload_0
+        18: getfield      #54                 // Field api:Llocal/chattranslate/TranslationClient;
+        21: invokevirtual #183                // Method local/chattranslate/TranslationClient.clearQueued:()V
+        24: aload_0
+        25: getfield      #79                 // Field tooltips:Llocal/chattranslate/TooltipTranslations;
+        28: invokevirtual #186                // Method local/chattranslate/TooltipTranslations.reset:()V
+        31: return
+      LineNumberTable:
+        line 77: 0
+        line 78: 10
+        line 79: 17
+        line 80: 24
+        line 81: 31
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      32     0  this   Llocal/chattranslate/LocalChatTranslate;
+
+  public static void tooltipHover(net.minecraft.client.gui.screens.Screen, net.minecraft.world.inventory.Slot);
+    descriptor: (Lnet/minecraft/client/gui/screens/Screen;Lnet/minecraft/world/inventory/Slot;)V
+    flags: (0x0009) ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=3, locals=2, args_size=2
+         0: getstatic     #22                 // Field instance:Llocal/chattranslate/LocalChatTranslate;
+         3: ifnull        17
+         6: getstatic     #22                 // Field instance:Llocal/chattranslate/LocalChatTranslate;
+         9: getfield      #79                 // Field tooltips:Llocal/chattranslate/TooltipTranslations;
+        12: aload_0
+        13: aload_1
+        14: invokevirtual #189                // Method local/chattranslate/TooltipTranslations.hover:(Lnet/minecraft/client/gui/screens/Screen;Lnet/minecraft/world/inventory/Slot;)V
+        17: return
+      LineNumberTable:
+        line 84: 0
+        line 85: 17
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      18     0 screen   Lnet/minecraft/client/gui/screens/Screen;
+            0      18     1  slot   Lnet/minecraft/world/inventory/Slot;
+      StackMapTable: number_of_entries = 1
+        frame_type = 17 /* same */
+
+  public static java.util.List<net.minecraft.network.chat.Component> tooltipLines(java.util.List<net.minecraft.network.chat.Component>);
+    descriptor: (Ljava/util/List;)Ljava/util/List;
+    flags: (0x0009) ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=2, locals=1, args_size=1
+         0: getstatic     #22                 // Field instance:Llocal/chattranslate/LocalChatTranslate;
+         3: ifnonnull     10
+         6: aload_0
+         7: goto          20
+        10: getstatic     #22                 // Field instance:Llocal/chattranslate/LocalChatTranslate;
+        13: getfield      #79                 // Field tooltips:Llocal/chattranslate/TooltipTranslations;
+        16: aload_0
+        17: invokevirtual #193                // Method local/chattranslate/TooltipTranslations.render:(Ljava/util/List;)Ljava/util/List;
+        20: areturn
+      LineNumberTable:
+        line 88: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      21     0 original   Ljava/util/List;
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0      21     0 original   Ljava/util/List<Lnet/minecraft/network/chat/Component;>;
+      StackMapTable: number_of_entries = 2
+        frame_type = 10 /* same */
+        frame_type = 73 /* same_locals_1_stack_item */
+          stack = [ class java/util/List ]
+    Signature: #622                         // (Ljava/util/List<Lnet/minecraft/network/chat/Component;>;)Ljava/util/List<Lnet/minecraft/network/chat/Component;>;
+
+  public static boolean tooltipKey(net.minecraft.client.gui.screens.Screen, net.minecraft.world.inventory.Slot, net.minecraft.client.input.KeyEvent);
+    descriptor: (Lnet/minecraft/client/gui/screens/Screen;Lnet/minecraft/world/inventory/Slot;Lnet/minecraft/client/input/KeyEvent;)Z
+    flags: (0x0009) ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=4, locals=3, args_size=3
+         0: getstatic     #22                 // Field instance:Llocal/chattranslate/LocalChatTranslate;
+         3: ifnull        25
+         6: getstatic     #22                 // Field instance:Llocal/chattranslate/LocalChatTranslate;
+         9: getfield      #79                 // Field tooltips:Llocal/chattranslate/TooltipTranslations;
+        12: aload_0
+        13: aload_1
+        14: aload_2
+        15: invokevirtual #197                // Method local/chattranslate/TooltipTranslations.keyPressed:(Lnet/minecraft/client/gui/screens/Screen;Lnet/minecraft/world/inventory/Slot;Lnet/minecraft/client/input/KeyEvent;)Z
+        18: ifeq          25
+        21: iconst_1
+        22: goto          26
+        25: iconst_0
+        26: ireturn
+      LineNumberTable:
+        line 93: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      27     0 screen   Lnet/minecraft/client/gui/screens/Screen;
+            0      27     1  slot   Lnet/minecraft/world/inventory/Slot;
+            0      27     2   key   Lnet/minecraft/client/input/KeyEvent;
+      StackMapTable: number_of_entries = 2
+        frame_type = 25 /* same */
+        frame_type = 64 /* same_locals_1_stack_item */
+          stack = [ int ]
+
+  public static local.chattranslate.ModConfig settings();
+    descriptor: ()Llocal/chattranslate/ModConfig;
+    flags: (0x0009) ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=1, locals=0, args_size=0
+         0: getstatic     #22                 // Field instance:Llocal/chattranslate/LocalChatTranslate;
+         3: getfield      #138                // Field config:Llocal/chattranslate/ModConfig;
+         6: invokevirtual #201                // Method local/chattranslate/ModConfig.copy:()Llocal/chattranslate/ModConfig;
+         9: areturn
+      LineNumberTable:
+        line 97: 0
+
+  public static void saveSettings(local.chattranslate.ModConfig) throws java.io.IOException;
+    descriptor: (Llocal/chattranslate/ModConfig;)V
+    flags: (0x0009) ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=6, locals=1, args_size=1
+         0: aload_0
+         1: aload_0
+         2: getfield      #154                // Field local/chattranslate/ModConfig.endpoint:Ljava/lang/String;
+         5: invokestatic  #205                // Method local/chattranslate/TranslationClient.validateEndpoint:(Ljava/lang/String;)Ljava/net/URI;
+         8: invokevirtual #209                // Method java/net/URI.toString:()Ljava/lang/String;
+        11: putfield      #154                // Field local/chattranslate/ModConfig.endpoint:Ljava/lang/String;
+        14: aload_0
+        15: getstatic     #22                 // Field instance:Llocal/chattranslate/LocalChatTranslate;
+        18: getfield      #63                 // Field configPath:Ljava/nio/file/Path;
+        21: invokevirtual #215                // Method local/chattranslate/ModConfig.save:(Ljava/nio/file/Path;)V
+        24: aload_0
+        25: getfield      #142                // Field local/chattranslate/ModConfig.enabled:Z
+        28: ifeq          50
+        31: aload_0
+        32: getfield      #154                // Field local/chattranslate/ModConfig.endpoint:Ljava/lang/String;
+        35: getstatic     #22                 // Field instance:Llocal/chattranslate/LocalChatTranslate;
+        38: getfield      #138                // Field config:Llocal/chattranslate/ModConfig;
+        41: getfield      #154                // Field local/chattranslate/ModConfig.endpoint:Ljava/lang/String;
+        44: invokevirtual #218                // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+        47: ifne          56
+        50: getstatic     #22                 // Field instance:Llocal/chattranslate/LocalChatTranslate;
+        53: invokevirtual #224                // Method releaseGpu:()V
+        56: getstatic     #22                 // Field instance:Llocal/chattranslate/LocalChatTranslate;
+        59: aload_0
+        60: invokevirtual #201                // Method local/chattranslate/ModConfig.copy:()Llocal/chattranslate/ModConfig;
+        63: putfield      #138                // Field config:Llocal/chattranslate/ModConfig;
+        66: getstatic     #22                 // Field instance:Llocal/chattranslate/LocalChatTranslate;
+        69: invokevirtual #227                // Method reset:()V
+        72: getstatic     #132                // Field LOG:Lorg/slf4j/Logger;
+        75: ldc           #228                // String [LCT] �ݒ�ύX | TranslateGemma 4B | �|��={} | NPC={} | �A�C�e������={}
+        77: iconst_3
+        78: anewarray     #2                  // class java/lang/Object
+        81: dup
+        82: iconst_0
+        83: aload_0
+        84: getfield      #142                // Field local/chattranslate/ModConfig.enabled:Z
+        87: invokestatic  #148                // Method java/lang/Boolean.valueOf:(Z)Ljava/lang/Boolean;
+        90: aastore
+        91: dup
+        92: iconst_1
+        93: aload_0
+        94: getfield      #230                // Field local/chattranslate/ModConfig.translateNpc:Z
+        97: invokestatic  #148                // Method java/lang/Boolean.valueOf:(Z)Ljava/lang/Boolean;
+       100: aastore
+       101: dup
+       102: iconst_2
+       103: aload_0
+       104: getfield      #233                // Field local/chattranslate/ModConfig.translateTooltips:Z
+       107: invokestatic  #148                // Method java/lang/Boolean.valueOf:(Z)Ljava/lang/Boolean;
+       110: aastore
+       111: invokeinterface #157,  3          // InterfaceMethod org/slf4j/Logger.info:(Ljava/lang/String;[Ljava/lang/Object;)V
+       116: return
+      LineNumberTable:
+        line 101: 0
+        line 102: 14
+        line 103: 24
+        line 104: 50
+        line 106: 56
+        line 107: 66
+        line 108: 72
+        line 109: 87
+        line 108: 111
+        line 110: 116
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0     117     0 config   Llocal/chattranslate/ModConfig;
+      StackMapTable: number_of_entries = 2
+        frame_type = 50 /* same */
+        frame_type = 5 /* same */
+    Exceptions:
+      throws java.io.IOException
+
+  private void releaseGpu();
+    descriptor: ()V
+    flags: (0x0002) ACC_PRIVATE
+    Code:
+      stack=2, locals=1, args_size=1
+         0: aload_0
+         1: getfield      #54                 // Field api:Llocal/chattranslate/TranslationClient;
+         4: aload_0
+         5: getfield      #138                // Field config:Llocal/chattranslate/ModConfig;
+         8: getfield      #154                // Field local/chattranslate/ModConfig.endpoint:Ljava/lang/String;
+        11: invokestatic  #205                // Method local/chattranslate/TranslationClient.validateEndpoint:(Ljava/lang/String;)Ljava/net/URI;
+        14: invokevirtual #236                // Method local/chattranslate/TranslationClient.releaseGpu:(Ljava/net/URI;)Ljava/util/concurrent/CompletableFuture;
+        17: pop
+        18: return
+      LineNumberTable:
+        line 113: 0
+        line 114: 18
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      19     0  this   Llocal/chattranslate/LocalChatTranslate;
+
+  public static java.util.concurrent.CompletableFuture<java.util.Optional<java.lang.String>> testConnection(local.chattranslate.ModConfig);
+    descriptor: (Llocal/chattranslate/ModConfig;)Ljava/util/concurrent/CompletableFuture;
+    flags: (0x0009) ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=2, locals=1, args_size=1
+         0: getstatic     #22                 // Field instance:Llocal/chattranslate/LocalChatTranslate;
+         3: getfield      #54                 // Field api:Llocal/chattranslate/TranslationClient;
+         6: aload_0
+         7: getfield      #154                // Field local/chattranslate/ModConfig.endpoint:Ljava/lang/String;
+        10: invokestatic  #205                // Method local/chattranslate/TranslationClient.validateEndpoint:(Ljava/lang/String;)Ljava/net/URI;
+        13: invokevirtual #239                // Method local/chattranslate/TranslationClient.testConnection:(Ljava/net/URI;)Ljava/util/concurrent/CompletableFuture;
+        16: areturn
+      LineNumberTable:
+        line 117: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      17     0 config   Llocal/chattranslate/ModConfig;
+    Signature: #632                         // (Llocal/chattranslate/ModConfig;)Ljava/util/concurrent/CompletableFuture<Ljava/util/Optional<Ljava/lang/String;>;>;
+
+  public static java.lang.String errorMessage(java.lang.Throwable);
+    descriptor: (Ljava/lang/Throwable;)Ljava/lang/String;
+    flags: (0x0009) ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=4, locals=2, args_size=1
+         0: aload_0
+         1: invokevirtual #242                // Method java/lang/Throwable.getCause:()Ljava/lang/Throwable;
+         4: ifnull        15
+         7: aload_0
+         8: invokevirtual #242                // Method java/lang/Throwable.getCause:()Ljava/lang/Throwable;
+        11: astore_0
+        12: goto          0
+        15: aload_0
+        16: instanceof    #248                // class java/net/ConnectException
+        19: ifne          29
+        22: aload_0
+        23: instanceof    #250                // class java/nio/channels/ClosedChannelException
+        26: ifeq          32
+        29: ldc           #252                // String Ollama�ɐڑ��ł��܂���BOllama���N��bat�����s���Ă��������B
+        31: areturn
+        32: aload_0
+        33: instanceof    #254                // class java/util/concurrent/TimeoutException
+        36: ifne          46
+        39: aload_0
+        40: instanceof    #256                // class java/net/http/HttpTimeoutException
+        43: ifeq          50
+        46: ldc_w         #258                // String �|�󂪃^�C���A�E�g���܂����B����̃��f���ǂݍ��ݒ��̏ꍇ������܂��B
+        49: areturn
+        50: aload_0
+        51: invokevirtual #260                // Method java/lang/Throwable.getMessage:()Ljava/lang/String;
+        54: astore_1
+        55: aload_1
+        56: ifnonnull     67
+        59: aload_0
+        60: invokevirtual #263                // Method java/lang/Object.getClass:()Ljava/lang/Class;
+        63: invokevirtual #267                // Method java/lang/Class.getSimpleName:()Ljava/lang/String;
+        66: astore_1
+        67: aload_1
+        68: ldc_w         #272                // String [\\r\\n]+
+        71: ldc_w         #274                // String
+        74: invokevirtual #276                // Method java/lang/String.replaceAll:(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+        77: astore_1
+        78: aload_1
+        79: iconst_0
+        80: aload_1
+        81: invokevirtual #280                // Method java/lang/String.length:()I
+        84: sipush        180
+        87: invokestatic  #284                // Method java/lang/Math.min:(II)I
+        90: invokevirtual #290                // Method java/lang/String.substring:(II)Ljava/lang/String;
+        93: areturn
+      LineNumberTable:
+        line 121: 0
+        line 122: 15
+        line 123: 32
+        line 124: 50
+        line 125: 55
+        line 126: 67
+        line 127: 78
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      94     0 error   Ljava/lang/Throwable;
+           55      39     1 message   Ljava/lang/String;
+      StackMapTable: number_of_entries = 7
+        frame_type = 0 /* same */
+        frame_type = 14 /* same */
+        frame_type = 13 /* same */
+        frame_type = 2 /* same */
+        frame_type = 13 /* same */
+        frame_type = 3 /* same */
+        frame_type = 252 /* append */
+          offset_delta = 16
+          locals = [ class java/lang/String ]
+
+  public static void received(local.chattranslate.ChatBridge, net.minecraft.client.multiplayer.chat.GuiMessage);
+    descriptor: (Llocal/chattranslate/ChatBridge;Lnet/minecraft/client/multiplayer/chat/GuiMessage;)V
+    flags: (0x0009) ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=3, locals=2, args_size=2
+         0: getstatic     #22                 // Field instance:Llocal/chattranslate/LocalChatTranslate;
+         3: ifnull        14
+         6: getstatic     #22                 // Field instance:Llocal/chattranslate/LocalChatTranslate;
+         9: aload_0
+        10: aload_1
+        11: invokevirtual #294                // Method onReceived:(Llocal/chattranslate/ChatBridge;Lnet/minecraft/client/multiplayer/chat/GuiMessage;)V
+        14: return
+      LineNumberTable:
+        line 131: 0
+        line 132: 14
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      15     0  chat   Llocal/chattranslate/ChatBridge;
+            0      15     1 message   Lnet/minecraft/client/multiplayer/chat/GuiMessage;
+      StackMapTable: number_of_entries = 1
+        frame_type = 14 /* same */
+
+  private void onReceived(local.chattranslate.ChatBridge, net.minecraft.client.multiplayer.chat.GuiMessage);
+    descriptor: (Llocal/chattranslate/ChatBridge;Lnet/minecraft/client/multiplayer/chat/GuiMessage;)V
+    flags: (0x0002) ACC_PRIVATE
+    Code:
+      stack=7, locals=11, args_size=3
+         0: aload_0
+         1: getfield      #138                // Field config:Llocal/chattranslate/ModConfig;
+         4: getfield      #142                // Field local/chattranslate/ModConfig.enabled:Z
+         7: ifeq          20
+        10: aload_2
+        11: invokevirtual #298                // Method net/minecraft/client/multiplayer/chat/GuiMessage.source:()Lnet/minecraft/client/multiplayer/chat/GuiMessageSource;
+        14: getstatic     #304                // Field net/minecraft/client/multiplayer/chat/GuiMessageSource.SYSTEM_CLIENT:Lnet/minecraft/client/multiplayer/chat/GuiMessageSource;
+        17: if_acmpne     21
+        20: return
+        21: aload_2
+        22: invokevirtual #310                // Method net/minecraft/client/multiplayer/chat/GuiMessage.content:()Lnet/minecraft/network/chat/Component;
+        25: invokeinterface #314,  1          // InterfaceMethod net/minecraft/network/chat/Component.getString:()Ljava/lang/String;
+        30: invokestatic  #319                // Method local/chattranslate/IncomingChat.parse:(Ljava/lang/String;)Ljava/util/Optional;
+        33: astore_3
+        34: aload_3
+        35: invokevirtual #325                // Method java/util/Optional.isEmpty:()Z
+        38: ifeq          42
+        41: return
+        42: aload_3
+        43: invokevirtual #331                // Method java/util/Optional.get:()Ljava/lang/Object;
+        46: checkcast     #320                // class local/chattranslate/IncomingChat
+        49: astore        4
+        51: aload         4
+        53: invokevirtual #334                // Method local/chattranslate/IncomingChat.npc:()Z
+        56: ifeq          70
+        59: aload_0
+        60: getfield      #138                // Field config:Llocal/chattranslate/ModConfig;
+        63: getfield      #230                // Field local/chattranslate/ModConfig.translateNpc:Z
+        66: ifne          70
+        69: return
+        70: aload_0
+        71: dup
+        72: getfield      #337                // Field candidates:J
+        75: lconst_1
+        76: ladd
+        77: putfield      #337                // Field candidates:J
+        80: aload         4
+        82: invokevirtual #334                // Method local/chattranslate/IncomingChat.npc:()Z
+        85: ifne          101
+        88: aload_0
+        89: getfield      #10                 // Field seenNames:Ljava/util/LinkedHashSet;
+        92: aload         4
+        94: invokevirtual #340                // Method local/chattranslate/IncomingChat.sender:()Ljava/lang/String;
+        97: invokevirtual #343                // Method java/util/LinkedHashSet.add:(Ljava/lang/Object;)Z
+       100: pop
+       101: aload_0
+       102: getfield      #10                 // Field seenNames:Ljava/util/LinkedHashSet;
+       105: invokevirtual #346                // Method java/util/LinkedHashSet.size:()I
+       108: sipush        2048
+       111: if_icmple     125
+       114: aload_0
+       115: getfield      #10                 // Field seenNames:Ljava/util/LinkedHashSet;
+       118: invokevirtual #349                // Method java/util/LinkedHashSet.removeFirst:()Ljava/lang/Object;
+       121: pop
+       122: goto          101
+       125: new           #7                  // class java/util/LinkedHashSet
+       128: dup
+       129: aload_0
+       130: getfield      #10                 // Field seenNames:Ljava/util/LinkedHashSet;
+       133: invokespecial #352                // Method java/util/LinkedHashSet."<init>":(Ljava/util/Collection;)V
+       136: astore        5
+       138: invokestatic  #355                // Method net/minecraft/client/Minecraft.getInstance:()Lnet/minecraft/client/Minecraft;
+       141: astore        6
+       143: aload         6
+       145: invokevirtual #360                // Method net/minecraft/client/Minecraft.getConnection:()Lnet/minecraft/client/multiplayer/ClientPacketListener;
+       148: ifnull        205
+       151: aload         6
+       153: invokevirtual #360                // Method net/minecraft/client/Minecraft.getConnection:()Lnet/minecraft/client/multiplayer/ClientPacketListener;
+       156: invokevirtual #364                // Method net/minecraft/client/multiplayer/ClientPacketListener.getOnlinePlayers:()Ljava/util/Collection;
+       159: invokeinterface #370,  1          // InterfaceMethod java/util/Collection.iterator:()Ljava/util/Iterator;
+       164: astore        7
+       166: aload         7
+       168: invokeinterface #376,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+       173: ifeq          205
+       176: aload         7
+       178: invokeinterface #381,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+       183: checkcast     #384                // class net/minecraft/client/multiplayer/PlayerInfo
+       186: astore        8
+       188: aload         5
+       190: aload         8
+       192: invokevirtual #386                // Method net/minecraft/client/multiplayer/PlayerInfo.getProfile:()Lcom/mojang/authlib/GameProfile;
+       195: invokevirtual #390                // Method com/mojang/authlib/GameProfile.name:()Ljava/lang/String;
+       198: invokevirtual #343                // Method java/util/LinkedHashSet.add:(Ljava/lang/Object;)Z
+       201: pop
+       202: goto          166
+       205: aload         6
+       207: invokevirtual #395                // Method net/minecraft/client/Minecraft.getGameProfile:()Lcom/mojang/authlib/GameProfile;
+       210: ifnull        227
+       213: aload         5
+       215: aload         6
+       217: invokevirtual #395                // Method net/minecraft/client/Minecraft.getGameProfile:()Lcom/mojang/authlib/GameProfile;
+       220: invokevirtual #390                // Method com/mojang/authlib/GameProfile.name:()Ljava/lang/String;
+       223: invokevirtual #343                // Method java/util/LinkedHashSet.add:(Ljava/lang/Object;)Z
+       226: pop
+       227: aload         4
+       229: invokevirtual #398                // Method local/chattranslate/IncomingChat.body:()Ljava/lang/String;
+       232: aload         5
+       234: invokestatic  #401                // Method local/chattranslate/ProtectedBody.prepare:(Ljava/lang/String;Ljava/util/Collection;)Llocal/chattranslate/ProtectedBody;
+       237: astore        7
+       239: aload         7
+       241: invokevirtual #407                // Method local/chattranslate/ProtectedBody.hasEnglishCandidate:()Z
+       244: ifne          258
+       247: aload_0
+       248: dup
+       249: getfield      #410                // Field skipped:J
+       252: lconst_1
+       253: ladd
+       254: putfield      #410                // Field skipped:J
+       257: return
+       258: aload_0
+       259: getfield      #176                // Field generation:J
+       262: lstore        8
+       264: aload_0
+       265: getfield      #54                 // Field api:Llocal/chattranslate/TranslationClient;
+       268: aload_0
+       269: getfield      #138                // Field config:Llocal/chattranslate/ModConfig;
+       272: getfield      #154                // Field local/chattranslate/ModConfig.endpoint:Ljava/lang/String;
+       275: invokestatic  #205                // Method local/chattranslate/TranslationClient.validateEndpoint:(Ljava/lang/String;)Ljava/net/URI;
+       278: aload         7
+       280: invokevirtual #413                // Method local/chattranslate/TranslationClient.translate:(Ljava/net/URI;Llocal/chattranslate/ProtectedBody;)Ljava/util/concurrent/CompletableFuture;
+       283: aload_0
+       284: aload         6
+       286: lload         8
+       288: aload_1
+       289: aload_2
+       290: invokedynamic #417,  0            // InvokeDynamic #6:accept:(Llocal/chattranslate/LocalChatTranslate;Lnet/minecraft/client/Minecraft;JLlocal/chattranslate/ChatBridge;Lnet/minecraft/client/multiplayer/chat/GuiMessage;)Ljava/util/function/BiConsumer;
+       295: invokevirtual #421                // Method java/util/concurrent/CompletableFuture.whenComplete:(Ljava/util/function/BiConsumer;)Ljava/util/concurrent/CompletableFuture;
+       298: pop
+       299: goto          314
+       302: astore        10
+       304: aload_0
+       305: dup
+       306: getfield      #410                // Field skipped:J
+       309: lconst_1
+       310: ladd
+       311: putfield      #410                // Field skipped:J
+       314: return
+      Exception table:
+         from    to  target type
+           264   299   302   Class java/util/concurrent/RejectedExecutionException
+      LineNumberTable:
+        line 135: 0
+        line 136: 21
+        line 137: 34
+        line 138: 42
+        line 139: 51
+        line 140: 70
+        line 141: 80
+        line 142: 101
+        line 143: 125
+        line 144: 138
+        line 145: 143
+        line 146: 151
+        line 148: 205
+        line 149: 227
+        line 150: 239
+        line 151: 247
+        line 152: 257
+        line 154: 258
+        line 156: 264
+        line 157: 295
+        line 173: 299
+        line 174: 314
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+          188      14     8  info   Lnet/minecraft/client/multiplayer/PlayerInfo;
+          304      10    10     e   Ljava/util/concurrent/RejectedExecutionException;
+            0     315     0  this   Llocal/chattranslate/LocalChatTranslate;
+            0     315     1  chat   Llocal/chattranslate/ChatBridge;
+            0     315     2 message   Lnet/minecraft/client/multiplayer/chat/GuiMessage;
+           34     281     3 parsed   Ljava/util/Optional;
+           51     264     4 publicChat   Llocal/chattranslate/IncomingChat;
+          138     177     5 names   Ljava/util/LinkedHashSet;
+          143     172     6 client   Lnet/minecraft/client/Minecraft;
+          239      76     7  body   Llocal/chattranslate/ProtectedBody;
+          264      51     8 requestGeneration   J
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+           34     281     3 parsed   Ljava/util/Optional<Llocal/chattranslate/IncomingChat;>;
+          138     177     5 names   Ljava/util/LinkedHashSet<Ljava/lang/String;>;
+      StackMapTable: number_of_entries = 12
+        frame_type = 20 /* same */
+        frame_type = 0 /* same */
+        frame_type = 252 /* append */
+          offset_delta = 20
+          locals = [ class java/util/Optional ]
+        frame_type = 252 /* append */
+          offset_delta = 27
+          locals = [ class local/chattranslate/IncomingChat ]
+        frame_type = 30 /* same */
+        frame_type = 23 /* same */
+        frame_type = 254 /* append */
+          offset_delta = 40
+          locals = [ class java/util/LinkedHashSet, class net/minecraft/client/Minecraft, class java/util/Iterator ]
+        frame_type = 250 /* chop */
+          offset_delta = 38
+        frame_type = 21 /* same */
+        frame_type = 252 /* append */
+          offset_delta = 30
+          locals = [ class local/chattranslate/ProtectedBody ]
+        frame_type = 255 /* full_frame */
+          offset_delta = 43
+          locals = [ class local/chattranslate/LocalChatTranslate, class local/chattranslate/ChatBridge, class net/minecraft/client/multiplayer/chat/GuiMessage, class java/util/Optional, class local/chattranslate/IncomingChat, class java/util/LinkedHashSet, class net/minecraft/client/Minecraft, class local/chattranslate/ProtectedBody, long ]
+          stack = [ class java/util/concurrent/RejectedExecutionException ]
+        frame_type = 11 /* same */
+
+  private int toggle(boolean, java.util.function.Consumer<net.minecraft.network.chat.Component>);
+    descriptor: (ZLjava/util/function/Consumer;)I
+    flags: (0x0002) ACC_PRIVATE
+    Code:
+      stack=3, locals=4, args_size=3
+         0: aload_0
+         1: getfield      #138                // Field config:Llocal/chattranslate/ModConfig;
+         4: iload_1
+         5: putfield      #142                // Field local/chattranslate/ModConfig.enabled:Z
+         8: aload_0
+         9: invokevirtual #227                // Method reset:()V
+        12: iload_1
+        13: ifne          20
+        16: aload_0
+        17: invokevirtual #224                // Method releaseGpu:()V
+        20: aload_0
+        21: getfield      #138                // Field config:Llocal/chattranslate/ModConfig;
+        24: aload_0
+        25: getfield      #63                 // Field configPath:Ljava/nio/file/Path;
+        28: invokevirtual #215                // Method local/chattranslate/ModConfig.save:(Ljava/nio/file/Path;)V
+        31: goto          47
+        34: astore_3
+        35: getstatic     #132                // Field LOG:Lorg/slf4j/Logger;
+        38: ldc_w         #429                // String Could not save translation setting
+        41: aload_3
+        42: invokeinterface #431,  3          // InterfaceMethod org/slf4j/Logger.warn:(Ljava/lang/String;Ljava/lang/Throwable;)V
+        47: aload_0
+        48: aload_2
+        49: invokevirtual #434                // Method status:(Ljava/util/function/Consumer;)I
+        52: ireturn
+      Exception table:
+         from    to  target type
+            20    31    34   Class java/lang/Exception
+      LineNumberTable:
+        line 177: 0
+        line 178: 8
+        line 179: 12
+        line 180: 20
+        line 181: 31
+        line 182: 47
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+           35      12     3     e   Ljava/lang/Exception;
+            0      53     0  this   Llocal/chattranslate/LocalChatTranslate;
+            0      53     1 enabled   Z
+            0      53     2 feedback   Ljava/util/function/Consumer;
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0      53     2 feedback   Ljava/util/function/Consumer<Lnet/minecraft/network/chat/Component;>;
+      StackMapTable: number_of_entries = 3
+        frame_type = 20 /* same */
+        frame_type = 77 /* same_locals_1_stack_item */
+          stack = [ class java/lang/Exception ]
+        frame_type = 12 /* same */
+    Signature: #654                         // (ZLjava/util/function/Consumer<Lnet/minecraft/network/chat/Component;>;)I
+
+  private int status(java.util.function.Consumer<net.minecraft.network.chat.Component>);
+    descriptor: (Ljava/util/function/Consumer;)I
+    flags: (0x0002) ACC_PRIVATE
+    Code:
+      stack=10, locals=2, args_size=2
+         0: aload_1
+         1: aload_0
+         2: getfield      #138                // Field config:Llocal/chattranslate/ModConfig;
+         5: getfield      #142                // Field local/chattranslate/ModConfig.enabled:Z
+         8: ifeq          17
+        11: ldc_w         #438                // String ON
+        14: goto          20
+        17: ldc_w         #440                // String OFF
+        20: aload_0
+        21: getfield      #138                // Field config:Llocal/chattranslate/ModConfig;
+        24: getfield      #230                // Field local/chattranslate/ModConfig.translateNpc:Z
+        27: ifeq          36
+        30: ldc_w         #438                // String ON
+        33: goto          39
+        36: ldc_w         #440                // String OFF
+        39: aload_0
+        40: getfield      #138                // Field config:Llocal/chattranslate/ModConfig;
+        43: getfield      #233                // Field local/chattranslate/ModConfig.translateTooltips:Z
+        46: ifeq          55
+        49: ldc_w         #438                // String ON
+        52: goto          58
+        55: ldc_w         #440                // String OFF
+        58: invokedynamic #442,  0            // InvokeDynamic #7:makeConcatWithConstants:(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+        63: invokestatic  #446                // InterfaceMethod net/minecraft/network/chat/Component.literal:(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;
+        66: invokeinterface #450,  2          // InterfaceMethod java/util/function/Consumer.accept:(Ljava/lang/Object;)V
+        71: aload_1
+        72: aload_0
+        73: getfield      #454                // Field translated:J
+        76: aload_0
+        77: getfield      #54                 // Field api:Llocal/chattranslate/TranslationClient;
+        80: invokevirtual #457                // Method local/chattranslate/TranslationClient.pending:()I
+        83: aload_0
+        84: getfield      #460                // Field failures:J
+        87: aload_0
+        88: getfield      #337                // Field candidates:J
+        91: aload_0
+        92: getfield      #410                // Field skipped:J
+        95: invokedynamic #463,  0            // InvokeDynamic #8:makeConcatWithConstants:(JIJJJ)Ljava/lang/String;
+       100: invokestatic  #446                // InterfaceMethod net/minecraft/network/chat/Component.literal:(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;
+       103: invokeinterface #450,  2          // InterfaceMethod java/util/function/Consumer.accept:(Ljava/lang/Object;)V
+       108: aload_0
+       109: getfield      #18                 // Field lastError:Ljava/lang/String;
+       112: ldc           #16                 // String �Ȃ�
+       114: invokevirtual #218                // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+       117: ifne          138
+       120: aload_1
+       121: aload_0
+       122: getfield      #18                 // Field lastError:Ljava/lang/String;
+       125: invokedynamic #466,  0            // InvokeDynamic #9:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+       130: invokestatic  #446                // InterfaceMethod net/minecraft/network/chat/Component.literal:(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;
+       133: invokeinterface #450,  2          // InterfaceMethod java/util/function/Consumer.accept:(Ljava/lang/Object;)V
+       138: iconst_1
+       139: ireturn
+      LineNumberTable:
+        line 186: 0
+        line 187: 20
+        line 188: 39
+        line 186: 63
+        line 189: 71
+        line 190: 108
+        line 191: 138
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0     140     0  this   Llocal/chattranslate/LocalChatTranslate;
+            0     140     1 feedback   Ljava/util/function/Consumer;
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0     140     1 feedback   Ljava/util/function/Consumer<Lnet/minecraft/network/chat/Component;>;
+      StackMapTable: number_of_entries = 7
+        frame_type = 81 /* same_locals_1_stack_item */
+          stack = [ class java/util/function/Consumer ]
+        frame_type = 255 /* full_frame */
+          offset_delta = 2
+          locals = [ class local/chattranslate/LocalChatTranslate, class java/util/function/Consumer ]
+          stack = [ class java/util/function/Consumer, class java/lang/String ]
+        frame_type = 255 /* full_frame */
+          offset_delta = 15
+          locals = [ class local/chattranslate/LocalChatTranslate, class java/util/function/Consumer ]
+          stack = [ class java/util/function/Consumer, class java/lang/String ]
+        frame_type = 255 /* full_frame */
+          offset_delta = 2
+          locals = [ class local/chattranslate/LocalChatTranslate, class java/util/function/Consumer ]
+          stack = [ class java/util/function/Consumer, class java/lang/String, class java/lang/String ]
+        frame_type = 255 /* full_frame */
+          offset_delta = 15
+          locals = [ class local/chattranslate/LocalChatTranslate, class java/util/function/Consumer ]
+          stack = [ class java/util/function/Consumer, class java/lang/String, class java/lang/String ]
+        frame_type = 255 /* full_frame */
+          offset_delta = 2
+          locals = [ class local/chattranslate/LocalChatTranslate, class java/util/function/Consumer ]
+          stack = [ class java/util/function/Consumer, class java/lang/String, class java/lang/String, class java/lang/String ]
+        frame_type = 251 /* same_frame_extended */
+          offset_delta = 79
+    Signature: #655                         // (Ljava/util/function/Consumer<Lnet/minecraft/network/chat/Component;>;)I
+
+  private void lambda$onReceived$0(net.minecraft.client.Minecraft, long, local.chattranslate.ChatBridge, net.minecraft.client.multiplayer.chat.GuiMessage, java.util.Optional, java.lang.Throwable);
+    descriptor: (Lnet/minecraft/client/Minecraft;JLlocal/chattranslate/ChatBridge;Lnet/minecraft/client/multiplayer/chat/GuiMessage;Ljava/util/Optional;Ljava/lang/Throwable;)V
+    flags: (0x1002) ACC_PRIVATE, ACC_SYNTHETIC
+    Code:
+      stack=8, locals=8, args_size=7
+         0: aload_1
+         1: aload_0
+         2: lload_2
+         3: aload         7
+         5: aload         6
+         7: aload         4
+         9: aload         5
+        11: invokedynamic #469,  0            // InvokeDynamic #10:run:(Llocal/chattranslate/LocalChatTranslate;JLjava/lang/Throwable;Ljava/util/Optional;Llocal/chattranslate/ChatBridge;Lnet/minecraft/client/multiplayer/chat/GuiMessage;)Ljava/lang/Runnable;
+        16: invokevirtual #473                // Method net/minecraft/client/Minecraft.execute:(Ljava/lang/Runnable;)V
+        19: return
+      LineNumberTable:
+        line 157: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      20     0  this   Llocal/chattranslate/LocalChatTranslate;
+            0      20     1 client   Lnet/minecraft/client/Minecraft;
+            0      20     2 requestGeneration   J
+            0      20     4  chat   Llocal/chattranslate/ChatBridge;
+            0      20     5 message   Lnet/minecraft/client/multiplayer/chat/GuiMessage;
+            0      20     6 result   Ljava/util/Optional;
+            0      20     7 error   Ljava/lang/Throwable;
+
+  private void lambda$onReceived$1(long, java.lang.Throwable, java.util.Optional, local.chattranslate.ChatBridge, net.minecraft.client.multiplayer.chat.GuiMessage);
+    descriptor: (JLjava/lang/Throwable;Ljava/util/Optional;Llocal/chattranslate/ChatBridge;Lnet/minecraft/client/multiplayer/chat/GuiMessage;)V
+    flags: (0x1002) ACC_PRIVATE, ACC_SYNTHETIC
+    Code:
+      stack=5, locals=7, args_size=6
+         0: lload_1
+         1: aload_0
+         2: getfield      #176                // Field generation:J
+         5: lcmp
+         6: ifne          19
+         9: aload_0
+        10: getfield      #138                // Field config:Llocal/chattranslate/ModConfig;
+        13: getfield      #142                // Field local/chattranslate/ModConfig.enabled:Z
+        16: ifne          20
+        19: return
+        20: aload_3
+        21: ifnull        82
+        24: aload_0
+        25: dup
+        26: getfield      #460                // Field failures:J
+        29: lconst_1
+        30: ladd
+        31: putfield      #460                // Field failures:J
+        34: aload_0
+        35: aload_3
+        36: invokestatic  #477                // Method errorMessage:(Ljava/lang/Throwable;)Ljava/lang/String;
+        39: putfield      #18                 // Field lastError:Ljava/lang/String;
+        42: invokestatic  #481                // Method java/lang/System.currentTimeMillis:()J
+        45: aload_0
+        46: getfield      #487                // Field nextWarning:J
+        49: lcmp
+        50: iflt          139
+        53: aload_0
+        54: invokestatic  #481                // Method java/lang/System.currentTimeMillis:()J
+        57: ldc2_w        #490                // long 60000l
+        60: ladd
+        61: putfield      #487                // Field nextWarning:J
+        64: getstatic     #132                // Field LOG:Lorg/slf4j/Logger;
+        67: ldc_w         #492                // String [LCT] TranslateGemma 4B | ������ێ� | {}
+        70: aload_0
+        71: getfield      #18                 // Field lastError:Ljava/lang/String;
+        74: invokeinterface #494,  3          // InterfaceMethod org/slf4j/Logger.warn:(Ljava/lang/String;Ljava/lang/Object;)V
+        79: goto          139
+        82: aload         4
+        84: invokevirtual #497                // Method java/util/Optional.isPresent:()Z
+        87: ifeq          129
+        90: aload         5
+        92: aload         6
+        94: aload         4
+        96: invokevirtual #331                // Method java/util/Optional.get:()Ljava/lang/Object;
+        99: checkcast     #219                // class java/lang/String
+       102: invokeinterface #500,  3          // InterfaceMethod local/chattranslate/ChatBridge.lct$attach:(Lnet/minecraft/client/multiplayer/chat/GuiMessage;Ljava/lang/String;)Z
+       107: ifeq          129
+       110: aload_0
+       111: dup
+       112: getfield      #454                // Field translated:J
+       115: lconst_1
+       116: ladd
+       117: putfield      #454                // Field translated:J
+       120: aload_0
+       121: ldc           #16                 // String �Ȃ�
+       123: putfield      #18                 // Field lastError:Ljava/lang/String;
+       126: goto          139
+       129: aload_0
+       130: dup
+       131: getfield      #410                // Field skipped:J
+       134: lconst_1
+       135: ladd
+       136: putfield      #410                // Field skipped:J
+       139: return
+      LineNumberTable:
+        line 158: 0
+        line 159: 20
+        line 160: 24
+        line 161: 34
+        line 162: 42
+        line 163: 53
+        line 164: 64
+        line 166: 82
+        line 167: 110
+        line 168: 120
+        line 170: 129
+        line 172: 139
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0     140     0  this   Llocal/chattranslate/LocalChatTranslate;
+            0     140     1 requestGeneration   J
+            0     140     3 error   Ljava/lang/Throwable;
+            0     140     4 result   Ljava/util/Optional;
+            0     140     5  chat   Llocal/chattranslate/ChatBridge;
+            0     140     6 message   Lnet/minecraft/client/multiplayer/chat/GuiMessage;
+      StackMapTable: number_of_entries = 5
+        frame_type = 19 /* same */
+        frame_type = 0 /* same */
+        frame_type = 61 /* same */
+        frame_type = 46 /* same */
+        frame_type = 9 /* same */
+
+  private void lambda$onInitializeClient$6(com.mojang.brigadier.CommandDispatcher, net.minecraft.commands.CommandBuildContext);
+    descriptor: (Lcom/mojang/brigadier/CommandDispatcher;Lnet/minecraft/commands/CommandBuildContext;)V
+    flags: (0x1002) ACC_PRIVATE, ACC_SYNTHETIC
+    Code:
+      stack=4, locals=3, args_size=3
+         0: aload_1
+         1: ldc_w         #506                // String lct
+         4: invokestatic  #508                // Method net/fabricmc/fabric/api/client/command/v2/ClientCommands.literal:(Ljava/lang/String;)Lcom/mojang/brigadier/builder/LiteralArgumentBuilder;
+         7: aload_0
+         8: invokedynamic #513,  0            // InvokeDynamic #11:run:(Llocal/chattranslate/LocalChatTranslate;)Lcom/mojang/brigadier/Command;
+        13: invokevirtual #516                // Method com/mojang/brigadier/builder/LiteralArgumentBuilder.executes:(Lcom/mojang/brigadier/Command;)Lcom/mojang/brigadier/builder/ArgumentBuilder;
+        16: checkcast     #517                // class com/mojang/brigadier/builder/LiteralArgumentBuilder
+        19: ldc_w         #522                // String on
+        22: invokestatic  #508                // Method net/fabricmc/fabric/api/client/command/v2/ClientCommands.literal:(Ljava/lang/String;)Lcom/mojang/brigadier/builder/LiteralArgumentBuilder;
+        25: aload_0
+        26: invokedynamic #524,  0            // InvokeDynamic #12:run:(Llocal/chattranslate/LocalChatTranslate;)Lcom/mojang/brigadier/Command;
+        31: invokevirtual #516                // Method com/mojang/brigadier/builder/LiteralArgumentBuilder.executes:(Lcom/mojang/brigadier/Command;)Lcom/mojang/brigadier/builder/ArgumentBuilder;
+        34: invokevirtual #525                // Method com/mojang/brigadier/builder/LiteralArgumentBuilder.then:(Lcom/mojang/brigadier/builder/ArgumentBuilder;)Lcom/mojang/brigadier/builder/ArgumentBuilder;
+        37: checkcast     #517                // class com/mojang/brigadier/builder/LiteralArgumentBuilder
+        40: ldc_w         #529                // String off
+        43: invokestatic  #508                // Method net/fabricmc/fabric/api/client/command/v2/ClientCommands.literal:(Ljava/lang/String;)Lcom/mojang/brigadier/builder/LiteralArgumentBuilder;
+        46: aload_0
+        47: invokedynamic #531,  0            // InvokeDynamic #13:run:(Llocal/chattranslate/LocalChatTranslate;)Lcom/mojang/brigadier/Command;
+        52: invokevirtual #516                // Method com/mojang/brigadier/builder/LiteralArgumentBuilder.executes:(Lcom/mojang/brigadier/Command;)Lcom/mojang/brigadier/builder/ArgumentBuilder;
+        55: invokevirtual #525                // Method com/mojang/brigadier/builder/LiteralArgumentBuilder.then:(Lcom/mojang/brigadier/builder/ArgumentBuilder;)Lcom/mojang/brigadier/builder/ArgumentBuilder;
+        58: checkcast     #517                // class com/mojang/brigadier/builder/LiteralArgumentBuilder
+        61: ldc_w         #532                // String settings
+        64: invokestatic  #508                // Method net/fabricmc/fabric/api/client/command/v2/ClientCommands.literal:(Ljava/lang/String;)Lcom/mojang/brigadier/builder/LiteralArgumentBuilder;
+        67: invokedynamic #534,  0            // InvokeDynamic #14:run:()Lcom/mojang/brigadier/Command;
+        72: invokevirtual #516                // Method com/mojang/brigadier/builder/LiteralArgumentBuilder.executes:(Lcom/mojang/brigadier/Command;)Lcom/mojang/brigadier/builder/ArgumentBuilder;
+        75: invokevirtual #525                // Method com/mojang/brigadier/builder/LiteralArgumentBuilder.then:(Lcom/mojang/brigadier/builder/ArgumentBuilder;)Lcom/mojang/brigadier/builder/ArgumentBuilder;
+        78: checkcast     #517                // class com/mojang/brigadier/builder/LiteralArgumentBuilder
+        81: ldc_w         #537                // String reload
+        84: invokestatic  #508                // Method net/fabricmc/fabric/api/client/command/v2/ClientCommands.literal:(Ljava/lang/String;)Lcom/mojang/brigadier/builder/LiteralArgumentBuilder;
+        87: aload_0
+        88: invokedynamic #538,  0            // InvokeDynamic #15:run:(Llocal/chattranslate/LocalChatTranslate;)Lcom/mojang/brigadier/Command;
+        93: invokevirtual #516                // Method com/mojang/brigadier/builder/LiteralArgumentBuilder.executes:(Lcom/mojang/brigadier/Command;)Lcom/mojang/brigadier/builder/ArgumentBuilder;
+        96: invokevirtual #525                // Method com/mojang/brigadier/builder/LiteralArgumentBuilder.then:(Lcom/mojang/brigadier/builder/ArgumentBuilder;)Lcom/mojang/brigadier/builder/ArgumentBuilder;
+        99: checkcast     #517                // class com/mojang/brigadier/builder/LiteralArgumentBuilder
+       102: invokevirtual #539                // Method com/mojang/brigadier/CommandDispatcher.register:(Lcom/mojang/brigadier/builder/LiteralArgumentBuilder;)Lcom/mojang/brigadier/tree/LiteralCommandNode;
+       105: pop
+       106: return
+      LineNumberTable:
+        line 50: 0
+        line 51: 13
+        line 52: 22
+        line 53: 43
+        line 54: 64
+        line 58: 84
+        line 50: 102
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0     107     0  this   Llocal/chattranslate/LocalChatTranslate;
+            0     107     1 dispatcher   Lcom/mojang/brigadier/CommandDispatcher;
+            0     107     2 registry   Lnet/minecraft/commands/CommandBuildContext;
+
+  private int lambda$onInitializeClient$12(com.mojang.brigadier.context.CommandContext) throws com.mojang.brigadier.exceptions.CommandSyntaxException;
+    descriptor: (Lcom/mojang/brigadier/context/CommandContext;)I
+    flags: (0x1002) ACC_PRIVATE, ACC_SYNTHETIC
+    Code:
+      stack=3, locals=2, args_size=2
+         0: aload_0
+         1: invokevirtual #224                // Method releaseGpu:()V
+         4: aload_0
+         5: invokevirtual #67                 // Method reload:()V
+         8: aload_0
+         9: invokevirtual #227                // Method reset:()V
+        12: aload_0
+        13: aload_1
+        14: invokevirtual #544                // Method com/mojang/brigadier/context/CommandContext.getSource:()Ljava/lang/Object;
+        17: checkcast     #549                // class net/fabricmc/fabric/api/client/command/v2/FabricClientCommandSource
+        20: dup
+        21: invokestatic  #551                // Method java/util/Objects.requireNonNull:(Ljava/lang/Object;)Ljava/lang/Object;
+        24: pop
+        25: invokedynamic #557,  0            // InvokeDynamic #16:accept:(Lnet/fabricmc/fabric/api/client/command/v2/FabricClientCommandSource;)Ljava/util/function/Consumer;
+        30: invokevirtual #434                // Method status:(Ljava/util/function/Consumer;)I
+        33: ireturn
+      LineNumberTable:
+        line 59: 0
+        line 60: 4
+        line 61: 8
+        line 62: 12
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      34     0  this   Llocal/chattranslate/LocalChatTranslate;
+            0      34     1 context   Lcom/mojang/brigadier/context/CommandContext;
+    Exceptions:
+      throws com.mojang.brigadier.exceptions.CommandSyntaxException
+
+  private static int lambda$onInitializeClient$10(com.mojang.brigadier.context.CommandContext) throws com.mojang.brigadier.exceptions.CommandSyntaxException;
+    descriptor: (Lcom/mojang/brigadier/context/CommandContext;)I
+    flags: (0x100a) ACC_PRIVATE, ACC_STATIC, ACC_SYNTHETIC
+    Code:
+      stack=2, locals=1, args_size=1
+         0: invokestatic  #355                // Method net/minecraft/client/Minecraft.getInstance:()Lnet/minecraft/client/Minecraft;
+         3: invokedynamic #560,  0            // InvokeDynamic #17:run:()Ljava/lang/Runnable;
+         8: invokevirtual #563                // Method net/minecraft/client/Minecraft.schedule:(Ljava/lang/Runnable;)V
+        11: iconst_1
+        12: ireturn
+      LineNumberTable:
+        line 55: 0
+        line 56: 11
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      13     0 context   Lcom/mojang/brigadier/context/CommandContext;
+    Exceptions:
+      throws com.mojang.brigadier.exceptions.CommandSyntaxException
+
+  private static void lambda$onInitializeClient$11();
+    descriptor: ()V
+    flags: (0x100a) ACC_PRIVATE, ACC_STATIC, ACC_SYNTHETIC
+    Code:
+      stack=4, locals=0, args_size=0
+         0: invokestatic  #355                // Method net/minecraft/client/Minecraft.getInstance:()Lnet/minecraft/client/Minecraft;
+         3: new           #566                // class local/chattranslate/ConfigScreen
+         6: dup
+         7: aconst_null
+         8: invokespecial #568                // Method local/chattranslate/ConfigScreen."<init>":(Lnet/minecraft/client/gui/screens/Screen;)V
+        11: invokevirtual #571                // Method net/minecraft/client/Minecraft.setScreen:(Lnet/minecraft/client/gui/screens/Screen;)V
+        14: return
+      LineNumberTable:
+        line 55: 0
+
+  private int lambda$onInitializeClient$9(com.mojang.brigadier.context.CommandContext) throws com.mojang.brigadier.exceptions.CommandSyntaxException;
+    descriptor: (Lcom/mojang/brigadier/context/CommandContext;)I
+    flags: (0x1002) ACC_PRIVATE, ACC_SYNTHETIC
+    Code:
+      stack=4, locals=2, args_size=2
+         0: aload_0
+         1: iconst_0
+         2: aload_1
+         3: invokevirtual #544                // Method com/mojang/brigadier/context/CommandContext.getSource:()Ljava/lang/Object;
+         6: checkcast     #549                // class net/fabricmc/fabric/api/client/command/v2/FabricClientCommandSource
+         9: dup
+        10: invokestatic  #551                // Method java/util/Objects.requireNonNull:(Ljava/lang/Object;)Ljava/lang/Object;
+        13: pop
+        14: invokedynamic #557,  0            // InvokeDynamic #16:accept:(Lnet/fabricmc/fabric/api/client/command/v2/FabricClientCommandSource;)Ljava/util/function/Consumer;
+        19: invokevirtual #574                // Method toggle:(ZLjava/util/function/Consumer;)I
+        22: ireturn
+      LineNumberTable:
+        line 53: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      23     0  this   Llocal/chattranslate/LocalChatTranslate;
+            0      23     1 context   Lcom/mojang/brigadier/context/CommandContext;
+    Exceptions:
+      throws com.mojang.brigadier.exceptions.CommandSyntaxException
+
+  private int lambda$onInitializeClient$8(com.mojang.brigadier.context.CommandContext) throws com.mojang.brigadier.exceptions.CommandSyntaxException;
+    descriptor: (Lcom/mojang/brigadier/context/CommandContext;)I
+    flags: (0x1002) ACC_PRIVATE, ACC_SYNTHETIC
+    Code:
+      stack=4, locals=2, args_size=2
+         0: aload_0
+         1: iconst_1
+         2: aload_1
+         3: invokevirtual #544                // Method com/mojang/brigadier/context/CommandContext.getSource:()Ljava/lang/Object;
+         6: checkcast     #549                // class net/fabricmc/fabric/api/client/command/v2/FabricClientCommandSource
+         9: dup
+        10: invokestatic  #551                // Method java/util/Objects.requireNonNull:(Ljava/lang/Object;)Ljava/lang/Object;
+        13: pop
+        14: invokedynamic #557,  0            // InvokeDynamic #16:accept:(Lnet/fabricmc/fabric/api/client/command/v2/FabricClientCommandSource;)Ljava/util/function/Consumer;
+        19: invokevirtual #574                // Method toggle:(ZLjava/util/function/Consumer;)I
+        22: ireturn
+      LineNumberTable:
+        line 52: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      23     0  this   Llocal/chattranslate/LocalChatTranslate;
+            0      23     1 context   Lcom/mojang/brigadier/context/CommandContext;
+    Exceptions:
+      throws com.mojang.brigadier.exceptions.CommandSyntaxException
+
+  private int lambda$onInitializeClient$7(com.mojang.brigadier.context.CommandContext) throws com.mojang.brigadier.exceptions.CommandSyntaxException;
+    descriptor: (Lcom/mojang/brigadier/context/CommandContext;)I
+    flags: (0x1002) ACC_PRIVATE, ACC_SYNTHETIC
+    Code:
+      stack=3, locals=2, args_size=2
+         0: aload_0
+         1: aload_1
+         2: invokevirtual #544                // Method com/mojang/brigadier/context/CommandContext.getSource:()Ljava/lang/Object;
+         5: checkcast     #549                // class net/fabricmc/fabric/api/client/command/v2/FabricClientCommandSource
+         8: dup
+         9: invokestatic  #551                // Method java/util/Objects.requireNonNull:(Ljava/lang/Object;)Ljava/lang/Object;
+        12: pop
+        13: invokedynamic #557,  0            // InvokeDynamic #16:accept:(Lnet/fabricmc/fabric/api/client/command/v2/FabricClientCommandSource;)Ljava/util/function/Consumer;
+        18: invokevirtual #434                // Method status:(Ljava/util/function/Consumer;)I
+        21: ireturn
+      LineNumberTable:
+        line 51: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      22     0  this   Llocal/chattranslate/LocalChatTranslate;
+            0      22     1 context   Lcom/mojang/brigadier/context/CommandContext;
+    Exceptions:
+      throws com.mojang.brigadier.exceptions.CommandSyntaxException
+
+  private void lambda$onInitializeClient$4(net.minecraft.client.Minecraft);
+    descriptor: (Lnet/minecraft/client/Minecraft;)V
+    flags: (0x1002) ACC_PRIVATE, ACC_SYNTHETIC
+    Code:
+      stack=2, locals=2, args_size=2
+         0: aload_0
+         1: getfield      #54                 // Field api:Llocal/chattranslate/TranslationClient;
+         4: invokevirtual #183                // Method local/chattranslate/TranslationClient.clearQueued:()V
+         7: aload_0
+         8: getfield      #54                 // Field api:Llocal/chattranslate/TranslationClient;
+        11: aload_0
+        12: getfield      #138                // Field config:Llocal/chattranslate/ModConfig;
+        15: getfield      #154                // Field local/chattranslate/ModConfig.endpoint:Ljava/lang/String;
+        18: invokestatic  #205                // Method local/chattranslate/TranslationClient.validateEndpoint:(Ljava/lang/String;)Ljava/net/URI;
+        21: invokevirtual #236                // Method local/chattranslate/TranslationClient.releaseGpu:(Ljava/net/URI;)Ljava/util/concurrent/CompletableFuture;
+        24: aload_0
+        25: invokedynamic #578,  0            // InvokeDynamic #18:accept:(Llocal/chattranslate/LocalChatTranslate;)Ljava/util/function/BiConsumer;
+        30: invokevirtual #421                // Method java/util/concurrent/CompletableFuture.whenComplete:(Ljava/util/function/BiConsumer;)Ljava/util/concurrent/CompletableFuture;
+        33: pop
+        34: return
+      LineNumberTable:
+        line 47: 0
+        line 48: 7
+        line 49: 34
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      35     0  this   Llocal/chattranslate/LocalChatTranslate;
+            0      35     1 client   Lnet/minecraft/client/Minecraft;
+
+  private void lambda$onInitializeClient$5(java.lang.Void, java.lang.Throwable);
+    descriptor: (Ljava/lang/Void;Ljava/lang/Throwable;)V
+    flags: (0x1002) ACC_PRIVATE, ACC_SYNTHETIC
+    Code:
+      stack=1, locals=3, args_size=3
+         0: aload_0
+         1: getfield      #54                 // Field api:Llocal/chattranslate/TranslationClient;
+         4: invokevirtual #581                // Method local/chattranslate/TranslationClient.close:()V
+         7: return
+      LineNumberTable:
+        line 48: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       8     0  this   Llocal/chattranslate/LocalChatTranslate;
+            0       8     1 result   Ljava/lang/Void;
+            0       8     2 error   Ljava/lang/Throwable;
+
+  private void lambda$onInitializeClient$3(net.minecraft.client.multiplayer.ClientPacketListener, net.minecraft.client.Minecraft);
+    descriptor: (Lnet/minecraft/client/multiplayer/ClientPacketListener;Lnet/minecraft/client/Minecraft;)V
+    flags: (0x1002) ACC_PRIVATE, ACC_SYNTHETIC
+    Code:
+      stack=1, locals=3, args_size=3
+         0: aload_0
+         1: invokevirtual #227                // Method reset:()V
+         4: aload_0
+         5: invokevirtual #224                // Method releaseGpu:()V
+         8: return
+      LineNumberTable:
+        line 43: 0
+        line 44: 4
+        line 45: 8
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       9     0  this   Llocal/chattranslate/LocalChatTranslate;
+            0       9     1 handler   Lnet/minecraft/client/multiplayer/ClientPacketListener;
+            0       9     2 client   Lnet/minecraft/client/Minecraft;
+
+  private void lambda$onInitializeClient$2(net.minecraft.client.multiplayer.ClientPacketListener, net.fabricmc.fabric.api.networking.v1.PacketSender, net.minecraft.client.Minecraft);
+    descriptor: (Lnet/minecraft/client/multiplayer/ClientPacketListener;Lnet/fabricmc/fabric/api/networking/v1/PacketSender;Lnet/minecraft/client/Minecraft;)V
+    flags: (0x1002) ACC_PRIVATE, ACC_SYNTHETIC
+    Code:
+      stack=1, locals=4, args_size=4
+         0: aload_0
+         1: invokevirtual #227                // Method reset:()V
+         4: return
+      LineNumberTable:
+        line 41: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       5     0  this   Llocal/chattranslate/LocalChatTranslate;
+            0       5     1 handler   Lnet/minecraft/client/multiplayer/ClientPacketListener;
+            0       5     2 sender   Lnet/fabricmc/fabric/api/networking/v1/PacketSender;
+            0       5     3 client   Lnet/minecraft/client/Minecraft;
+
+  private void lambda$onInitializeClient$1(net.minecraft.client.Minecraft);
+    descriptor: (Lnet/minecraft/client/Minecraft;)V
+    flags: (0x1002) ACC_PRIVATE, ACC_SYNTHETIC
+    Code:
+      stack=2, locals=2, args_size=2
+         0: aload_0
+         1: getfield      #79                 // Field tooltips:Llocal/chattranslate/TooltipTranslations;
+         4: aload_1
+         5: getfield      #584                // Field net/minecraft/client/Minecraft.screen:Lnet/minecraft/client/gui/screens/Screen;
+         8: invokevirtual #588                // Method local/chattranslate/TooltipTranslations.screenChanged:(Lnet/minecraft/client/gui/screens/Screen;)V
+        11: return
+      LineNumberTable:
+        line 40: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      12     0  this   Llocal/chattranslate/LocalChatTranslate;
+            0      12     1 client   Lnet/minecraft/client/Minecraft;
+
+  private local.chattranslate.ModConfig lambda$onInitializeClient$0();
+    descriptor: ()Llocal/chattranslate/ModConfig;
+    flags: (0x1002) ACC_PRIVATE, ACC_SYNTHETIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: getfield      #138                // Field config:Llocal/chattranslate/ModConfig;
+         4: areturn
+      LineNumberTable:
+        line 38: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       5     0  this   Llocal/chattranslate/LocalChatTranslate;
+
+  static {};
+    descriptor: ()V
+    flags: (0x0008) ACC_STATIC
+    Code:
+      stack=1, locals=0, args_size=0
+         0: ldc_w         #591                // String localchattranslate
+         3: invokestatic  #593                // Method org/slf4j/LoggerFactory.getLogger:(Ljava/lang/String;)Lorg/slf4j/Logger;
+         6: putstatic     #132                // Field LOG:Lorg/slf4j/Logger;
+         9: return
+      LineNumberTable:
+        line 20: 0
+}
+SourceFile: "LocalChatTranslate.java"
+BootstrapMethods:
+  0: #767 REF_invokeStatic java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+    Method arguments:
+      #696 ()Ljava/lang/Object;
+      #697 REF_invokeVirtual local/chattranslate/LocalChatTranslate.lambda$onInitializeClient$0:()Llocal/chattranslate/ModConfig;
+      #700 ()Llocal/chattranslate/ModConfig;
+  1: #767 REF_invokeStatic java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+    Method arguments:
+      #701 (Lnet/minecraft/client/Minecraft;)V
+      #702 REF_invokeVirtual local/chattranslate/LocalChatTranslate.lambda$onInitializeClient$1:(Lnet/minecraft/client/Minecraft;)V
+      #701 (Lnet/minecraft/client/Minecraft;)V
+  2: #767 REF_invokeStatic java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+    Method arguments:
+      #705 (Lnet/minecraft/client/multiplayer/ClientPacketListener;Lnet/fabricmc/fabric/api/networking/v1/PacketSender;Lnet/minecraft/client/Minecraft;)V
+      #706 REF_invokeVirtual local/chattranslate/LocalChatTranslate.lambda$onInitializeClient$2:(Lnet/minecraft/client/multiplayer/ClientPacketListener;Lnet/fabricmc/fabric/api/networking/v1/PacketSender;Lnet/minecraft/client/Minecraft;)V
+      #705 (Lnet/minecraft/client/multiplayer/ClientPacketListener;Lnet/fabricmc/fabric/api/networking/v1/PacketSender;Lnet/minecraft/client/Minecraft;)V
+  3: #767 REF_invokeStatic java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+    Method arguments:
+      #709 (Lnet/minecraft/client/multiplayer/ClientPacketListener;Lnet/minecraft/client/Minecraft;)V
+      #710 REF_invokeVirtual local/chattranslate/LocalChatTranslate.lambda$onInitializeClient$3:(Lnet/minecraft/client/multiplayer/ClientPacketListener;Lnet/minecraft/client/Minecraft;)V
+      #709 (Lnet/minecraft/client/multiplayer/ClientPacketListener;Lnet/minecraft/client/Minecraft;)V
+  4: #767 REF_invokeStatic java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+    Method arguments:
+      #701 (Lnet/minecraft/client/Minecraft;)V
+      #713 REF_invokeVirtual local/chattranslate/LocalChatTranslate.lambda$onInitializeClient$4:(Lnet/minecraft/client/Minecraft;)V
+      #701 (Lnet/minecraft/client/Minecraft;)V
+  5: #767 REF_invokeStatic java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+    Method arguments:
+      #716 (Lcom/mojang/brigadier/CommandDispatcher;Lnet/minecraft/commands/CommandBuildContext;)V
+      #717 REF_invokeVirtual local/chattranslate/LocalChatTranslate.lambda$onInitializeClient$6:(Lcom/mojang/brigadier/CommandDispatcher;Lnet/minecraft/commands/CommandBuildContext;)V
+      #716 (Lcom/mojang/brigadier/CommandDispatcher;Lnet/minecraft/commands/CommandBuildContext;)V
+  6: #767 REF_invokeStatic java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+    Method arguments:
+      #720 (Ljava/lang/Object;Ljava/lang/Object;)V
+      #722 REF_invokeVirtual local/chattranslate/LocalChatTranslate.lambda$onReceived$0:(Lnet/minecraft/client/Minecraft;JLlocal/chattranslate/ChatBridge;Lnet/minecraft/client/multiplayer/chat/GuiMessage;Ljava/util/Optional;Ljava/lang/Throwable;)V
+      #725 (Ljava/util/Optional;Ljava/lang/Throwable;)V
+  7: #774 REF_invokeStatic java/lang/invoke/StringConcatFactory.makeConcatWithConstants:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite;
+    Method arguments:
+      #727 [LCT] TranslateGemma 4B | �p�ꁨ���{�� \u0001 | NPC \u0001 | �A�C�e������ \u0001
+  8: #774 REF_invokeStatic java/lang/invoke/StringConcatFactory.makeConcatWithConstants:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite;
+    Method arguments:
+      #729   �`���b�g�|�� \u0001�� / �ҋ@�i���ʁj \u0001�� / ���s \u0001�� / �Ώ� \u0001�� / �ȗ� \u0001��
+  9: #774 REF_invokeStatic java/lang/invoke/StringConcatFactory.makeConcatWithConstants:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite;
+    Method arguments:
+      #731   �Ō�̃G���[: \u0001
+  10: #767 REF_invokeStatic java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+    Method arguments:
+      #733 ()V
+      #734 REF_invokeVirtual local/chattranslate/LocalChatTranslate.lambda$onReceived$1:(JLjava/lang/Throwable;Ljava/util/Optional;Llocal/chattranslate/ChatBridge;Lnet/minecraft/client/multiplayer/chat/GuiMessage;)V
+      #733 ()V
+  11: #767 REF_invokeStatic java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+    Method arguments:
+      #737 (Lcom/mojang/brigadier/context/CommandContext;)I
+      #738 REF_invokeVirtual local/chattranslate/LocalChatTranslate.lambda$onInitializeClient$7:(Lcom/mojang/brigadier/context/CommandContext;)I
+      #737 (Lcom/mojang/brigadier/context/CommandContext;)I
+  12: #767 REF_invokeStatic java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+    Method arguments:
+      #737 (Lcom/mojang/brigadier/context/CommandContext;)I
+      #741 REF_invokeVirtual local/chattranslate/LocalChatTranslate.lambda$onInitializeClient$8:(Lcom/mojang/brigadier/context/CommandContext;)I
+      #737 (Lcom/mojang/brigadier/context/CommandContext;)I
+  13: #767 REF_invokeStatic java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+    Method arguments:
+      #737 (Lcom/mojang/brigadier/context/CommandContext;)I
+      #744 REF_invokeVirtual local/chattranslate/LocalChatTranslate.lambda$onInitializeClient$9:(Lcom/mojang/brigadier/context/CommandContext;)I
+      #737 (Lcom/mojang/brigadier/context/CommandContext;)I
+  14: #767 REF_invokeStatic java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+    Method arguments:
+      #737 (Lcom/mojang/brigadier/context/CommandContext;)I
+      #747 REF_invokeStatic local/chattranslate/LocalChatTranslate.lambda$onInitializeClient$10:(Lcom/mojang/brigadier/context/CommandContext;)I
+      #737 (Lcom/mojang/brigadier/context/CommandContext;)I
+  15: #767 REF_invokeStatic java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+    Method arguments:
+      #737 (Lcom/mojang/brigadier/context/CommandContext;)I
+      #750 REF_invokeVirtual local/chattranslate/LocalChatTranslate.lambda$onInitializeClient$12:(Lcom/mojang/brigadier/context/CommandContext;)I
+      #737 (Lcom/mojang/brigadier/context/CommandContext;)I
+  16: #767 REF_invokeStatic java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+    Method arguments:
+      #753 (Ljava/lang/Object;)V
+      #754 REF_invokeInterface net/fabricmc/fabric/api/client/command/v2/FabricClientCommandSource.sendFeedback:(Lnet/minecraft/network/chat/Component;)V
+      #759 (Lnet/minecraft/network/chat/Component;)V
+  17: #767 REF_invokeStatic java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+    Method arguments:
+      #733 ()V
+      #760 REF_invokeStatic local/chattranslate/LocalChatTranslate.lambda$onInitializeClient$11:()V
+      #733 ()V
+  18: #767 REF_invokeStatic java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+    Method arguments:
+      #720 (Ljava/lang/Object;Ljava/lang/Object;)V
+      #763 REF_invokeVirtual local/chattranslate/LocalChatTranslate.lambda$onInitializeClient$5:(Ljava/lang/Void;Ljava/lang/Throwable;)V
+      #766 (Ljava/lang/Void;Ljava/lang/Throwable;)V
+InnerClasses:
+  public static #783= #781 of #84;        // EndTick=class net/fabricmc/fabric/api/client/event/lifecycle/v1/ClientTickEvents$EndTick of class net/fabricmc/fabric/api/client/event/lifecycle/v1/ClientTickEvents
+  public static #786= #784 of #100;       // Join=class net/fabricmc/fabric/api/client/networking/v1/ClientPlayConnectionEvents$Join of class net/fabricmc/fabric/api/client/networking/v1/ClientPlayConnectionEvents
+  public static #789= #787 of #100;       // Disconnect=class net/fabricmc/fabric/api/client/networking/v1/ClientPlayConnectionEvents$Disconnect of class net/fabricmc/fabric/api/client/networking/v1/ClientPlayConnectionEvents
+  public static #792= #790 of #116;       // ClientStopping=class net/fabricmc/fabric/api/client/event/lifecycle/v1/ClientLifecycleEvents$ClientStopping of class net/fabricmc/fabric/api/client/event/lifecycle/v1/ClientLifecycleEvents
+  public static final #797= #793 of #795; // Lookup=class java/lang/invoke/MethodHandles$Lookup of class java/lang/invoke/MethodHandles
