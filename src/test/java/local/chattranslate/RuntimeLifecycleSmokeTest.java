@@ -8,15 +8,21 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.file.Path;
+import java.nio.file.Files;
 import java.time.Duration;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import local.chattranslate.runtime.LlamaCppRuntime;
+import local.chattranslate.runtime.ModelStore;
 
 /** Runs against the packaged resources; this class is never included in the MOD. */
 public final class RuntimeLifecycleSmokeTest {
    public static void main(String[] args) throws Exception {
+      checkMissingModel();
+      checkMissingCustomModel();
       Path gameDir = Path.of("build/runtime-smoke").toAbsolutePath();
-      LlamaCppRuntime runtime = new LlamaCppRuntime(gameDir);
+      // The seeded default model is found without consent, so no download is attempted.
+      LlamaCppRuntime runtime = new LlamaCppRuntime(gameDir, () -> new LlamaCppRuntime.ModelChoice(false, null));
       LlamaCppRuntime.ServerHandle first = null;
       LlamaCppRuntime.ServerHandle second = null;
       try (HttpClient http = HttpClient.newHttpClient()) {
@@ -40,7 +46,70 @@ public final class RuntimeLifecycleSmokeTest {
       }
       require(!first.process().isAlive(), "First process survived shutdown");
       require(!second.process().isAlive(), "Second process survived shutdown");
+      checkCustomModel(gameDir);
       System.out.println("Runtime lifecycle smoke checks passed");
+   }
+
+   /** Without consent and without a model the runtime must stop at MODEL_MISSING and never contact the network. */
+   private static void checkMissingModel() throws Exception {
+      Path gameDir = Path.of("build/runtime-smoke-missing").toAbsolutePath();
+      LlamaCppRuntime runtime = new LlamaCppRuntime(gameDir, () -> new LlamaCppRuntime.ModelChoice(false, null));
+      try {
+         Throwable error = failure(runtime.start(), 150);
+         require(error instanceof ModelStore.ModelMissingException, "Expected ModelMissingException, got " + error);
+         require(runtime.state() == LlamaCppRuntime.RuntimeState.MODEL_MISSING, "State was " + runtime.state());
+         long start = System.nanoTime();
+         Throwable fast = failure(runtime.ensureStarted(), 5);
+         require(fast instanceof ModelStore.ModelMissingException, "Translation request did not fail with ModelMissingException");
+         require(System.nanoTime() - start < TimeUnit.SECONDS.toNanos(2), "Translation request did not fail fast");
+         require(runtime.downloadProgress() == null, "A download started without consent");
+         require(!Files.exists(gameDir.resolve("localchattranslate/models")), "Model store written without consent");
+         System.out.println("Missing model stops at MODEL_MISSING without network access");
+      } finally {
+         runtime.close();
+      }
+   }
+
+   private static void checkMissingCustomModel() throws Exception {
+      Path gameDir = Path.of("build/runtime-smoke-missing").toAbsolutePath();
+      String absent = gameDir.resolve("no-such-model.gguf").toString();
+      LlamaCppRuntime runtime = new LlamaCppRuntime(gameDir, () -> new LlamaCppRuntime.ModelChoice(true, absent));
+      try {
+         Throwable error = failure(runtime.start(), 150);
+         require(runtime.state() == LlamaCppRuntime.RuntimeState.FAILED, "State was " + runtime.state());
+         require(error.getMessage().contains("no-such-model.gguf"), "Error did not name the missing GGUF: " + error);
+         require(runtime.downloadProgress() == null, "Custom model path fell back to a download");
+         System.out.println("Missing custom GGUF fails without downloading");
+      } finally {
+         runtime.close();
+      }
+   }
+
+   /** A user-supplied GGUF path is loaded directly, outside the default model store. */
+   private static void checkCustomModel(Path seededGameDir) throws Exception {
+      Path seeded;
+      try (var files = Files.walk(seededGameDir.resolve("localchattranslate/models"))) {
+         seeded = files.filter(f -> f.toString().endsWith(".gguf")).findFirst().orElseThrow();
+      }
+      Path gameDir = Path.of("build/runtime-smoke-custom").toAbsolutePath();
+      LlamaCppRuntime runtime = new LlamaCppRuntime(gameDir, () -> new LlamaCppRuntime.ModelChoice(false, seeded.toString()));
+      try (HttpClient http = HttpClient.newHttpClient()) {
+         LlamaCppRuntime.ServerHandle server = runtime.start().get(150, TimeUnit.SECONDS);
+         translate(http, server);
+         require(!Files.exists(gameDir.resolve("localchattranslate/models")), "Custom model path touched the default model store");
+         System.out.println("Custom GGUF path loaded");
+      } finally {
+         runtime.close();
+      }
+   }
+
+   private static Throwable failure(java.util.concurrent.CompletableFuture<?> future, int seconds) throws Exception {
+      try {
+         future.get(seconds, TimeUnit.SECONDS);
+      } catch (ExecutionException e) {
+         return e.getCause();
+      }
+      throw new AssertionError("Expected failure but runtime started");
    }
 
    private static void translate(HttpClient http, LlamaCppRuntime.ServerHandle server) throws Exception {

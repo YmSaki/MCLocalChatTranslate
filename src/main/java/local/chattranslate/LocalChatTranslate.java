@@ -52,22 +52,28 @@ public final class LocalChatTranslate implements ClientModInitializer {
    private long failures;
    private long skipped;
    private long nextWarning;
+   private boolean modelNoticeShown;
    private String lastError = "なし";
 
    public void onInitializeClient() {
       instance = this;
       Path logPath = FabricLoader.getInstance().getGameDir().resolve("logs/localchattranslate.log");
-      this.runtime = new LlamaCppRuntime(FabricLoader.getInstance().getGameDir());
+      this.runtime = new LlamaCppRuntime(FabricLoader.getInstance().getGameDir(),
+         () -> new LlamaCppRuntime.ModelChoice(this.config.modelDownloadConsent, this.config.modelPath));
       this.api = new TranslationClient(this.runtime, new TranslationLog(logPath));
       this.configPath = FabricLoader.getInstance().getConfigDir().resolve("localchattranslate.json");
       this.reload();
       this.tooltips = new TooltipTranslations(this.api, () -> this.config);
-      this.runtime.start().exceptionally(error -> {
-         LOG.error("Could not start bundled TranslateGemma runtime", error);
-         return null;
-      });
+      this.startRuntime();
       ClientTickEvents.END_CLIENT_TICK.register((EndTick)client -> this.tooltips.screenChanged(client.screen));
-      ClientPlayConnectionEvents.JOIN.register((Join)(handler, sender, client) -> this.reset());
+      ClientPlayConnectionEvents.JOIN.register((Join)(handler, sender, client) -> {
+         this.reset();
+         if (this.config.enabled && !this.modelNoticeShown && this.runtime.state() == LlamaCppRuntime.RuntimeState.MODEL_MISSING) {
+            this.modelNoticeShown = true;
+            client.execute(() -> client.gui.getChat().addClientSystemMessage(Component.literal(
+               "[LCT] 翻訳モデル（約 2.5 GB）が未ダウンロードです。/lct download か設定画面から、Hugging Face からの取得を開始できます。")));
+         }
+      });
       ClientPlayConnectionEvents.DISCONNECT.register((Disconnect)(handler, client) -> {
          this.reset();
       });
@@ -95,6 +101,12 @@ public final class LocalChatTranslate implements ClientModInitializer {
                         Minecraft.getInstance().schedule(() -> Minecraft.getInstance().setScreen(new ConfigScreen(null)));
                         return 1;
                      })))
+                  .then(ClientCommands.literal("download").executes(context -> {
+                     this.consentToDownload();
+                     ((FabricClientCommandSource)context.getSource()).sendFeedback(Component.literal(
+                        "[LCT] 翻訳モデルを Hugging Face から取得します（約 2.5 GB）。進み具合は /lct で確認できます。"));
+                     return 1;
+                  }))
                   .then(ClientCommands.literal("reload").executes(context -> {
                      this.reload();
                      this.reset();
@@ -103,6 +115,53 @@ public final class LocalChatTranslate implements ClientModInitializer {
             )
          );
       LOG.info("[LCT] 準備完了 | TranslateGemma 4B | 翻訳={} | 内蔵 llama.cpp | 翻訳ログ={}", this.config.enabled, logPath);
+   }
+
+   private void startRuntime() {
+      this.runtime.start().exceptionally(error -> {
+         if (this.runtime.state() == LlamaCppRuntime.RuntimeState.MODEL_MISSING) {
+            LOG.info("[LCT] 翻訳モデルが未ダウンロードです。同意を待っています。");
+         } else {
+            LOG.error("Could not start bundled TranslateGemma runtime", error);
+         }
+         return null;
+      });
+   }
+
+   public static void restartRuntime() {
+      instance.startRuntime();
+   }
+
+   /** Records the user's consent to fetch the default model and starts the download. */
+   public static void consentToDownload() {
+      if (!instance.config.modelDownloadConsent) {
+         instance.config.modelDownloadConsent = true;
+         try {
+            instance.config.save(instance.configPath);
+         } catch (IOException e) {
+            LOG.warn("Could not save model download consent", e);
+         }
+      }
+      instance.startRuntime();
+   }
+
+   /** Human-readable runtime state for the settings screen and /lct. */
+   public static String runtimeStatus() {
+      LlamaCppRuntime runtime = instance.runtime;
+      return switch (runtime.state()) {
+         case STARTING, EXTRACTING -> "準備中";
+         case MODEL_MISSING -> "モデル未ダウンロード";
+         case DOWNLOADING -> {
+            long[] progress = runtime.downloadProgress();
+            yield progress == null ? "モデルをダウンロード中"
+               : String.format("モデルをダウンロード中 %.2f / %.2f GB (%d%%)", progress[0] / 1e9, progress[1] / 1e9,
+                  progress[0] * 100 / progress[1]);
+         }
+         case LOADING_MODEL -> "モデルを読み込み中";
+         case READY -> "準備完了";
+         case FAILED -> "停止中（" + (runtime.lastError() == null ? "ログを確認してください" : runtime.lastError()) + "）";
+         case STOPPING, STOPPED -> "停止";
+      };
    }
 
    private void reload() {
@@ -277,6 +336,7 @@ public final class LocalChatTranslate implements ClientModInitializer {
                + "件"
          )
       );
+      feedback.accept(Component.literal("  翻訳エンジン: " + runtimeStatus()));
       if (!this.lastError.equals("なし")) {
          feedback.accept(Component.literal("  最後のエラー: " + this.lastError));
       }

@@ -22,11 +22,14 @@ import java.util.concurrent.CompletionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Supplier;
 
 /** Owns one loopback-only llama-server child process for the Minecraft client. */
 public final class LlamaCppRuntime implements AutoCloseable {
-   public enum RuntimeState { STARTING, EXTRACTING, LOADING_MODEL, READY, FAILED, STOPPING, STOPPED }
+   public enum RuntimeState { STARTING, EXTRACTING, MODEL_MISSING, DOWNLOADING, LOADING_MODEL, READY, FAILED, STOPPING, STOPPED }
    public record ServerHandle(URI baseUri, String apiKey, Process process) { }
+   /** {@code modelPath} overrides the default model; {@code downloadAllowed} records the user's consent to fetch it. */
+   public record ModelChoice(boolean downloadAllowed, String modelPath) { }
 
    private final Path gameDir;
    private final Path logPath;
@@ -37,15 +40,21 @@ public final class LlamaCppRuntime implements AutoCloseable {
          @Override public List<Proxy> select(URI uri) { return List.of(Proxy.NO_PROXY); }
          @Override public void connectFailed(URI uri, SocketAddress address, IOException error) { }
       }).followRedirects(HttpClient.Redirect.NEVER).build();
+   private final HttpClient downloadHttp = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(15))
+      .followRedirects(HttpClient.Redirect.NORMAL).build();
+   private final Supplier<ModelChoice> modelChoice;
    private final SecureRandom random = new SecureRandom();
+   private volatile ModelStore modelStore;
+   private volatile String lastError;
    private volatile RuntimeState state = RuntimeState.STOPPED;
    private volatile ServerHandle handle;
    private WindowsJob job;
    private volatile boolean closed;
    private CompletableFuture<ServerHandle> starting;
 
-   public LlamaCppRuntime(Path gameDir) {
+   public LlamaCppRuntime(Path gameDir, Supplier<ModelChoice> modelChoice) {
       this.gameDir = gameDir;
+      this.modelChoice = modelChoice;
       this.logPath = gameDir.resolve("logs/localchattranslate-llama.log");
    }
 
@@ -57,30 +66,58 @@ public final class LlamaCppRuntime implements AutoCloseable {
       return state;
    }
    public boolean isReady() { return state() == RuntimeState.READY; }
+   public String lastError() { return lastError; }
 
-   public synchronized CompletableFuture<ServerHandle> start() {
-      return ensureStarted();
+   /** Bytes received and expected while {@link RuntimeState#DOWNLOADING}; null when the size is not yet known. */
+   public long[] downloadProgress() {
+      ModelStore store = modelStore;
+      return store == null ? null : new long[]{store.downloadedBytes(), store.spec().size()};
    }
 
-   public synchronized CompletableFuture<ServerHandle> ensureStarted() {
+   /** Starts or joins a start, including a model download the user has agreed to. */
+   public synchronized CompletableFuture<ServerHandle> start() {
       if (closed) return CompletableFuture.failedFuture(new IllegalStateException("Translation runtime is closed"));
       if (isReady()) return CompletableFuture.completedFuture(handle);
       if (starting != null && !starting.isDone()) return starting;
       state = RuntimeState.STARTING;
+      lastError = null;
       starting = CompletableFuture.supplyAsync(() -> {
          try {
             return launch();
+         } catch (ModelStore.ModelMissingException e) {
+            state = RuntimeState.MODEL_MISSING;
+            lastError = e.getMessage();
+            throw new CompletionException(e);
          } catch (Exception e) {
             state = RuntimeState.FAILED;
+            lastError = e.getMessage();
             throw new CompletionException(e);
          }
       }, worker);
       return starting;
    }
 
+   /** Used by translation requests: fails fast instead of waiting for a missing or downloading model. */
+   public synchronized CompletableFuture<ServerHandle> ensureStarted() {
+      RuntimeState current = state();
+      if (current == RuntimeState.DOWNLOADING) {
+         return CompletableFuture.failedFuture(new IOException("翻訳モデルをダウンロード中です。"));
+      }
+      if (current == RuntimeState.MODEL_MISSING && !modelChoice.get().downloadAllowed()) {
+         return CompletableFuture.failedFuture(new ModelStore.ModelMissingException());
+      }
+      return start();
+   }
+
    private ServerHandle launch() throws Exception {
+      String os = System.getProperty("os.name", "");
+      String arch = System.getProperty("os.arch", "");
+      if (!os.startsWith("Windows") || !(arch.equals("amd64") || arch.equals("x86_64"))) {
+         throw new IOException("内蔵翻訳エンジンは Windows x64 専用です（" + os + " / " + arch + "）。");
+      }
       state = RuntimeState.EXTRACTING;
       RuntimeExtractor.ExtractedBundle extracted = RuntimeExtractor.extract(gameDir);
+      Path modelPath = resolveModel(extracted.model());
       Files.createDirectories(logPath.getParent());
       byte[] keyBytes = new byte[32];
       random.nextBytes(keyBytes);
@@ -91,7 +128,7 @@ public final class LlamaCppRuntime implements AutoCloseable {
          URI baseUri = URI.create("http://127.0.0.1:" + port);
          ProcessBuilder builder = new ProcessBuilder(
             extracted.runtimeDir().resolve("llama-server.exe").toString(),
-            "--model", extracted.modelPath().toString(),
+            "--model", modelPath.toString(),
             "--host", "127.0.0.1", "--port", Integer.toString(port),
             "--ctx-size", "2048", "--api-key", key,
             "--alias", "translategemma", "--gpu-layers", "99",
@@ -132,6 +169,25 @@ public final class LlamaCppRuntime implements AutoCloseable {
       }
       if (closed) throw new IOException("Translation runtime stopped");
       throw last == null ? new IOException("Could not start llama-server") : last;
+   }
+
+   private Path resolveModel(ModelStore.ModelSpec spec) throws IOException, InterruptedException {
+      ModelChoice choice = modelChoice.get();
+      if (choice.modelPath() != null && !choice.modelPath().isBlank()) {
+         Path custom = Path.of(choice.modelPath());
+         if (!Files.isRegularFile(custom)) throw new IOException("指定された GGUF が見つかりません: " + custom);
+         return custom;
+      }
+      ModelStore store = new ModelStore(gameDir, spec, downloadHttp);
+      if (store.isInstalled()) return store.modelPath();
+      if (!choice.downloadAllowed()) throw new ModelStore.ModelMissingException();
+      modelStore = store;
+      state = RuntimeState.DOWNLOADING;
+      try {
+         return store.ensure(true, () -> closed);
+      } finally {
+         modelStore = null;
+      }
    }
 
    private static int freePort() throws IOException {
@@ -180,6 +236,7 @@ public final class LlamaCppRuntime implements AutoCloseable {
       handle = null;
       worker.shutdownNow();
       http.shutdownNow();
+      downloadHttp.shutdownNow();
       state = RuntimeState.STOPPED;
    }
 }

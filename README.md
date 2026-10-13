@@ -1,29 +1,55 @@
-# LocalChatTranslate with bundled llama.cpp
+# LocalChatTranslate
 
-LocalChatTranslate 0.4.0+26.1.2 is a client-side Fabric MOD for Minecraft 26.1.2 and Java 25. This project was reconstructed from the original distribution JAR, then changed to run a bundled TranslateGemma 4B GGUF through a bundled llama.cpp server. The original chat parsing, placeholder protection, tooltip handling, and translation prompt remain in place.
+LocalChatTranslate is a client-side Fabric MOD for Minecraft 26.1.2 that translates English chat, NPC dialogue, and item descriptions into Japanese on your own PC. It was written for Hypixel SkyBlock. Translation runs locally with TranslateGemma 4B on a bundled llama.cpp server; no text is sent to an online translation service.
+
+## Requirements
+
+- Windows x64 with a working Vulkan driver. Other operating systems are not supported.
+- Minecraft 26.1.2 and Java 25
+- Fabric Loader 0.19.5 or newer and Fabric API 0.155.2 or newer
+- About 2.6 GB of free disk space for the translation model
 
 ## Installation
 
-Install `build/libs/localchattranslate-0.4.0+26.1.2.jar` in the normal Fabric `mods` folder, replacing the older LocalChatTranslate JAR if present. This build targets Windows x64 with a working Vulkan driver. Minecraft 26.1.2, Java 25, Fabric Loader 0.19.5 or newer, and Fabric API 0.155.2 or newer are still required. Ollama, a separate llama.cpp installation, a separate model download, and a manually started server are unnecessary.
+1. Put `localchattranslate-<version>.jar` in the `mods` folder. Remove any older LocalChatTranslate JAR.
+2. Start Minecraft. The translation model is not included in the JAR, so the first launch shows that the model is missing.
+3. Open the settings screen (Mod Menu, or `/lct settings`) and press **モデルを取得**, or run `/lct download`.
 
-The JAR is about 2.5 GB. On first launch, the MOD streams and verifies the bundled runtime and GGUF into the game directory under `localchattranslate/runtime/<bundleVersion>/`. The runtime starts asynchronously; the settings screen shows its state. Its logs are written to `logs/localchattranslate-llama.log`. It listens only on `127.0.0.1`, uses a random port and session key, and exits when Minecraft exits. Windows Job Object supervision also stops it if the Minecraft process is killed.
+The MOD then downloads `translategemma-4b-it-Q4_K_M.gguf` (2,489,909,312 bytes) from [Hugging Face](https://huggingface.co/bullerwins/translategemma-4b-it-GGUF). Nothing is downloaded until you agree. The download is pinned to one repository revision, resumes after an interruption, and is used only if its SHA-256 matches. The model is stored in `localchattranslate/models/` inside the game directory and is reused by later versions of the MOD.
 
-The MOD keeps the existing `/lct` command and `[G]` tooltip translation key. The settings screen contains the translation, NPC, and item-description toggles. Existing config files with an `endpoint` field load without requiring migration; the field is ignored.
+The model is subject to Google's [Gemma Terms of Use](https://ai.google.dev/gemma/terms) and [Prohibited Use Policy](https://ai.google.dev/gemma/prohibited_use_policy).
 
-The included model is subject to Google's Gemma Terms of Use and Prohibited Use Policy. See `THIRD_PARTY_NOTICES.md` and the license documents bundled into the JAR before redistributing it.
+## Usage
 
-## Build and verify
+- Translations appear under the original chat line, prefixed with `↳`.
+- Hover over an item and press `G` to translate its description. The key can be changed in Controls.
+- `/lct` shows the status, `/lct on` and `/lct off` toggle translation, `/lct settings` opens the settings screen, `/lct download` starts the model download, and `/lct reload` reloads the config file.
 
-Use Java 25 and the included Gradle wrapper:
+The runtime starts in the background. It listens only on `127.0.0.1` with a random port and session key, and it stops when Minecraft exits. Its log is `logs/localchattranslate-llama.log`.
+
+### Using your own GGUF
+
+Set `modelPath` in `config/localchattranslate.json` to the absolute path of a GGUF file to use it instead of the default model. With `modelPath` set, nothing is downloaded. The translation prompt is written for TranslateGemma, so other models may translate poorly.
+
+## Network access
+
+The MOD connects to the internet only to download the default model, and only after you agree. That request goes to `huggingface.co` and its download CDN. Chat and item text never leave your PC.
+
+## Building
+
+Use Java 25 and the Gradle wrapper. The build needs the llama.cpp b10964 Windows x64 Vulkan release extracted to `bundle/llama.cpp/windows-x64/`. The integration tests also need the default GGUF at `bundle/model/translategemma-4b.gguf`; they copy it into the test game directory instead of downloading it. See `THIRD_PARTY_NOTICES.md` for the exact sources.
 
 ```powershell
 $env:JAVA_HOME = 'path-to-jdk-25'
-$env:PATH = "$env:JAVA_HOME\bin;$env:PATH"
-.\gradlew.bat clean build
-.\gradlew.bat verifyRuntimeLifecycle
-.\gradlew.bat runClientGameTest
+.\gradlew.bat clean build              # JAR, recovered-behavior checks, model download checks
+.\gradlew.bat verifyRuntimeLifecycle   # starts llama-server, translates, restarts, shuts down
+.\gradlew.bat runClientGameTest        # launches Minecraft and checks chat, NPC, tooltip, settings
 ```
 
-`build` creates a Zip64 JAR and runs the recovered parser and placeholder checks. `verifyRuntimeLifecycle` tests resource extraction, key authentication, translation, restart after server death, and clean shutdown. `runClientGameTest` launches Minecraft to check the settings screen, `/lct`, chat, NPC chat, tooltip translation, and exit. The runtime and model binaries in `bundle/` are build inputs; the original distribution in the parent directory is never overwritten.
+`build` runs `verifyModelStore`, which tests consent, download through a redirect, resume, checksum rejection, stall recovery, and HTTP errors against a local HTTP server.
 
-See `RECONSTRUCTION.md` for the original JAR checksum, source recovery, component inventory, binary sources, and test evidence.
+`RECONSTRUCTION.md` explains how the source was recovered from the original 0.4.0 release.
+
+## License
+
+The MOD's code is licensed under the GNU Lesser General Public License v3.0; see `COPYING.LESSER` and `COPYING`. The bundled llama.cpp runtime and the downloaded model have their own licenses; see `THIRD_PARTY_NOTICES.md`.

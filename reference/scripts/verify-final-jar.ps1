@@ -1,6 +1,7 @@
 $ErrorActionPreference = 'Stop'
 $project = (Resolve-Path (Join-Path $PSScriptRoot '..\..')).Path
-$jarPath = Join-Path $project 'build\libs\localchattranslate-0.4.0+26.1.2.jar'
+$version = ((Get-Content (Join-Path $project 'gradle.properties')) -match '^version=' -replace '^version=', '')
+$jarPath = Join-Path $project "build\libs\localchattranslate-$version.jar"
 $archive = [System.IO.Compression.ZipFile]::OpenRead($jarPath)
 try {
     foreach ($name in @('fabric.mod.json', 'localchattranslate.mixins.json',
@@ -17,6 +18,10 @@ try {
     if (-not $manifestEntry) { throw 'Missing bundled manifest' }
     $reader = [System.IO.StreamReader]::new($manifestEntry.Open())
     try { $manifest = $reader.ReadToEnd() | ConvertFrom-Json } finally { $reader.Dispose() }
+    if ($archive.Entries | Where-Object { $_.FullName -like '*.gguf' }) { throw 'JAR must not contain a GGUF model' }
+    if (-not $manifest.model -or $manifest.model.url -notlike 'https://*' -or $manifest.model.sha256 -notmatch '^[0-9a-f]{64}$') {
+        throw 'Manifest lacks a valid pinned model description'
+    }
     $count = 0
     foreach ($file in $manifest.files) {
         $entry = $archive.GetEntry($file.resource)
@@ -28,11 +33,12 @@ try {
         if ($actual -ne $file.sha256) { throw "SHA-256 mismatch: $($file.resource)" }
         $count++
     }
-    Write-Output "Verified $count native/model files in Zip64 JAR; bundle version $($manifest.bundleVersion)"
+    Write-Output "Verified $count native files in JAR; bundle version $($manifest.bundleVersion); model $($manifest.model.file)"
 } finally {
     $archive.Dispose()
 }
 $artifact = Get-Item $jarPath
 $hash = (Get-FileHash $jarPath -Algorithm SHA256).Hash
+if ($artifact.Length -ge 2GB) { throw "JAR is too large for CurseForge or GitHub Releases: $($artifact.Length) bytes" }
 Write-Output "JAR bytes: $($artifact.Length)"
 Write-Output "JAR SHA-256: $hash"

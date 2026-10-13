@@ -36,15 +36,16 @@ tasks.named('jar', Jar) {
 
 tasks.register('generateBundleManifest') {
     group = 'build'
-    description = 'Hashes the bundled llama.cpp runtime and GGUF without loading the model into memory.'
-    inputs.dir(layout.projectDirectory.dir('bundle'))
+    description = 'Hashes the bundled llama.cpp runtime and records the pinned default model.'
+    inputs.dir(layout.projectDirectory.dir('bundle/llama.cpp'))
+    inputs.property('model', [model_file, model_url, model_sha256, model_size])
     outputs.file(layout.buildDirectory.file('generated/bundle/manifest.json'))
     doLast {
         def assets = fileTree('bundle').matching {
-            include 'llama.cpp/windows-x64/*.dll', 'llama.cpp/windows-x64/llama-server.exe', 'model/*.gguf'
+            include 'llama.cpp/windows-x64/*.dll', 'llama.cpp/windows-x64/llama-server.exe'
         }.files.sort { a, b -> a.path <=> b.path }
-        if (!assets.any { it.name == 'llama-server.exe' } || !assets.any { it.name.endsWith('.gguf') }) {
-            throw new GradleException('Bundled llama-server or GGUF is missing')
+        if (!assets.any { it.name == 'llama-server.exe' }) {
+            throw new GradleException('Bundled llama-server is missing')
         }
         def files = assets.collect { asset ->
             def digest = MessageDigest.getInstance('SHA-256')
@@ -58,7 +59,8 @@ tasks.register('generateBundleManifest') {
         }
         def versionDigest = MessageDigest.getInstance('SHA-256')
         files.each { entry -> versionDigest.update((entry.resource + ':' + entry.sha256 + '\n').getBytes('UTF-8')) }
-        def manifest = [bundleVersion: 'b10964-' + versionDigest.digest().encodeHex().toString().substring(0, 16), files: files]
+        def manifest = [bundleVersion: 'b10964-' + versionDigest.digest().encodeHex().toString().substring(0, 16), files: files,
+                        model: [file: model_file, url: model_url, sha256: model_sha256, size: model_size as long]]
         def output = layout.buildDirectory.file('generated/bundle/manifest.json').get().asFile
         output.parentFile.mkdirs()
         output.text = JsonOutput.prettyPrint(JsonOutput.toJson(manifest)) + '\n'
@@ -67,7 +69,10 @@ tasks.register('generateBundleManifest') {
 
 tasks.named('processResources') {
     dependsOn tasks.named('generateBundleManifest')
-    from('bundle') { into 'bundled' }
+    from('bundle') {
+        into 'bundled'
+        exclude 'model/**'
+    }
     from(layout.buildDirectory.file('generated/bundle/manifest.json')) { into 'bundled' }
 }
 
@@ -79,10 +84,31 @@ tasks.register('verifyOriginalBehavior', JavaExec) {
     mainClass = 'local.chattranslate.OriginalBehaviorSmokeTest'
 }
 
+tasks.register('verifyModelStore', JavaExec) {
+    group = 'verification'
+    description = 'Checks model download, resume, redirect, checksum rejection and consent against a local HTTP server.'
+    dependsOn tasks.named('testClasses')
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'local.chattranslate.ModelStoreSmokeTest'
+    workingDir = layout.buildDirectory.dir('model-store-smoke').get().asFile
+    doFirst { workingDir.mkdirs() }
+}
+
+// Places a local copy of the default GGUF where the MOD looks for it, so integration tests never download 2.5 GB.
+def seedModel = { String name, Object gameDir ->
+    tasks.register(name, Copy) {
+        from('bundle/model/translategemma-4b.gguf')
+        into(file(gameDir).toPath().resolve("localchattranslate/models/${model_sha256.substring(0, 16)}").toFile())
+        rename { model_file }
+    }
+}
+seedModel('seedSmokeModel', layout.buildDirectory.dir('runtime-smoke').get().asFile)
+seedModel('seedGameTestModel', file('build/run/clientGameTest'))
+
 tasks.register('verifyRuntimeLifecycle', JavaExec) {
     group = 'verification'
     description = 'Starts the bundled server, translates, recovers from child death, and checks shutdown.'
-    dependsOn tasks.named('testClasses')
+    dependsOn tasks.named('testClasses'), tasks.named('seedSmokeModel')
     classpath = sourceSets.test.runtimeClasspath
     mainClass = 'local.chattranslate.RuntimeLifecycleSmokeTest'
 }
@@ -90,7 +116,7 @@ tasks.register('verifyRuntimeLifecycle', JavaExec) {
 tasks.register('runOrphanProbe', JavaExec) {
     group = 'verification'
     description = 'Test-only probe for verifying server cleanup after forced JVM termination.'
-    dependsOn tasks.named('testClasses')
+    dependsOn tasks.named('testClasses'), tasks.named('seedSmokeModel')
     classpath = sourceSets.test.runtimeClasspath
     mainClass = 'local.chattranslate.JobOrphanProbe'
 }
@@ -101,7 +127,7 @@ tasks.named('test', Test) {
 }
 
 tasks.named('check') {
-    dependsOn tasks.named('verifyOriginalBehavior')
+    dependsOn tasks.named('verifyOriginalBehavior'), tasks.named('verifyModelStore')
 }
 
 fabricApi {
@@ -112,4 +138,12 @@ fabricApi {
         enableClientGameTests = true
         eula = true
     }
+}
+
+tasks.matching { it.name == 'runClientGameTest' }.configureEach {
+    dependsOn tasks.named('seedGameTestModel')
+}
+// The game test run directory is wiped before each run; seed the model after that.
+tasks.named('seedGameTestModel') {
+    mustRunAfter tasks.matching { it.name == 'deleteGameTestRunDir' }
 }

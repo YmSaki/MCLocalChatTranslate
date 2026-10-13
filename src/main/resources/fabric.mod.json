@@ -1,10 +1,15 @@
 {
   "schemaVersion": 1,
   "id": "localchattranslate",
-  "version": "0.4.0+26.1.2",
+  "version": "0.5.0+26.1.2",
   "name": "Local Chat Translate",
   "icon": "assets/localchattranslate/icon.png",
   "description": "Local English-to-Japanese translation of Hypixel SkyBlock chat, NPC dialogue and item descriptions.",
+  "license": "LGPL-3.0-only",
+  "contact": {
+    "sources": "https://github.com/YmSaki/MCLocalChatTranslate",
+    "issues": "https://github.com/YmSaki/MCLocalChatTranslate/issues"
+  },
   "environment": "client",
   "entrypoints": {
     "client": ["local.chattranslate.LocalChatTranslate"],

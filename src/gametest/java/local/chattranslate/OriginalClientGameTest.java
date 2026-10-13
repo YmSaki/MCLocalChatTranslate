@@ -45,6 +45,22 @@ public final class OriginalClientGameTest implements FabricClientGameTest {
 
       context.waitFor(client -> LocalChatTranslate.runtimeState() == LlamaCppRuntime.RuntimeState.READY, 2400);
       System.out.println("[LCT integration test] bundled runtime READY");
+      context.setScreen(() -> new ConfigScreen(null));
+      context.waitForScreen(ConfigScreen.class);
+      context.waitTicks(2);
+      context.runOnClient(client -> {
+         try {
+            Field download = ConfigScreen.class.getDeclaredField("download");
+            download.setAccessible(true);
+            if (((net.minecraft.client.gui.components.Button) download.get(client.screen)).visible) {
+               throw new AssertionError("Model download button is shown while the runtime is READY");
+            }
+         } catch (ReflectiveOperationException e) {
+            throw new AssertionError(e);
+         }
+      });
+      context.setScreen(() -> null);
+      System.out.println("[LCT integration test] download button hidden when READY");
 
       try (TestSingleplayerContext world = context.worldBuilder().create()) {
          world.getClientLevel().waitForChunksRender();

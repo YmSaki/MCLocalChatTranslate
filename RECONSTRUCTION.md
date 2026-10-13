@@ -1,5 +1,8 @@
 # Reconstruction log
 
+This document records how version 0.4.0+26.1.2 was recovered and first migrated to llama.cpp. Since 0.5.0 the JAR no longer contains the GGUF: the model is downloaded after user consent (see `README.md`), so statements below about a 2.5 GB JAR and model extraction describe the 0.4.0 migration build only.
+
+
 ## Source artifact
 
 - File: `reference/original/localchattranslate-0.4.0+26.1.2.jar`

@@ -21,7 +21,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/** Streams the verified native runtime and GGUF out of the MOD JAR. Call on a worker thread. */
+/** Streams the verified native runtime out of the MOD JAR. Call on a worker thread. */
 public final class RuntimeExtractor {
    private static final String MANIFEST_RESOURCE = "/bundled/manifest.json";
    private static final String BUNDLE_PREFIX = "bundled/";
@@ -29,7 +29,7 @@ public final class RuntimeExtractor {
    private RuntimeExtractor() {
    }
 
-   public record ExtractedBundle(Path runtimeDir, Path modelPath, String version) {
+   public record ExtractedBundle(Path runtimeDir, ModelStore.ModelSpec model, String version) {
    }
 
    private record Entry(String resource, String sha256, long size) {
@@ -43,6 +43,7 @@ public final class RuntimeExtractor {
          throw new IOException("Invalid bundled manifest", e);
       }
       String version;
+      ModelStore.ModelSpec model;
       List<Entry> entries = new ArrayList<>();
       try {
          version = manifest.get("bundleVersion").getAsString();
@@ -53,16 +54,19 @@ public final class RuntimeExtractor {
             JsonObject file = element.getAsJsonObject();
             Entry entry = new Entry(file.get("resource").getAsString(),
                file.get("sha256").getAsString(), file.get("size").getAsLong());
-            if (!entry.resource.matches("bundled/(llama\\.cpp/windows-x64/[a-zA-Z0-9._-]+|model/translategemma-4b\\.gguf)")
+            if (!entry.resource.matches("bundled/llama\\.cpp/windows-x64/[a-zA-Z0-9._-]+")
                || !entry.sha256.matches("[0-9a-f]{64}") || entry.size <= 0 || !names.add(entry.resource)) {
                throw new IllegalArgumentException("Invalid manifest entry");
             }
             entries.add(entry);
          }
-         if (entries.stream().noneMatch(e -> e.resource.endsWith("/llama-server.exe"))
-            || entries.stream().noneMatch(e -> e.resource.endsWith("/translategemma-4b.gguf"))) {
+         if (entries.stream().noneMatch(e -> e.resource.endsWith("/llama-server.exe"))) {
             throw new IllegalArgumentException("Incomplete manifest");
          }
+         JsonObject spec = manifest.getAsJsonObject("model");
+         model = new ModelStore.ModelSpec(spec.get("file").getAsString(), java.net.URI.create(spec.get("url").getAsString()),
+            spec.get("sha256").getAsString(), spec.get("size").getAsLong());
+         if (!"https".equals(model.url().getScheme())) throw new IllegalArgumentException("Model URL must use HTTPS");
       } catch (RuntimeException e) {
          throw new IOException("Invalid bundled manifest", e);
       }
@@ -93,8 +97,7 @@ public final class RuntimeExtractor {
                Files.deleteIfExists(marker);
             }
          }
-         return new ExtractedBundle(versionDir.resolve("llama.cpp/windows-x64"),
-            versionDir.resolve("model/translategemma-4b.gguf"), version);
+         return new ExtractedBundle(versionDir.resolve("llama.cpp/windows-x64"), model, version);
       }
    }
 
@@ -122,13 +125,7 @@ public final class RuntimeExtractor {
    }
 
    private static boolean verify(Path file, Entry entry) throws IOException {
-      if (!Files.isRegularFile(file) || Files.size(file) != entry.size) return false;
-      MessageDigest digest = sha256();
-      try (InputStream stream = new DigestInputStream(Files.newInputStream(file), digest)) {
-         byte[] buffer = new byte[1024 * 1024];
-         while (stream.read(buffer) != -1) { }
-      }
-      return hex(digest.digest()).equals(entry.sha256);
+      return Files.isRegularFile(file) && Files.size(file) == entry.size && ModelStore.sha256(file).equals(entry.sha256);
    }
 
    private static InputStream resource(String name) throws IOException {
