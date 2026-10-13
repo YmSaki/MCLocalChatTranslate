@@ -116,15 +116,15 @@ final class TooltipTranslations {
             }
          }
 
-         String action = entry.visible ? "原文に戻す" : "説明を日本語に翻訳";
+         Component action = Component.translatable(entry.visible ? "localchattranslate.tooltip.original" : "localchattranslate.tooltip.translate");
          if (entry.busy) {
-            action = action + "・翻訳中…";
+            action = Component.translatable("localchattranslate.tooltip.busy", action);
          } else if (entry.visible && entry.failed) {
-            action = action + "・一部の行は原文";
+            action = Component.translatable("localchattranslate.tooltip.partial", action);
          }
 
          result.add(
-            Component.literal("[" + this.key.getTranslatedKeyMessage().getString() + "] " + action)
+            Component.literal("[" + this.key.getTranslatedKeyMessage().getString() + "] ").append(action)
                .withStyle(entry.failed && entry.visible ? ChatFormatting.YELLOW : ChatFormatting.GRAY)
          );
          return result;

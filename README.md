@@ -13,7 +13,7 @@ LocalChatTranslate is a client-side Fabric MOD for Minecraft 26.1.2 that transla
 
 1. Put `localchattranslate-<version>.jar` in the `mods` folder. Remove any older LocalChatTranslate JAR.
 2. Start Minecraft. The translation model is not included in the JAR, so the first launch shows that the model is missing.
-3. Open the settings screen (Mod Menu, or `/lct settings`) and press **モデルを取得**, or run `/lct download`.
+3. Open the settings screen (Mod Menu, or `/lct settings`) and press **Download Model** (モデルをダウンロード), or run `/lct download`.
 
 The MOD then downloads `translategemma-4b-it-Q4_K_M.gguf` (2,489,909,312 bytes) from [Hugging Face](https://huggingface.co/bullerwins/translategemma-4b-it-GGUF). Nothing is downloaded until you agree. The download is pinned to one repository revision, resumes after an interruption, and is used only if its SHA-256 matches. The model is stored in `localchattranslate/models/` inside the game directory and is reused by later versions of the MOD.
 
@@ -29,14 +29,14 @@ The runtime starts in the background. It listens only on `127.0.0.1` with a rand
 
 ### Choosing a model
 
-Press **モデル設定…** on the settings screen. Like the resource pack screen, it lists the models you can use:
+Press **Model Settings...** (モデル設定…) on the settings screen. Like the resource pack screen, it lists the models you can use:
 
 - TranslateGemma 4B, the default, with its download state
-- `.gguf` files in `localchattranslate/models/` inside the game directory (**フォルダを開く** opens it)
+- `.gguf` files in `localchattranslate/models/` inside the game directory (**Open Model Folder** opens it)
 - `.gguf` files in the Hugging Face cache (`HF_HUB_CACHE`, `HF_HOME/hub`, or `~/.cache/huggingface/hub`)
-- files added with **参照…** or by dragging them onto the screen; these are used where they are, not copied
+- files added with **Browse...** or by dragging them onto the screen; these are used where they are, not copied
 
-Select one and press **完了** (or double-click it). The runtime switches to that model without restarting the game. Selecting the default while it is not downloaded starts its download. The translation prompt is written for TranslateGemma, so other models may translate poorly.
+Select one and press **Done** (or double-click it). The runtime switches to that model without restarting the game. Selecting the default while it is not downloaded starts its download. The translation prompt is written for TranslateGemma, so other models may translate poorly.
 
 ## Network access
 

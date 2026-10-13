@@ -45,7 +45,7 @@ public final class LlamaCppRuntime implements AutoCloseable {
    private final Supplier<ModelChoice> modelChoice;
    private final SecureRandom random = new SecureRandom();
    private volatile ModelStore modelStore;
-   private volatile String lastError;
+   private volatile Throwable lastFailure;
    private volatile RuntimeState state = RuntimeState.STOPPED;
    private volatile ServerHandle handle;
    private WindowsJob job;
@@ -68,7 +68,8 @@ public final class LlamaCppRuntime implements AutoCloseable {
       return state;
    }
    public boolean isReady() { return state() == RuntimeState.READY; }
-   public String lastError() { return lastError; }
+   /** Why the runtime last stopped at MODEL_MISSING or FAILED; null otherwise. */
+   public Throwable lastFailure() { return lastFailure; }
 
    /** Bytes received and expected while {@link RuntimeState#DOWNLOADING}; null when the size is not yet known. */
    public long[] downloadProgress() {
@@ -83,15 +84,15 @@ public final class LlamaCppRuntime implements AutoCloseable {
       if (starting != null && !starting.isDone()) return starting;
       long gen = generation;
       state = RuntimeState.STARTING;
-      lastError = null;
+      lastFailure = null;
       starting = CompletableFuture.supplyAsync(() -> {
          try {
             return launch(gen);
          } catch (ModelStore.ModelMissingException e) {
-            if (setState(gen, RuntimeState.MODEL_MISSING)) lastError = e.getMessage();
+            if (setState(gen, RuntimeState.MODEL_MISSING)) lastFailure = e;
             throw new CompletionException(e);
          } catch (Exception e) {
-            if (setState(gen, RuntimeState.FAILED)) lastError = e.getMessage();
+            if (setState(gen, RuntimeState.FAILED)) lastFailure = e;
             throw new CompletionException(e);
          }
       }, worker);
@@ -133,7 +134,7 @@ public final class LlamaCppRuntime implements AutoCloseable {
    public synchronized CompletableFuture<ServerHandle> ensureStarted() {
       RuntimeState current = state();
       if (current == RuntimeState.DOWNLOADING) {
-         return CompletableFuture.failedFuture(new IOException("翻訳モデルをダウンロード中です。"));
+         return CompletableFuture.failedFuture(new Localized.Failure("error.downloading"));
       }
       if (current == RuntimeState.MODEL_MISSING && !modelChoice.get().downloadAllowed()) {
          return CompletableFuture.failedFuture(new ModelStore.ModelMissingException());
@@ -145,7 +146,7 @@ public final class LlamaCppRuntime implements AutoCloseable {
       String os = System.getProperty("os.name", "");
       String arch = System.getProperty("os.arch", "");
       if (!os.startsWith("Windows") || !(arch.equals("amd64") || arch.equals("x86_64"))) {
-         throw new IOException("内蔵翻訳エンジンは Windows x64 専用です（" + os + " / " + arch + "）。");
+         throw new Localized.Failure("error.platform", os, arch);
       }
       setState(gen, RuntimeState.EXTRACTING);
       RuntimeExtractor.ExtractedBundle extracted = RuntimeExtractor.extract(gameDir);
@@ -221,7 +222,7 @@ public final class LlamaCppRuntime implements AutoCloseable {
       ModelChoice choice = modelChoice.get();
       if (choice.modelPath() != null && !choice.modelPath().isBlank()) {
          Path custom = Path.of(choice.modelPath());
-         if (!Files.isRegularFile(custom)) throw new IOException("指定された GGUF が見つかりません: " + custom);
+         if (!Files.isRegularFile(custom)) throw new Localized.Failure("error.ggufMissing", custom.toString());
          return custom;
       }
       ModelStore store = new ModelStore(gameDir, spec, downloadHttp);

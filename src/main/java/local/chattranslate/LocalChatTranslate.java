@@ -53,7 +53,7 @@ public final class LocalChatTranslate implements ClientModInitializer {
    private long skipped;
    private long nextWarning;
    private boolean modelNoticeShown;
-   private String lastError = "なし";
+   private Component lastError;
 
    public void onInitializeClient() {
       instance = this;
@@ -70,8 +70,7 @@ public final class LocalChatTranslate implements ClientModInitializer {
          this.reset();
          if (this.config.enabled && !this.modelNoticeShown && this.runtime.state() == LlamaCppRuntime.RuntimeState.MODEL_MISSING) {
             this.modelNoticeShown = true;
-            client.execute(() -> client.gui.getChat().addClientSystemMessage(Component.literal(
-               "[LCT] 翻訳モデル（約 2.5 GB）が未ダウンロードです。/lct download か設定画面から、Hugging Face からの取得を開始できます。")));
+            client.execute(() -> client.gui.getChat().addClientSystemMessage(Component.translatable(KEY + "chat.modelMissing")));
          }
       });
       ClientPlayConnectionEvents.DISCONNECT.register((Disconnect)(handler, client) -> {
@@ -103,8 +102,7 @@ public final class LocalChatTranslate implements ClientModInitializer {
                      })))
                   .then(ClientCommands.literal("download").executes(context -> {
                      this.consentToDownload();
-                     ((FabricClientCommandSource)context.getSource()).sendFeedback(Component.literal(
-                        "[LCT] 翻訳モデルを Hugging Face から取得します（約 2.5 GB）。進み具合は /lct で確認できます。"));
+                     ((FabricClientCommandSource)context.getSource()).sendFeedback(Component.translatable(KEY + "chat.downloadStarted"));
                      return 1;
                   }))
                   .then(ClientCommands.literal("reload").executes(context -> {
@@ -182,23 +180,39 @@ public final class LocalChatTranslate implements ClientModInitializer {
       instance.startRuntime();
    }
 
-   /** Human-readable runtime state for the settings screen and /lct. */
-   public static String runtimeStatus() {
+   private static final String KEY = "localchattranslate.";
+
+   /** Runtime state for the settings screen and /lct, in the client's language. */
+   public static Component runtimeStatus() {
       LlamaCppRuntime runtime = instance.runtime;
       return switch (runtime.state()) {
-         case STARTING, EXTRACTING -> "準備中";
-         case MODEL_MISSING -> "モデル未ダウンロード";
-         case DOWNLOADING -> {
-            long[] progress = runtime.downloadProgress();
-            yield progress == null ? "モデルをダウンロード中"
-               : String.format("モデルをダウンロード中 %.2f / %.2f GB (%d%%)", progress[0] / 1e9, progress[1] / 1e9,
-                  progress[0] * 100 / progress[1]);
-         }
-         case LOADING_MODEL -> "モデルを読み込み中";
-         case READY -> "準備完了";
-         case FAILED -> "停止中（" + (runtime.lastError() == null ? "ログを確認してください" : runtime.lastError()) + "）";
-         case STOPPING, STOPPED -> "停止";
+         case STARTING, EXTRACTING -> Component.translatable(KEY + "state.starting");
+         case MODEL_MISSING -> Component.translatable(KEY + "state.missing");
+         case DOWNLOADING -> downloadStatus();
+         case LOADING_MODEL -> Component.translatable(KEY + "state.loading");
+         case READY -> Component.translatable(KEY + "state.ready");
+         case FAILED -> Component.translatable(KEY + "state.failed", runtime.lastFailure() == null
+            ? Component.translatable(KEY + "state.failed.noDetail") : errorComponent(runtime.lastFailure()));
+         case STOPPING, STOPPED -> Component.translatable(KEY + "state.stopped");
       };
+   }
+
+   public static Component downloadStatus() {
+      long[] progress = instance.runtime.downloadProgress();
+      long done = progress == null ? 0 : progress[0];
+      long total = progress == null ? 1 : progress[1];
+      return Component.translatable(KEY + "state.downloading", String.format(java.util.Locale.ROOT, "%.2f", done / 1e9),
+         String.format(java.util.Locale.ROOT, "%.2f", total / 1e9), done * 100 / total);
+   }
+
+   private static Component onOff(boolean on) {
+      return net.minecraft.network.chat.CommonComponents.optionStatus(on);
+   }
+
+   /** File name of the selected GGUF, or TranslateGemma 4B for the default model. */
+   public static String modelName() {
+      String path = instance.config.modelPath;
+      return path == null || path.isBlank() ? "TranslateGemma 4B" : Path.of(path).getFileName().toString();
    }
 
    private void reload() {
@@ -251,26 +265,31 @@ public final class LocalChatTranslate implements ClientModInitializer {
       return instance.runtime.state();
    }
 
+   /** Plain text of {@link #errorComponent} for the translation log file. */
    public static String errorMessage(Throwable error) {
+      return errorComponent(error).getString();
+   }
+
+   public static Component errorComponent(Throwable error) {
       while (error.getCause() != null) {
          error = error.getCause();
       }
 
+      if (error instanceof local.chattranslate.runtime.Localized localized) {
+         return Component.translatable(localized.translationKey(), localized.translationArgs());
+      }
       if (error instanceof ConnectException || error instanceof ClosedChannelException) {
-         return "内蔵翻訳サーバーに接続できません。ログを確認してください。";
+         return Component.translatable(KEY + "error.connect");
       }
-
-      if (!(error instanceof TimeoutException) && !(error instanceof HttpTimeoutException)) {
-         String message = error.getMessage();
-         if (message == null) {
-            message = error.getClass().getSimpleName();
-         }
-
-         message = message.replaceAll("[\\r\\n]+", " ");
-         return message.substring(0, Math.min(message.length(), 180));
-      } else {
-         return "翻訳がタイムアウトしました。初回のモデル読み込み中の場合もあります。";
+      if (error instanceof TimeoutException || error instanceof HttpTimeoutException) {
+         return Component.translatable(KEY + "error.timeout");
       }
+      String message = error.getMessage();
+      if (message == null) {
+         message = error.getClass().getSimpleName();
+      }
+      message = message.replaceAll("\\s+", " ");
+      return Component.literal(message.substring(0, Math.min(message.length(), 180)));
    }
 
    public static void received(ChatBridge chat, GuiMessage message) {
@@ -317,14 +336,14 @@ public final class LocalChatTranslate implements ClientModInitializer {
                         if (requestGeneration == this.generation && this.config.enabled) {
                            if (error != null) {
                               this.failures++;
-                              this.lastError = errorMessage(error);
+                              this.lastError = errorComponent(error);
                               if (System.currentTimeMillis() >= this.nextWarning) {
                                  this.nextWarning = System.currentTimeMillis() + 60000L;
-                                 LOG.warn("[LCT] TranslateGemma 4B | 原文を保持 | {}", this.lastError);
+                                 LOG.warn("[LCT] TranslateGemma 4B | 原文を保持 | {}", this.lastError.getString());
                               }
                            } else if (result.isPresent() && chat.lct$attach(message, (String)result.get())) {
                               this.translated++;
-                              this.lastError = "なし";
+                              this.lastError = null;
                            } else {
                               this.skipped++;
                            }
@@ -352,34 +371,13 @@ public final class LocalChatTranslate implements ClientModInitializer {
    }
 
    private int status(Consumer<Component> feedback) {
-      feedback.accept(
-         Component.literal(
-            "[LCT] TranslateGemma 4B | 英語→日本語 "
-               + (this.config.enabled ? "ON" : "OFF")
-               + " | NPC "
-               + (this.config.translateNpc ? "ON" : "OFF")
-               + " | アイテム説明 "
-               + (this.config.translateTooltips ? "ON" : "OFF")
-         )
-      );
-      feedback.accept(
-         Component.literal(
-            "  チャット翻訳 "
-               + this.translated
-               + "件 / 待機（共通） "
-               + this.api.pending()
-               + "件 / 失敗 "
-               + this.failures
-               + "件 / 対象 "
-               + this.candidates
-               + "件 / 省略 "
-               + this.skipped
-               + "件"
-         )
-      );
-      feedback.accept(Component.literal("  翻訳エンジン: " + runtimeStatus()));
-      if (!this.lastError.equals("なし")) {
-         feedback.accept(Component.literal("  最後のエラー: " + this.lastError));
+      feedback.accept(Component.translatable(KEY + "chat.status", modelName(), onOff(this.config.enabled),
+         onOff(this.config.translateNpc), onOff(this.config.translateTooltips)));
+      feedback.accept(Component.translatable(KEY + "chat.stats", this.translated, this.api.pending(), this.failures,
+         this.candidates, this.skipped));
+      feedback.accept(Component.translatable(KEY + "chat.engine", runtimeStatus()));
+      if (this.lastError != null) {
+         feedback.accept(Component.translatable(KEY + "chat.lastError", this.lastError));
       }
 
       return 1;

@@ -31,6 +31,7 @@ import org.lwjgl.util.tinyfd.TinyFileDialogs;
 
 /** Model picker laid out like the resource pack screen: the default model, GGUFs in the models folder and the Hugging Face cache. */
 public final class ModelScreen extends Screen {
+   private static final String KEY = "localchattranslate.model.";
    private static final Identifier ICON = Identifier.fromNamespaceAndPath("localchattranslate", "icon.png");
    private final Screen parent;
    private final ModConfig edited;
@@ -38,10 +39,10 @@ public final class ModelScreen extends Screen {
    /** Files added with 参照… or drag and drop during this visit. */
    private final List<Path> added = new ArrayList<>();
    private ModelList list;
-   private String error = "";
+   private Component error = Component.empty();
 
    public ModelScreen(Screen parent, ModConfig edited) {
-      super(Component.literal("翻訳モデル"));
+      super(Component.translatable(KEY + "title"));
       this.parent = parent;
       this.edited = edited;
    }
@@ -51,14 +52,14 @@ public final class ModelScreen extends Screen {
       LinearLayout header = this.layout.addToHeader(LinearLayout.vertical().spacing(4));
       header.defaultCellSetting().alignHorizontallyCenter();
       header.addChild(new StringWidget(this.getTitle(), this.font));
-      header.addChild(new StringWidget(Component.literal("GGUF ファイルをこの画面にドラッグ＆ドロップしても追加できます").withStyle(ChatFormatting.GRAY), this.font));
+      header.addChild(new StringWidget(Component.translatable(KEY + "dropInfo"), this.font));
       ModelChoice previous = this.list == null ? null : this.list.selectedChoice();
       this.list = this.layout.addToContents(new ModelList(this.minecraft, this.width, this.height - 66));
       LinearLayout footer = this.layout.addToFooter(LinearLayout.horizontal().spacing(8));
-      footer.addChild(Button.builder(Component.literal("フォルダを開く"), button -> this.openFolder())
-         .tooltip(Tooltip.create(Component.literal("GGUF をこのフォルダに置くと一覧に表示されます"))).width(100).build());
-      footer.addChild(Button.builder(Component.literal("参照…"), button -> this.browse()).width(100).build());
-      footer.addChild(Button.builder(CommonComponents.GUI_DONE, button -> this.done()).width(100).build());
+      footer.addChild(Button.builder(Component.translatable(KEY + "openFolder"), button -> this.openFolder())
+         .tooltip(Tooltip.create(Component.translatable(KEY + "folderInfo"))).width(130).build());
+      footer.addChild(Button.builder(Component.translatable(KEY + "browse"), button -> this.browse()).width(130).build());
+      footer.addChild(Button.builder(CommonComponents.GUI_DONE, button -> this.done()).width(130).build());
       this.layout.visitWidgets(this::addRenderableWidget);
       this.repositionElements();
       this.reload(previous);
@@ -70,24 +71,26 @@ public final class ModelScreen extends Screen {
    }
 
    /** One selectable model; {@code path} is null for the default model. */
-   private record ModelChoice(Path path, String name, String detail) { }
+   private record ModelChoice(Path path, Component name, Component detail) { }
 
    private void reload(ModelChoice keep) {
       Map<Path, ModelChoice> files = new LinkedHashMap<>();
       for (Path file : scan(LocalChatTranslate.modelsDir(), 1)) {
-         files.putIfAbsent(key(file), new ModelChoice(file, file.getFileName().toString(), "models フォルダ · " + size(file)));
+         files.putIfAbsent(key(file), new ModelChoice(file, Component.literal(file.getFileName().toString()), Component.translatable(KEY + "source.folder", size(file))));
       }
       for (Path file : scanHuggingFaceCache()) {
-         files.putIfAbsent(key(file), new ModelChoice(file, file.getFileName().toString(), "Hugging Face キャッシュ · " + repoName(file) + " · " + size(file)));
+         files.putIfAbsent(key(file), new ModelChoice(file, Component.literal(file.getFileName().toString()), Component.translatable(KEY + "source.hfCache", repoName(file), size(file))));
       }
       List<Path> extra = new ArrayList<>(this.added);
       if (this.edited.modelPath != null && !this.edited.modelPath.isBlank()) extra.add(Path.of(this.edited.modelPath));
       for (Path file : extra) {
-         files.putIfAbsent(key(file), new ModelChoice(file, file.getFileName().toString(),
-            (Files.isRegularFile(file) ? size(file) + " · " : "見つかりません · ") + file.getParent()));
+         files.putIfAbsent(key(file), new ModelChoice(file, Component.literal(file.getFileName().toString()),
+            Files.isRegularFile(file) ? Component.translatable(KEY + "source.file", size(file), String.valueOf(file.getParent()))
+               : Component.translatable(KEY + "source.missing", String.valueOf(file.getParent()))));
       }
       List<ModelChoice> choices = new ArrayList<>();
-      choices.add(new ModelChoice(null, "TranslateGemma 4B（既定）", ""));
+      choices.add(new ModelChoice(null, Component.translatable("pack.nameAndSource", "TranslateGemma 4B",
+         Component.translatable(KEY + "default")), Component.empty()));
       choices.addAll(files.values());
 
       Path wanted = keep != null ? keep.path() : (this.edited.modelPath == null || this.edited.modelPath.isBlank() ? null : Path.of(this.edited.modelPath));
@@ -149,12 +152,11 @@ public final class ModelScreen extends Screen {
    }
 
    /** Download state of the default model, refreshed while the screen is open. */
-   private static String defaultStatus() {
+   private static Component defaultStatus() {
       if (LocalChatTranslate.runtimeState() == local.chattranslate.runtime.LlamaCppRuntime.RuntimeState.DOWNLOADING) {
-         return LocalChatTranslate.runtimeStatus().replace("モデルをダウンロード中", "取得中");
+         return LocalChatTranslate.downloadStatus();
       }
-      return LocalChatTranslate.defaultModelDownloaded() ? "取得済み"
-         : "未取得 · 選んで「完了」で Hugging Face から取得（約 2.5 GB、Gemma 利用規約）";
+      return Component.translatable(KEY + (LocalChatTranslate.defaultModelDownloaded() ? "downloaded" : "notDownloaded"));
    }
 
    private void openFolder() {
@@ -168,13 +170,15 @@ public final class ModelScreen extends Screen {
    }
 
    private void browse() {
+      String title = Component.translatable(KEY + "browse.title").getString();
+      String filterName = Component.translatable(KEY + "browse.filter").getString();
       // The native dialog blocks, so it runs off the render thread.
       Thread.ofPlatform().daemon().name("localchattranslate-file-dialog").start(() -> {
          String chosen;
          try (MemoryStack stack = MemoryStack.stackPush()) {
             PointerBuffer filters = stack.mallocPointer(1);
             filters.put(stack.UTF8("*.gguf")).flip();
-            chosen = TinyFileDialogs.tinyfd_openFileDialog("GGUF を選択", null, filters, "GGUF モデル (*.gguf)", false);
+            chosen = TinyFileDialogs.tinyfd_openFileDialog(title, null, filters, filterName, false);
          }
          if (chosen != null && this.minecraft != null) {
             this.minecraft.execute(() -> this.addFiles(List.of(Path.of(chosen))));
@@ -187,14 +191,22 @@ public final class ModelScreen extends Screen {
    }
 
    private void addFiles(List<Path> files) {
-      List<Path> models = files.stream().filter(p -> p.getFileName().toString().toLowerCase(Locale.ROOT).endsWith(".gguf")).toList();
-      if (models.isEmpty()) {
-         this.error = ".gguf ファイルを指定してください。";
-         return;
+      List<Path> models = files.stream().filter(ModelScreen::isGguf).toList();
+      List<Path> rejected = files.stream().filter(p -> !isGguf(p)).toList();
+      this.error = Component.empty();
+      if (!models.isEmpty()) {
+         this.added.addAll(models);
+         this.reload(new ModelChoice(models.getFirst(), Component.empty(), Component.empty()));
       }
-      this.error = "";
-      this.added.addAll(models);
-      this.reload(new ModelChoice(models.getFirst(), "", ""));
+      if (!rejected.isEmpty()) {
+         String names = String.join(", ", rejected.stream().map(p -> p.getFileName().toString()).toList());
+         this.minecraft.setScreen(new net.minecraft.client.gui.screens.AlertScreen(() -> this.minecraft.setScreen(this),
+            Component.translatable(KEY + "dropRejected.title"), Component.translatable(KEY + "dropRejected.message", names)));
+      }
+   }
+
+   private static boolean isGguf(Path file) {
+      return file.getFileName().toString().toLowerCase(Locale.ROOT).endsWith(".gguf") && Files.isRegularFile(file);
    }
 
    private void done() {
@@ -204,7 +216,7 @@ public final class ModelScreen extends Screen {
          return;
       }
       if (choice.path() != null && !Files.isRegularFile(choice.path())) {
-         this.error = "ファイルが見つかりません: " + choice.path();
+         this.error = Component.translatable(KEY + "fileMissing", choice.path().toString());
          return;
       }
       String modelPath = choice.path() == null ? null : choice.path().toString();
@@ -213,7 +225,7 @@ public final class ModelScreen extends Screen {
       try {
          LocalChatTranslate.selectModel(modelPath, consent);
       } catch (IOException e) {
-         this.error = "設定ファイルを保存できませんでした。";
+         this.error = Component.translatable("localchattranslate.config.saveFailed");
          return;
       }
       this.edited.modelPath = modelPath;
@@ -223,9 +235,9 @@ public final class ModelScreen extends Screen {
 
    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
       super.extractRenderState(graphics, mouseX, mouseY, delta);
-      if (!this.error.isEmpty()) {
+      if (!this.error.getString().isEmpty()) {
          int w = Math.min(340, this.width - 24);
-         graphics.centeredText(this.font, this.font.plainSubstrByWidth(this.error, w), this.width / 2,
+         graphics.centeredText(this.font, this.font.plainSubstrByWidth(this.error.getString(), w), this.width / 2,
             this.height - this.layout.getFooterHeight() - 12, -30584);
       }
    }
@@ -270,20 +282,20 @@ public final class ModelScreen extends Screen {
 
          Entry(ModelChoice choice) {
             this.choice = choice;
-            this.name = new StringWidget(Component.literal(choice.name()), ModelScreen.this.font);
-            this.detail = new MultiLineTextWidget(Component.literal(choice.detail()).withStyle(ChatFormatting.GRAY), ModelScreen.this.font);
+            this.name = new StringWidget(choice.name(), ModelScreen.this.font);
+            this.detail = new MultiLineTextWidget(choice.detail().copy().withStyle(ChatFormatting.GRAY), ModelScreen.this.font);
             this.detail.setMaxRows(2);
          }
 
          public Component getNarration() {
-            return Component.translatable("narrator.select", Component.literal(this.choice.name()));
+            return Component.translatable("narrator.select", this.choice.name());
          }
 
          public void extractContent(GuiGraphicsExtractor graphics, int mouseX, int mouseY, boolean hovered, float a) {
             if (this.choice.path() == null) {
-               String status = defaultStatus();
-               if (!this.detail.getMessage().getString().equals(status)) {
-                  this.detail.setMessage(Component.literal(status).withStyle(ChatFormatting.GRAY));
+               Component status = defaultStatus();
+               if (!this.detail.getMessage().getString().equals(status.getString())) {
+                  this.detail.setMessage(status.copy().withStyle(ChatFormatting.GRAY));
                }
             }
             int x = this.getContentX();
@@ -305,7 +317,7 @@ public final class ModelScreen extends Screen {
 
          public boolean mouseClicked(net.minecraft.client.input.MouseButtonEvent event, boolean doubleClick) {
             ModelList.this.setSelected(this);
-            ModelScreen.this.error = "";
+            ModelScreen.this.error = Component.empty();
             if (doubleClick) ModelScreen.this.done();
             return true;
          }

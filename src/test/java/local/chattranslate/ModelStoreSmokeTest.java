@@ -126,7 +126,7 @@ public final class ModelStoreSmokeTest {
       ModelStore store = store(base, "corrupt", spec, http);
       mode = Mode.CORRUPT;
       requests.clear();
-      expectFailure(store, "検証");
+      expectFailure(store, "error.checksum");
       require(!Files.exists(store.modelPath()), "Corrupted download was installed");
       require(!Files.exists(part(store)), "Corrupted partial file was kept for resuming");
       require(requests.stream().filter(r -> r.startsWith("blob")).count() == 1, "Checksum failure was retried: " + requests);
@@ -159,7 +159,7 @@ public final class ModelStoreSmokeTest {
       ModelStore store = store(base, "not-found", spec, http);
       mode = Mode.NOT_FOUND;
       requests.clear();
-      expectFailure(store, "HTTP 404");
+      expectFailure(store, "error.http [404]");
       require(!Files.exists(store.modelPath()), "Model installed after HTTP error");
       pass("HTTP error reported");
    }
