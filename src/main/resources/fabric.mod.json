@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "localchattranslate",
-  "version": "0.5.0+26.1.2",
+  "version": "${version}",
   "name": "Local Chat Translate",
   "icon": "assets/localchattranslate/icon.png",
   "description": "Local English-to-Japanese translation of Hypixel SkyBlock chat, NPC dialogue and item descriptions.",

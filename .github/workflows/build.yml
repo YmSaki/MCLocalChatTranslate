@@ -1,0 +1,54 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  LLAMA_CPP_BUILD: b10964
+  LLAMA_CPP_SHA256: 1ee3ad952f4ba71f438bd6d7bebef19e1c7af04adcaa35d08b4ddabb27d4c642
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '25'
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Fetch llama.cpp runtime
+        run: |
+          zip="llama-${LLAMA_CPP_BUILD}-bin-win-vulkan-x64.zip"
+          curl -fsSL -o "$RUNNER_TEMP/$zip" "https://github.com/ggml-org/llama.cpp/releases/download/${LLAMA_CPP_BUILD}/$zip"
+          echo "${LLAMA_CPP_SHA256}  $RUNNER_TEMP/$zip" | sha256sum -c -
+          dest=bundle/llama.cpp/windows-x64
+          unzip -q -o "$RUNNER_TEMP/$zip" '*.dll' llama-server.exe -d "$dest"
+          ls "$dest"
+
+      - name: Build
+        run: bash ./gradlew assemble --no-daemon
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: localchattranslate
+          path: build/libs/localchattranslate-*.jar
+          if-no-files-found: error
+
+      - name: Publish pre-release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          prerelease: ${{ contains(github.ref_name, '-') }}
+          generate_release_notes: true
+          files: build/libs/localchattranslate-*.jar

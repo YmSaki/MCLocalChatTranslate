@@ -71,6 +71,16 @@ public final class ModelStore {
       return root.resolve(spec.sha256.substring(0, 16)).resolve(spec.fileName);
    }
 
+   /** Cheap check for UI: the file has the expected size and was verified before. Never hashes. */
+   public boolean isPresent() {
+      try {
+         Path model = modelPath();
+         return Files.isRegularFile(model) && Files.size(model) == spec.size && Files.isRegularFile(marker());
+      } catch (IOException e) {
+         return false;
+      }
+   }
+
    /** Returns the verified model, hashing it only when its verification marker is stale. */
    public boolean isInstalled() throws IOException {
       Path model = modelPath();

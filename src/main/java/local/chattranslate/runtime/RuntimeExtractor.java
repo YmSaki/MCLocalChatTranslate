@@ -101,6 +101,18 @@ public final class RuntimeExtractor {
       }
    }
 
+   /** Reads only the pinned default model description from the bundled manifest. */
+   public static ModelStore.ModelSpec readModelSpec() throws IOException {
+      try (InputStream stream = resource(MANIFEST_RESOURCE)) {
+         JsonObject spec = JsonParser.parseString(new String(stream.readAllBytes(), java.nio.charset.StandardCharsets.UTF_8))
+            .getAsJsonObject().getAsJsonObject("model");
+         return new ModelStore.ModelSpec(spec.get("file").getAsString(), java.net.URI.create(spec.get("url").getAsString()),
+            spec.get("sha256").getAsString(), spec.get("size").getAsLong());
+      } catch (RuntimeException e) {
+         throw new IOException("Invalid bundled manifest", e);
+      }
+   }
+
    private static void extractOne(Path target, Entry entry) throws IOException {
       Path temp = Files.createTempFile(target.getParent(), target.getFileName().toString() + "-", ".tmp");
       try {

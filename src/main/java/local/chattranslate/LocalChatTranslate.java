@@ -128,8 +128,45 @@ public final class LocalChatTranslate implements ClientModInitializer {
       });
    }
 
+   /** Saves the model chosen on the model screen and switches the runtime to it. */
+   public static void selectModel(String modelPath, boolean consentToDownload) throws IOException {
+      ModConfig updated = instance.config.copy();
+      updated.modelPath = blankToNull(modelPath);
+      boolean newConsent = consentToDownload && !updated.modelDownloadConsent;
+      if (consentToDownload) updated.modelDownloadConsent = true;
+      boolean modelChanged = !java.util.Objects.equals(blankToNull(instance.config.modelPath), updated.modelPath);
+      saveSettings(updated);
+      if (!modelChanged && (newConsent || instance.runtime.state() == LlamaCppRuntime.RuntimeState.MODEL_MISSING
+         || instance.runtime.state() == LlamaCppRuntime.RuntimeState.FAILED)) {
+         instance.startRuntime();
+      }
+   }
+
+   /** Folder whose top-level GGUF files the model screen lists. */
+   public static Path modelsDir() {
+      return FabricLoader.getInstance().getGameDir().resolve("localchattranslate/models");
+   }
+
+   private static volatile local.chattranslate.runtime.ModelStore defaultStore;
+
+   public static boolean defaultModelDownloaded() {
+      try {
+         if (defaultStore == null) {
+            defaultStore = new local.chattranslate.runtime.ModelStore(FabricLoader.getInstance().getGameDir(),
+               local.chattranslate.runtime.RuntimeExtractor.readModelSpec(), null);
+         }
+         return defaultStore.isPresent();
+      } catch (IOException e) {
+         return false;
+      }
+   }
+
    public static void restartRuntime() {
-      instance.startRuntime();
+      instance.runtime.restart().exceptionally(error -> null);
+   }
+
+   private static String blankToNull(String value) {
+      return value == null || value.isBlank() ? null : value;
    }
 
    /** Records the user's consent to fetch the default model and starts the download. */
@@ -201,8 +238,12 @@ public final class LocalChatTranslate implements ClientModInitializer {
 
    public static void saveSettings(ModConfig config) throws IOException {
       config.save(instance.configPath);
+      boolean modelChanged = !java.util.Objects.equals(blankToNull(instance.config.modelPath), blankToNull(config.modelPath));
       instance.config = config.copy();
       instance.reset();
+      if (modelChanged) {
+         instance.runtime.restart().exceptionally(error -> null);
+      }
       LOG.info("[LCT] 設定変更 | TranslateGemma 4B | 翻訳={} | NPC={} | アイテム説明={}", new Object[]{config.enabled, config.translateNpc, config.translateTooltips});
    }
 

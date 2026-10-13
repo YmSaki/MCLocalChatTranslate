@@ -69,6 +69,8 @@ tasks.register('generateBundleManifest') {
 
 tasks.named('processResources') {
     dependsOn tasks.named('generateBundleManifest')
+    inputs.property 'version', project.version
+    filesMatching('fabric.mod.json') { expand version: project.version }
     from('bundle') {
         into 'bundled'
         exclude 'model/**'

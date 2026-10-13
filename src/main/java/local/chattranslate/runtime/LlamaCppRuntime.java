@@ -50,6 +50,8 @@ public final class LlamaCppRuntime implements AutoCloseable {
    private volatile ServerHandle handle;
    private WindowsJob job;
    private volatile boolean closed;
+   /** Incremented by restart(); a launch from an older generation stops and leaves the state alone. */
+   private volatile long generation;
    private CompletableFuture<ServerHandle> starting;
 
    public LlamaCppRuntime(Path gameDir, Supplier<ModelChoice> modelChoice) {
@@ -79,22 +81,52 @@ public final class LlamaCppRuntime implements AutoCloseable {
       if (closed) return CompletableFuture.failedFuture(new IllegalStateException("Translation runtime is closed"));
       if (isReady()) return CompletableFuture.completedFuture(handle);
       if (starting != null && !starting.isDone()) return starting;
+      long gen = generation;
       state = RuntimeState.STARTING;
       lastError = null;
       starting = CompletableFuture.supplyAsync(() -> {
          try {
-            return launch();
+            return launch(gen);
          } catch (ModelStore.ModelMissingException e) {
-            state = RuntimeState.MODEL_MISSING;
-            lastError = e.getMessage();
+            if (setState(gen, RuntimeState.MODEL_MISSING)) lastError = e.getMessage();
             throw new CompletionException(e);
          } catch (Exception e) {
-            state = RuntimeState.FAILED;
-            lastError = e.getMessage();
+            if (setState(gen, RuntimeState.FAILED)) lastError = e.getMessage();
             throw new CompletionException(e);
          }
       }, worker);
       return starting;
+   }
+
+   /** Stops the current server or start attempt and starts again, e.g. after the model setting changed. */
+   public synchronized CompletableFuture<ServerHandle> restart() {
+      if (closed) return CompletableFuture.failedFuture(new IllegalStateException("Translation runtime is closed"));
+      generation++;
+      ServerHandle old = handle;
+      handle = null;
+      starting = null;
+      state = RuntimeState.STOPPED;
+      releaseJob();
+      if (old != null && old.process().isAlive()) {
+         old.process().destroy();
+         try {
+            if (!old.process().waitFor(3, TimeUnit.SECONDS)) old.process().destroyForcibly();
+         } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            old.process().destroyForcibly();
+         }
+      }
+      return start();
+   }
+
+   private synchronized boolean setState(long gen, RuntimeState next) {
+      if (gen != generation) return false;
+      state = next;
+      return true;
+   }
+
+   private boolean cancelled(long gen) {
+      return closed || gen != generation;
    }
 
    /** Used by translation requests: fails fast instead of waiting for a missing or downloading model. */
@@ -109,21 +141,21 @@ public final class LlamaCppRuntime implements AutoCloseable {
       return start();
    }
 
-   private ServerHandle launch() throws Exception {
+   private ServerHandle launch(long gen) throws Exception {
       String os = System.getProperty("os.name", "");
       String arch = System.getProperty("os.arch", "");
       if (!os.startsWith("Windows") || !(arch.equals("amd64") || arch.equals("x86_64"))) {
          throw new IOException("内蔵翻訳エンジンは Windows x64 専用です（" + os + " / " + arch + "）。");
       }
-      state = RuntimeState.EXTRACTING;
+      setState(gen, RuntimeState.EXTRACTING);
       RuntimeExtractor.ExtractedBundle extracted = RuntimeExtractor.extract(gameDir);
-      Path modelPath = resolveModel(extracted.model());
+      Path modelPath = resolveModel(extracted.model(), gen);
       Files.createDirectories(logPath.getParent());
       byte[] keyBytes = new byte[32];
       random.nextBytes(keyBytes);
       String key = HexFormat.of().formatHex(keyBytes);
       IOException last = null;
-      for (int attempt = 0; attempt < 3 && !closed; attempt++) {
+      for (int attempt = 0; attempt < 3 && !cancelled(gen); attempt++) {
          int port = freePort();
          URI baseUri = URI.create("http://127.0.0.1:" + port);
          ProcessBuilder builder = new ProcessBuilder(
@@ -137,18 +169,18 @@ public final class LlamaCppRuntime implements AutoCloseable {
          builder.redirectErrorStream(true);
          builder.redirectOutput(ProcessBuilder.Redirect.appendTo(logPath.toFile()));
          Process process = builder.start();
-         attachJob(process);
          ServerHandle candidate = new ServerHandle(baseUri, key, process);
-         handle = candidate;
-         state = RuntimeState.LOADING_MODEL;
+         if (!adopt(gen, candidate)) {
+            process.destroyForcibly();
+            break;
+         }
          long deadline = System.nanoTime() + TimeUnit.SECONDS.toNanos(120);
-         while (!closed && process.isAlive() && System.nanoTime() < deadline) {
+         while (!cancelled(gen) && process.isAlive() && System.nanoTime() < deadline) {
             try {
                HttpRequest request = HttpRequest.newBuilder(baseUri.resolve("/health"))
                   .timeout(Duration.ofSeconds(2)).GET().build();
                HttpResponse<Void> response = http.send(request, HttpResponse.BodyHandlers.discarding());
-               if (response.statusCode() == 200 && process.isAlive()) {
-                  state = RuntimeState.READY;
+               if (response.statusCode() == 200 && process.isAlive() && setState(gen, RuntimeState.READY)) {
                   return candidate;
                }
             } catch (IOException ignored) {
@@ -163,15 +195,29 @@ public final class LlamaCppRuntime implements AutoCloseable {
                process.waitFor();
             }
          }
-         releaseJob();
-         handle = null;
+         abandon(gen, candidate);
          last = new IOException("llama-server did not become ready (exit=" + process.exitValue() + "); see " + logPath);
       }
-      if (closed) throw new IOException("Translation runtime stopped");
+      if (cancelled(gen)) throw new IOException("Translation runtime stopped");
       throw last == null ? new IOException("Could not start llama-server") : last;
    }
 
-   private Path resolveModel(ModelStore.ModelSpec spec) throws IOException, InterruptedException {
+   /** Publishes a freshly started server unless a restart or close superseded this launch. */
+   private synchronized boolean adopt(long gen, ServerHandle candidate) throws IOException {
+      if (cancelled(gen)) return false;
+      attachJob(candidate.process());
+      handle = candidate;
+      state = RuntimeState.LOADING_MODEL;
+      return true;
+   }
+
+   private synchronized void abandon(long gen, ServerHandle candidate) {
+      if (gen != generation || handle != candidate) return;
+      releaseJob();
+      handle = null;
+   }
+
+   private Path resolveModel(ModelStore.ModelSpec spec, long gen) throws IOException, InterruptedException {
       ModelChoice choice = modelChoice.get();
       if (choice.modelPath() != null && !choice.modelPath().isBlank()) {
          Path custom = Path.of(choice.modelPath());
@@ -182,9 +228,9 @@ public final class LlamaCppRuntime implements AutoCloseable {
       if (store.isInstalled()) return store.modelPath();
       if (!choice.downloadAllowed()) throw new ModelStore.ModelMissingException();
       modelStore = store;
-      state = RuntimeState.DOWNLOADING;
+      setState(gen, RuntimeState.DOWNLOADING);
       try {
-         return store.ensure(true, () -> closed);
+         return store.ensure(true, () -> cancelled(gen));
       } finally {
          modelStore = null;
       }

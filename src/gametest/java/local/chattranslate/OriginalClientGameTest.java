@@ -61,6 +61,10 @@ public final class OriginalClientGameTest implements FabricClientGameTest {
       });
       context.setScreen(() -> null);
       System.out.println("[LCT integration test] download button hidden when READY");
+      context.setScreen(() -> new ModelScreen(null, LocalChatTranslate.settings()));
+      context.waitForScreen(ModelScreen.class);
+      System.out.println("[LCT integration test] model screen screenshot: " + context.takeScreenshot("model-screen"));
+      context.setScreen(() -> null);
 
       try (TestSingleplayerContext world = context.worldBuilder().create()) {
          world.getClientLevel().waitForChunksRender();

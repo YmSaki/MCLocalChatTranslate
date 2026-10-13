@@ -27,9 +27,16 @@ The model is subject to Google's [Gemma Terms of Use](https://ai.google.dev/gemm
 
 The runtime starts in the background. It listens only on `127.0.0.1` with a random port and session key, and it stops when Minecraft exits. Its log is `logs/localchattranslate-llama.log`.
 
-### Using your own GGUF
+### Choosing a model
 
-Set `modelPath` in `config/localchattranslate.json` to the absolute path of a GGUF file to use it instead of the default model. With `modelPath` set, nothing is downloaded. The translation prompt is written for TranslateGemma, so other models may translate poorly.
+Press **モデル設定…** on the settings screen. Like the resource pack screen, it lists the models you can use:
+
+- TranslateGemma 4B, the default, with its download state
+- `.gguf` files in `localchattranslate/models/` inside the game directory (**フォルダを開く** opens it)
+- `.gguf` files in the Hugging Face cache (`HF_HUB_CACHE`, `HF_HOME/hub`, or `~/.cache/huggingface/hub`)
+- files added with **参照…** or by dragging them onto the screen; these are used where they are, not copied
+
+Select one and press **完了** (or double-click it). The runtime switches to that model without restarting the game. Selecting the default while it is not downloaded starts its download. The translation prompt is written for TranslateGemma, so other models may translate poorly.
 
 ## Network access
 
