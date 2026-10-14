@@ -31,7 +31,7 @@ Press **Translate To** (翻訳先) on the settings screen. **Same as Game Langua
 
 English is the source language, so it cannot be the target. With the game in English and **Same as Game Language** selected, nothing is translated until you choose a language. Configs from earlier versions keep translating into Japanese.
 
-Lines that contain letters of a non-Latin script, such as Japanese, Russian, or Arabic, are treated as non-English and left untranslated.
+Lines that contain Japanese, Chinese, or Korean characters are left untranslated. So are lines that contain letters of the target language's own script, for example Cyrillic when translating into Russian. For targets written in Latin script, such as German or Spanish, a line already in that language cannot be told apart from English and is sent for translation.
 
 The runtime starts in the background. It listens only on `127.0.0.1` with a random port and session key, and it stops when Minecraft exits. Its log is `logs/localchattranslate-llama.log`.
 

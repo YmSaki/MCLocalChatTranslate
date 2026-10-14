@@ -26,9 +26,23 @@ public record TargetLanguage(String minecraftCode, String code, String name) {
 
    /** Resolves the setting against the game language; empty when no target can be used. */
    public static Optional<TargetLanguage> resolve(String setting, String gameLanguage) {
-      String code = setting == null || setting.isBlank() ? LEGACY : setting;
+      String code = normalize(setting);
       if (AUTO.equals(code)) code = gameLanguage;
       return code == null ? Optional.empty() : Optional.ofNullable(TABLE.get(code.toLowerCase(Locale.ROOT)));
+   }
+
+   /** Lower-case, trimmed setting; null or blank is the legacy Japanese target. */
+   public static String normalize(String setting) {
+      return setting == null || setting.isBlank() ? LEGACY : setting.strip().toLowerCase(Locale.ROOT);
+   }
+
+   /** Script of a language's native name when it is not Latin, e.g. CYRILLIC for "Русский"; null for Latin-script names. */
+   public static Character.UnicodeScript nonLatinScript(String nativeName) {
+      if (nativeName == null) return null;
+      return nativeName.codePoints().filter(Character::isLetter).mapToObj(Character.UnicodeScript::of)
+         .filter(script -> script != Character.UnicodeScript.LATIN && script != Character.UnicodeScript.COMMON
+            && script != Character.UnicodeScript.INHERITED)
+         .findFirst().orElse(null);
    }
 
    public static boolean supported(String minecraftCode) {

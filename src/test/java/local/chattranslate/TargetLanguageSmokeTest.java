@@ -1,5 +1,6 @@
 package local.chattranslate;
 
+import java.lang.Character.UnicodeScript;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -13,6 +14,7 @@ public final class TargetLanguageSmokeTest {
       japanesePromptUnchanged();
       otherTargetPrompt();
       configMigration();
+      englishDetection();
       System.out.println("Target language smoke checks passed");
    }
 
@@ -30,6 +32,29 @@ public final class TargetLanguageSmokeTest {
       require(code(null, "en_us").equals(Optional.of("ja")), "missing setting is the legacy Japanese target");
       require(code("en_us", "ja_jp").isEmpty(), "English cannot be chosen");
       require(code("xx_yy", "ja_jp").isEmpty(), "unknown explicit target");
+      require(code(" Auto ", "de_de").equals(Optional.of("de")), "auto is case- and space-insensitive");
+      require(code("JA_JP", "en_us").equals(Optional.of("ja")), "explicit code is case-insensitive");
+      require(code("", "en_us").equals(Optional.of("ja")), "blank setting is the legacy Japanese target");
+   }
+
+   /** Japanese keeps the 0.4.0 check; a non-Latin target also skips text in its own script. */
+   private static void englishDetection() {
+      UnicodeScript japanese = TargetLanguage.nonLatinScript("日本語");
+      require(japanese == UnicodeScript.HAN, "Japanese name script");
+      require(TargetLanguage.nonLatinScript("Русский") == UnicodeScript.CYRILLIC, "Russian name script");
+      require(TargetLanguage.nonLatinScript("Deutsch") == null && TargetLanguage.nonLatinScript("Português") == null,
+         "Latin-script names add nothing");
+      require(TargetLanguage.nonLatinScript(null) == null, "unknown name");
+
+      // Hypixel stat lines with Greek or Cyrillic symbol letters, and mixed chat, were translated into Japanese before.
+      for (String text : List.of("Sea Creature Chance: +4α", "Rift Time: +10s ф", "Привет everyone, how are you?")) {
+         ProtectedBody body = ProtectedBody.prepare(text, List.of());
+         require(body.hasEnglishCandidate() && body.hasEnglishCandidate(japanese), "Japanese target skipped: " + text);
+         require(body.hasEnglishCandidate(null), "Latin target skipped: " + text);
+      }
+      require(!ProtectedBody.prepare("こんにちは all", List.of()).hasEnglishCandidate(null), "Japanese text skipped for every target");
+      require(!ProtectedBody.prepare("Привет bro", List.of()).hasEnglishCandidate(UnicodeScript.CYRILLIC), "Russian text skipped for Russian");
+      require(ProtectedBody.prepare("Hello bro", List.of()).hasEnglishCandidate(UnicodeScript.CYRILLIC), "English text kept for Russian");
    }
 
    private static void table() {
@@ -76,6 +101,11 @@ public final class TargetLanguageSmokeTest {
          loaded.save(legacy);
          require("ko_kr".equals(ModConfig.load(legacy).targetLanguage), "chosen target saved");
          require("ko_kr".equals(loaded.copy().targetLanguage), "copy keeps the target");
+
+         Files.writeString(legacy, "{\"targetLanguage\": \"  DE_DE \"}");
+         require("de_de".equals(ModConfig.load(legacy).targetLanguage), "hand-edited target normalised");
+         Files.writeString(legacy, "{\"targetLanguage\": \"\"}");
+         require(TargetLanguage.LEGACY.equals(ModConfig.load(legacy).targetLanguage), "blank target is Japanese");
       } finally {
          try (var files = Files.walk(dir)) {
             for (Path file : files.sorted(java.util.Comparator.reverseOrder()).toList()) Files.deleteIfExists(file);

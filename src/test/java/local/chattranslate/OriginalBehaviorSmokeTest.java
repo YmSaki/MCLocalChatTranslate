@@ -59,12 +59,6 @@ public final class OriginalBehaviorSmokeTest {
       require(!ProtectedBody.prepare("gg wp", List.of()).hasEnglishCandidate(), "game slang");
       require(!ProtectedBody.prepare("こんにちは", List.of()).hasEnglishCandidate(), "Japanese text");
       require(!ProtectedBody.prepare("Alex", List.of("Alex")).hasEnglishCandidate(), "name only");
-      // Text in another script is left alone whatever the target is.
-      require(!ProtectedBody.prepare("Привет bro", List.of()).hasEnglishCandidate(), "Cyrillic text");
-      require(!ProtectedBody.prepare("안녕 guys", List.of()).hasEnglishCandidate(), "Korean text");
-      require(!ProtectedBody.prepare("ok 你好", List.of()).hasEnglishCandidate(), "Chinese text");
-      require(!ProtectedBody.prepare("مرحبا all", List.of()).hasEnglishCandidate(), "Arabic text");
-      require(ProtectedBody.prepare("Café time ✦ 50%", List.of()).hasEnglishCandidate(), "accented Latin and symbols");
    }
 
    private static void expectFailure(Runnable action, String label) {

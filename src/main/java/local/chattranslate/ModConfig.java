@@ -41,7 +41,7 @@ public final class ModConfig {
       ModConfig config = new GsonBuilder().create().fromJson(Files.readString(path), ModConfig.class);
       if (config == null) throw new IOException("Invalid config");
       // Earlier versions always translated into Japanese.
-      if (config.targetLanguage == null || config.targetLanguage.isBlank()) config.targetLanguage = TargetLanguage.LEGACY;
+      config.targetLanguage = TargetLanguage.normalize(config.targetLanguage);
       return config;
    }
 

@@ -116,8 +116,8 @@ public final class ConfigScreen extends Screen {
       this.line(graphics, Component.translatable(KEY + "subtitle", model, LocalChatTranslate.targetName(this.edited.targetLanguage)), w, 16, -4473925);
       this.line(graphics, Component.translatable(KEY + "keyHint"), w, 88, -4473925);
       this.line(graphics, Component.translatable(KEY + "engine", LocalChatTranslate.runtimeStatus()), w, 108, -4473925);
-      if (!this.failed && LocalChatTranslate.resolveTarget(this.edited.targetLanguage).isEmpty()) {
-         this.line(graphics, Component.translatable(KEY + "noTarget", LocalChatTranslate.gameLanguageName()), w, 177, -30584);
+      if (!this.failed && this.edited.enabled && LocalChatTranslate.resolveTarget(this.edited.targetLanguage).isEmpty()) {
+         this.line(graphics, LocalChatTranslate.noTargetMessage(this.edited.targetLanguage, false), w, 177, -30584);
       } else {
          this.line(graphics, this.status, w, 177, this.failed ? -30584 : -2236963);
       }

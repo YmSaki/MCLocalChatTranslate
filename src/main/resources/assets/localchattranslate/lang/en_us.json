@@ -8,6 +8,7 @@
   "localchattranslate.config.translateTooltips": "Item Descriptions",
   "localchattranslate.config.target": "Translate To",
   "localchattranslate.config.noTarget": "Cannot translate into %s. Choose Translate To.",
+  "localchattranslate.config.unknownTarget": "Unknown target \"%s\". Choose Translate To.",
   "localchattranslate.config.keyHint": "The tooltip key can be changed in Controls.",
   "localchattranslate.config.engine": "Translation Engine: %s",
   "localchattranslate.config.model": "Model Settings...",

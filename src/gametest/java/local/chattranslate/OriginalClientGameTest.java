@@ -20,6 +20,7 @@ import local.chattranslate.runtime.LlamaCppRuntime;
 
 import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Map;
 
 /** Runs only with the Fabric client game test task; it is absent from the distributed MOD. */
 @SuppressWarnings("UnstableApiUsage")
@@ -151,17 +152,83 @@ public final class OriginalClientGameTest implements FabricClientGameTest {
          context.getInput().pressKey(71);
          context.waitTicks(60);
          System.out.println("[LCT integration test] tooltip screenshot: " + context.takeScreenshot("bundled-tooltip"));
+         context.runOnClient(client -> {
+            if (cachedTranslations() == 0) throw new AssertionError("Tooltip translation was not cached");
+         });
+
+         // Following the game language: switching it must drop translations made for the old target.
+         // The config is changed without saveSettings so only the per-tick check can notice.
+         context.runOnClient(client -> {
+            client.getLanguageManager().setSelected("ko_kr");
+            modConfig().targetLanguage = TargetLanguage.AUTO;
+         });
+         context.waitTicks(5);
+         context.runOnClient(client -> {
+            if (cachedTranslations() != 0) throw new AssertionError("Tooltip translations survived a target change");
+            List<Component> lines = LocalChatTranslate.tooltipLines(List.of(Component.literal("Sword"), Component.literal("A sharp blade.")));
+            String hint = lines.getLast().getString();
+            if (!hint.contains("한국어")) throw new AssertionError("Tooltip hint does not name the new target: " + hint);
+         });
+         System.out.println("[LCT integration test] game language switch reset tooltip translations");
+
+         // Switching the game language to English leaves no target; the player must be told.
+         context.runOnClient(client -> client.getLanguageManager().setSelected("en_us"));
+         context.waitTicks(5);
+         context.runOnClient(client -> {
+            if (allMessages(client).stream().filter(text -> text.startsWith("[LCT] Translation is paused")).count() < 2) {
+               throw new AssertionError("No notice when the target was lost");
+            }
+         });
+         System.out.println("[LCT integration test] notice shown when the target was lost");
          context.setScreen(() -> null);
       }
    }
 
    private static List<String> translatedMessages(Minecraft client) {
+      return allMessages(client).stream().filter(text -> text.startsWith("↳")).toList();
+   }
+
+   private static List<String> allMessages(Minecraft client) {
       try {
          Field messages = ChatComponent.class.getDeclaredField("allMessages");
          messages.setAccessible(true);
          @SuppressWarnings("unchecked") List<GuiMessage> history = (List<GuiMessage>) messages.get(client.gui.getChat());
-         return history.stream().map(message -> message.content().getString())
-            .filter(text -> text.startsWith("↳")).toList();
+         return history.stream().map(message -> message.content().getString()).toList();
+      } catch (ReflectiveOperationException e) {
+         throw new AssertionError(e);
+      }
+   }
+
+   private static Object field(Object owner, Class<?> type, String name) throws ReflectiveOperationException {
+      Field field = type.getDeclaredField(name);
+      field.setAccessible(true);
+      return field.get(owner);
+   }
+
+   private static Object instance() throws ReflectiveOperationException {
+      return field(null, LocalChatTranslate.class, "instance");
+   }
+
+   /** The live config, not the copy settings() returns. */
+   private static ModConfig modConfig() {
+      try {
+         return (ModConfig) field(instance(), LocalChatTranslate.class, "config");
+      } catch (ReflectiveOperationException e) {
+         throw new AssertionError(e);
+      }
+   }
+
+   /** Number of tooltip lines with a stored translation. */
+   private static long cachedTranslations() {
+      try {
+         Object tooltips = field(instance(), LocalChatTranslate.class, "tooltips");
+         Map<?, ?> cache = (Map<?, ?>) field(tooltips, TooltipTranslations.class, "cache");
+         long count = 0;
+         for (Object entry : cache.values()) {
+            List<?> translated = (List<?>) field(entry, entry.getClass(), "translated");
+            count += translated.stream().filter(java.util.Objects::nonNull).count();
+         }
+         return count;
       } catch (ReflectiveOperationException e) {
          throw new AssertionError(e);
       }

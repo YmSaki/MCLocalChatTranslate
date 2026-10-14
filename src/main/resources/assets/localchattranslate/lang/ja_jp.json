@@ -8,6 +8,7 @@
   "localchattranslate.config.translateTooltips": "アイテム説明の翻訳",
   "localchattranslate.config.target": "翻訳先",
   "localchattranslate.config.noTarget": "%sには翻訳できません。「翻訳先」を選んでください。",
+  "localchattranslate.config.unknownTarget": "翻訳先「%s」は使えません。「翻訳先」を選んでください。",
   "localchattranslate.config.keyHint": "ツールチップのキーは「操作設定」で変更できます。",
   "localchattranslate.config.engine": "翻訳エンジン：%s",
   "localchattranslate.config.model": "モデル設定…",

@@ -87,7 +87,7 @@ public final class TargetLanguageScreen extends Screen {
       private Entry add(String setting, Component label, String selectedSetting) {
          Entry entry = new Entry(setting, label);
          this.addEntry(entry);
-         return setting.equals(selectedSetting) ? entry : null;
+         return setting.equals(TargetLanguage.normalize(selectedSetting)) ? entry : null;
       }
 
       String selectedSetting() {

@@ -173,9 +173,9 @@ final class TooltipTranslations {
       return true;
    }
 
-   private static boolean hasCandidates(TooltipTranslations.Entry entry) {
+   private boolean hasCandidates(TooltipTranslations.Entry entry) {
       for (int i = 1; i < entry.lines.size(); i++) {
-         if (canTranslate(entry.lines.get(i))) {
+         if (this.canTranslate(entry.lines.get(i))) {
             return true;
          }
       }
@@ -183,15 +183,16 @@ final class TooltipTranslations {
       return false;
    }
 
-   private static boolean canTranslate(TooltipLine line) {
-      return line.needsTranslation() && !line.body.original().matches("[a-z0-9_.-]+:[a-z0-9_./-]+");
+   private boolean canTranslate(TooltipLine line) {
+      Character.UnicodeScript script = this.target.get().map(LocalChatTranslate::targetScript).orElse(null);
+      return line.needsTranslation(script) && !line.body.original().matches("[a-z0-9_.-]+:[a-z0-9_./-]+");
    }
 
    private void translateNext(TooltipTranslations.Entry entry, int from, long requestGeneration) {
       if (requestGeneration == this.generation && entry.visible) {
          int next = from;
 
-         while (next < entry.lines.size() && (entry.translated.get(next) != null || !canTranslate(entry.lines.get(next)))) {
+         while (next < entry.lines.size() && (entry.translated.get(next) != null || !this.canTranslate(entry.lines.get(next)))) {
             next++;
          }
 

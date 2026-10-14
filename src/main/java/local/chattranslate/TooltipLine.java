@@ -76,8 +76,8 @@ final class TooltipLine {
       this.body = new ProtectedBody(text, text, request.toString(), marker, List.of());
    }
 
-   boolean needsTranslation() {
-      return this.body.original().length() <= 512 && this.body.hasEnglishCandidate();
+   boolean needsTranslation(Character.UnicodeScript targetScript) {
+      return this.body.original().length() <= 512 && this.body.hasEnglishCandidate(targetScript);
    }
 
    Component restore(String translated) {
