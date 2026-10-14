@@ -74,7 +74,7 @@ public final class TranslationClient implements AutoCloseable {
                      LlamaCppRuntime.ServerHandle server = this.runtime.ensureStarted().get(remaining, TimeUnit.NANOSECONDS);
                      JsonObject result = this.post(server, request(body, tooltip != null), deadline);
                      if (!result.has("model") || !MODEL.equals(result.get("model").getAsString())) {
-                        throw new IOException("TranslateGemma 4Bの応答ではありません。");
+                        throw new local.chattranslate.runtime.Localized.Failure("error.badResponse");
                      }
 
                      JsonObject choice = result.getAsJsonArray("choices").get(0).getAsJsonObject();
@@ -92,7 +92,7 @@ public final class TranslationClient implements AutoCloseable {
                            return Optional.empty();
                         }
                      } else {
-                        throw new IOException("途中で切れた訳文を省略しました。");
+                        throw new local.chattranslate.runtime.Localized.Failure("error.truncated");
                      }
                   } catch (InterruptedException e) {
                      Thread.currentThread().interrupt();
@@ -175,7 +175,7 @@ public final class TranslationClient implements AutoCloseable {
       if (text.isBlank()
          || text.length() > Math.max(160, source.length() * 5)
          || Pattern.compile("(.{1,16}?)\\1{7,}").matcher(text.replaceAll("\\s+", "")).find()) {
-         throw new IllegalArgumentException("空・異常に長い・繰り返す訳文を省略しました。");
+         throw new local.chattranslate.runtime.Localized.Rejection("error.abnormal");
       }
    }
 

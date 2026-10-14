@@ -37,11 +37,16 @@ public final class ModelStore {
    }
 
    /** The model is absent and the user has not agreed to download it. */
-   public static final class ModelMissingException extends IOException {
+   public static final class ModelMissingException extends IOException implements Localized {
       public ModelMissingException() {
-         super("翻訳モデルが未ダウンロードです。設定画面または /lct download から取得できます。");
+         super(PREFIX_KEY + "error.modelMissing");
       }
+
+      public String translationKey() { return PREFIX_KEY + "error.modelMissing"; }
+      public Object[] translationArgs() { return new Object[0]; }
    }
+
+   private static final String PREFIX_KEY = Localized.PREFIX;
 
    private static final int ATTEMPTS = 3;
    private static final long FREE_SPACE_MARGIN = 64L * 1024 * 1024;
@@ -105,7 +110,7 @@ public final class ModelStore {
          Path part = model.resolveSibling(spec.fileName + ".part");
          IOException last = null;
          for (int attempt = 0; attempt < ATTEMPTS; attempt++) {
-            if (cancelled.getAsBoolean()) throw new IOException("翻訳エンジンを停止しました。");
+            if (cancelled.getAsBoolean()) throw new Localized.Failure("error.stopped");
             try {
                fetch(part, cancelled);
                last = null;
@@ -125,10 +130,13 @@ public final class ModelStore {
       }
    }
 
-   private static final class ChecksumException extends IOException {
+   private static final class ChecksumException extends IOException implements Localized {
       ChecksumException() {
-         super("ダウンロードした翻訳モデルの検証に失敗しました。再試行してください。");
+         super(PREFIX_KEY + "error.checksum");
       }
+
+      public String translationKey() { return PREFIX_KEY + "error.checksum"; }
+      public Object[] translationArgs() { return new Object[0]; }
    }
 
    private void fetch(Path part, BooleanSupplier cancelled) throws IOException, InterruptedException {
@@ -139,7 +147,7 @@ public final class ModelStore {
       }
       long usable = Files.getFileStore(part.getParent()).getUsableSpace();
       if (usable < spec.size - offset + FREE_SPACE_MARGIN) {
-         throw new IOException("翻訳モデルを保存する空き容量が足りません（約 " + (spec.size - offset) / 1_000_000 + " MB 必要）。");
+         throw new Localized.Failure("error.diskSpace", (spec.size - offset) / 1_000_000);
       }
       MessageDigest digest = sha256Digest();
       if (offset > 0) {
@@ -159,7 +167,7 @@ public final class ModelStore {
          if (!append) {
             if (response.statusCode() != 200) {
                body.close();
-               throw new IOException("翻訳モデルを取得できませんでした（HTTP " + response.statusCode() + "）。");
+               throw new Localized.Failure("error.http", response.statusCode());
             }
             offset = 0;
             digest.reset();
@@ -185,7 +193,7 @@ public final class ModelStore {
             long total = offset;
             int read;
             while ((read = input.read(buffer)) != -1) {
-               if (cancelled.getAsBoolean()) throw new IOException("翻訳エンジンを停止しました。");
+               if (cancelled.getAsBoolean()) throw new Localized.Failure("error.stopped");
                total += read;
                if (total > spec.size) throw new ChecksumException();
                output.write(buffer, 0, read);
@@ -197,7 +205,7 @@ public final class ModelStore {
             watchdog.shutdownNow();
          }
       }
-      if (Files.size(part) != spec.size) throw new IOException("翻訳モデルのダウンロードが途中で切れました。");
+      if (Files.size(part) != spec.size) throw new Localized.Failure("error.interrupted");
       if (!HexFormat.of().formatHex(digest.digest()).equals(spec.sha256)) throw new ChecksumException();
    }
 

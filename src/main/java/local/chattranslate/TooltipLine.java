@@ -124,6 +124,6 @@ final class TooltipLine {
    }
 
    private static IllegalArgumentException invalidNumbers() {
-      return new IllegalArgumentException("ツールチップの数値・記号を保持できなかったため原文を表示します。");
+      return new local.chattranslate.runtime.Localized.Rejection("tooltip.symbolsLost");
    }
 }

@@ -66,14 +66,14 @@ public record ProtectedBody(String original, String detectionText, String reques
          for (int i = this.names.size() - 1; i >= 0; i--) {
             Pattern token = Pattern.compile(Pattern.quote(this.marker + i) + "(?![0-9])");
             if (token.matcher(restored).results().count() != 1L) {
-               throw new IllegalArgumentException("プレイヤー名を保持できなかったため訳文を省略しました。");
+               throw new local.chattranslate.runtime.Localized.Rejection("error.nameLost");
             }
 
             restored = token.matcher(restored).replaceAll(Matcher.quoteReplacement(this.names.get(i)));
          }
 
          if (restored.contains(this.marker)) {
-            throw new IllegalArgumentException("訳文に未復元の名前記号が残っています。");
+            throw new local.chattranslate.runtime.Localized.Rejection("error.placeholder");
          } else {
             return restored.strip();
          }
