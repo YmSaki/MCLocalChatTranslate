@@ -180,6 +180,18 @@ public final class OriginalClientGameTest implements FabricClientGameTest {
             }
          });
          System.out.println("[LCT integration test] notice shown when the target was lost");
+
+         context.runOnClient(client -> {
+            ClientCommandInternals.executeCommand("lct lang KO_KR");
+            if (!"ko_kr".equals(modConfig().targetLanguage) || !"ko".equals(LocalChatTranslate.target().map(TargetLanguage::code).orElse(null))) {
+               throw new AssertionError("/lct lang did not set the target: " + modConfig().targetLanguage);
+            }
+            ClientCommandInternals.executeCommand("lct lang xx_yy");
+            if (!"ko_kr".equals(modConfig().targetLanguage)) throw new AssertionError("/lct lang accepted an unknown language");
+            ClientCommandInternals.executeCommand("lct lang auto");
+            if (!TargetLanguage.AUTO.equals(modConfig().targetLanguage)) throw new AssertionError("/lct lang auto was not saved");
+         });
+         System.out.println("[LCT integration test] /lct lang sets, rejects and resets the target");
          context.setScreen(() -> null);
       }
    }
