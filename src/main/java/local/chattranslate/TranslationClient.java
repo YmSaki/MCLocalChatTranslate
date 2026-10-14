@@ -49,19 +49,19 @@ public final class TranslationClient implements AutoCloseable {
       this.log = log;
    }
 
-   public CompletableFuture<Optional<String>> translate(ProtectedBody body) {
-      return this.translate(body, 30, null);
+   public CompletableFuture<Optional<String>> translate(ProtectedBody body, TargetLanguage target) {
+      return this.translate(body, target, 30, null);
    }
 
-   public CompletableFuture<Optional<String>> testConnection() {
-      return this.translate(ProtectedBody.prepare("You can find a shop in the village.", List.of()), 90, null);
+   public CompletableFuture<Optional<String>> testConnection(TargetLanguage target) {
+      return this.translate(ProtectedBody.prepare("You can find a shop in the village.", List.of()), target, 90, null);
    }
 
-   CompletableFuture<Optional<String>> translateTooltipLine(TooltipLine line) {
-      return this.translate(line.body, 30, line);
+   CompletableFuture<Optional<String>> translateTooltipLine(TooltipLine line, TargetLanguage target) {
+      return this.translate(line.body, target, 30, line);
    }
 
-   private CompletableFuture<Optional<String>> translate(ProtectedBody body, int timeoutSeconds, TooltipLine tooltip) {
+   private CompletableFuture<Optional<String>> translate(ProtectedBody body, TargetLanguage target, int timeoutSeconds, TooltipLine tooltip) {
       long deadline = System.nanoTime() + TimeUnit.SECONDS.toNanos(timeoutSeconds);
       return CompletableFuture.<Optional<String>>supplyAsync(
             () -> {
@@ -72,7 +72,7 @@ public final class TranslationClient implements AutoCloseable {
                      long remaining = deadline - System.nanoTime();
                      if (remaining <= 0) throw new IOException("Translation expired");
                      LlamaCppRuntime.ServerHandle server = this.runtime.ensureStarted().get(remaining, TimeUnit.NANOSECONDS);
-                     JsonObject result = this.post(server, request(body, tooltip != null), deadline);
+                     JsonObject result = this.post(server, request(body, target, tooltip != null), deadline);
                      if (!result.has("model") || !MODEL.equals(result.get("model").getAsString())) {
                         throw new local.chattranslate.runtime.Localized.Failure("error.badResponse");
                      }
@@ -113,18 +113,23 @@ public final class TranslationClient implements AutoCloseable {
          .orTimeout(timeoutSeconds, TimeUnit.SECONDS);
    }
 
-   private static JsonObject request(ProtectedBody body, boolean tooltip) {
-      String prompt = "You are a professional English (en) to Japanese (ja) translator. Your goal is to accurately convey the meaning and nuances of the original English text while adhering to Japanese grammar, vocabulary, and cultural sensitivities.\n"
+   /** The TranslateGemma text prompt with the target filled in where its chat template names the target language. */
+   static String prompt(ProtectedBody body, TargetLanguage target, boolean tooltip) {
+      String name = target.name();
+      return "You are a professional English (en) to " + name + " (" + target.code() + ") translator. Your goal is to accurately convey the meaning and nuances of the original English text while adhering to " + name + " grammar, vocabulary, and cultural sensitivities.\n"
          + (tooltip ? "The source is a Minecraft Hypixel SkyBlock item tooltip. Use game terminology for stats and abilities.\n" : "")
-         + "Produce only the Japanese translation, without any additional explanations or commentary. Preserve placeholder tokens like "
+         + "Produce only the " + name + " translation, without any additional explanations or commentary. Preserve placeholder tokens like "
          + body.marker()
          + "0 and "
          + body.marker()
-         + "1 exactly as written. Please translate the following English text into Japanese:\n\n\n"
+         + "1 exactly as written. Please translate the following English text into " + name + ":\n\n\n"
          + body.requestText();
+   }
+
+   private static JsonObject request(ProtectedBody body, TargetLanguage target, boolean tooltip) {
       JsonObject message = new JsonObject();
       message.addProperty("role", "user");
-      message.addProperty("content", prompt);
+      message.addProperty("content", prompt(body, target, tooltip));
       JsonArray messages = new JsonArray();
       messages.add(message);
       JsonObject payload = new JsonObject();

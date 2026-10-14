@@ -46,7 +46,10 @@ public final class ConfigScreen extends Screen {
       this.addRenderableWidget(Button.builder(toggleLabel("translateTooltips", this.edited.translateTooltips), button -> {
          this.edited.translateTooltips = !this.edited.translateTooltips;
          button.setMessage(toggleLabel("translateTooltips", this.edited.translateTooltips));
-      }).bounds(x, this.top + 62, w, 20).build());
+      }).bounds(x, this.top + 62, (w - 6) / 2, 20).build());
+      this.addRenderableWidget(Button.builder(CommonComponents.optionNameValue(Component.translatable(KEY + "target"),
+         LocalChatTranslate.targetSettingLabel(this.edited.targetLanguage)),
+         button -> this.minecraft.setScreen(new TargetLanguageScreen(this, this.edited))).bounds(x + (w + 6) / 2, this.top + 62, (w - 6) / 2, 20).build());
       this.download = this.addRenderableWidget(Button.builder(Component.translatable(KEY + "download"), button -> {
          if (LocalChatTranslate.runtimeState() == LlamaCppRuntime.RuntimeState.MODEL_MISSING) {
             LocalChatTranslate.consentToDownload();
@@ -110,10 +113,14 @@ public final class ConfigScreen extends Screen {
       int w = Math.min(340, this.width - 24);
       String model = this.edited.modelPath == null || this.edited.modelPath.isBlank() ? "TranslateGemma 4B"
          : java.nio.file.Path.of(this.edited.modelPath).getFileName().toString();
-      this.line(graphics, Component.translatable(KEY + "subtitle", model), w, 16, -4473925);
+      this.line(graphics, Component.translatable(KEY + "subtitle", model, LocalChatTranslate.targetName(this.edited.targetLanguage)), w, 16, -4473925);
       this.line(graphics, Component.translatable(KEY + "keyHint"), w, 88, -4473925);
       this.line(graphics, Component.translatable(KEY + "engine", LocalChatTranslate.runtimeStatus()), w, 108, -4473925);
-      this.line(graphics, this.status, w, 177, this.failed ? -30584 : -2236963);
+      if (!this.failed && LocalChatTranslate.resolveTarget(this.edited.targetLanguage).isEmpty()) {
+         this.line(graphics, Component.translatable(KEY + "noTarget", LocalChatTranslate.gameLanguageName()), w, 177, -30584);
+      } else {
+         this.line(graphics, this.status, w, 177, this.failed ? -30584 : -2236963);
+      }
    }
 
    private void line(GuiGraphicsExtractor graphics, Component text, int width, int y, int color) {

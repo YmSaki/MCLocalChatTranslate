@@ -86,6 +86,14 @@ tasks.register('verifyOriginalBehavior', JavaExec) {
     mainClass = 'local.chattranslate.OriginalBehaviorSmokeTest'
 }
 
+tasks.register('verifyTargetLanguage', JavaExec) {
+    group = 'verification'
+    description = 'Checks target language resolution, config migration and the unchanged Japanese prompt.'
+    dependsOn tasks.named('testClasses')
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'local.chattranslate.TargetLanguageSmokeTest'
+}
+
 tasks.register('verifyModelStore', JavaExec) {
     group = 'verification'
     description = 'Checks model download, resume, redirect, checksum rejection and consent against a local HTTP server.'
@@ -129,7 +137,7 @@ tasks.named('test', Test) {
 }
 
 tasks.named('check') {
-    dependsOn tasks.named('verifyOriginalBehavior'), tasks.named('verifyModelStore')
+    dependsOn tasks.named('verifyOriginalBehavior'), tasks.named('verifyTargetLanguage'), tasks.named('verifyModelStore')
 }
 
 fabricApi {

@@ -42,17 +42,22 @@ public record ProtectedBody(String original, String detectionText, String reques
       return new ProtectedBody(body, detection.toString(), request.toString(), marker, List.copyOf(protectedNames));
    }
 
+   /** English text has ASCII letters and no letters of another script, so text already in Japanese, Russian and so on is left alone. */
    public boolean hasEnglishCandidate() {
       if (GAME_SLANG.matcher(this.original.strip()).matches()) {
          return false;
       } else {
-         return this.detectionText.codePoints().anyMatch(c -> {
-            return switch (UnicodeScript.of(c)) {
-               case HIRAGANA, KATAKANA, HAN, HANGUL -> true;
-               default -> false;
-            };
-         }) ? false : this.detectionText.codePoints().anyMatch(c -> c >= 65 && c <= 90 || c >= 97 && c <= 122);
+         return this.detectionText.codePoints().anyMatch(ProtectedBody::otherScriptLetter)
+            ? false :this.detectionText.codePoints().anyMatch(c -> c >= 65 && c <= 90 || c >= 97 && c <= 122);
       }
+   }
+
+   private static boolean otherScriptLetter(int c) {
+      if (!Character.isLetter(c)) return false;
+      return switch (UnicodeScript.of(c)) {
+         case LATIN, COMMON, INHERITED -> false;
+         default -> true;
+      };
    }
 
    public String restore(String response) {

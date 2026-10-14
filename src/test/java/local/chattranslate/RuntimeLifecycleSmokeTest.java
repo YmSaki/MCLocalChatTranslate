@@ -32,6 +32,8 @@ public final class RuntimeLifecycleSmokeTest {
             require("127.0.0.1".equals(first.baseUri().getHost()), "Server bound to unexpected host");
             System.out.println("Runtime READY on " + first.baseUri());
             translate(http, first);
+            translateInto(http, first, "de_de", Character.UnicodeScript.LATIN);
+            translateInto(http, first, "ko_kr", Character.UnicodeScript.HANGUL);
 
             first.process().destroyForcibly();
             first.process().waitFor(10, TimeUnit.SECONDS);
@@ -145,6 +147,37 @@ public final class RuntimeLifecycleSmokeTest {
       require("stop".equals(choice.get("finish_reason").getAsString()), "Incomplete translation");
       require(!translation.isBlank() && !translation.equals("You can find a shop in the village."), "No translation produced");
       System.out.println("Translation: " + translation);
+   }
+
+   /** Sends the MOD's own prompt for another target and checks the reply is written in that language's script. */
+   private static void translateInto(HttpClient http, LlamaCppRuntime.ServerHandle server, String language,
+                                     Character.UnicodeScript script) throws Exception {
+      String source = "You can find a shop in the village.";
+      TargetLanguage target = TargetLanguage.resolve(language, null).orElseThrow();
+      JsonObject message = new JsonObject();
+      message.addProperty("role", "user");
+      message.addProperty("content", TranslationClient.prompt(ProtectedBody.prepare(source, java.util.List.of()), target, false));
+      JsonArray messages = new JsonArray();
+      messages.add(message);
+      JsonObject body = new JsonObject();
+      body.addProperty("model", "translategemma");
+      body.addProperty("stream", false);
+      body.addProperty("temperature", 0);
+      body.addProperty("max_tokens", 192);
+      body.add("messages", messages);
+      HttpRequest request = HttpRequest.newBuilder(server.baseUri().resolve("/v1/chat/completions")).timeout(Duration.ofSeconds(60))
+         .header("Content-Type", "application/json")
+         .header("Authorization", "Bearer " + server.apiKey())
+         .POST(HttpRequest.BodyPublishers.ofString(body.toString())).build();
+      HttpResponse<String> response = http.send(request, HttpResponse.BodyHandlers.ofString());
+      require(response.statusCode() == 200, "Translation HTTP status " + response.statusCode() + ": " + response.body());
+      String translation = JsonParser.parseString(response.body()).getAsJsonObject().getAsJsonArray("choices").get(0)
+         .getAsJsonObject().getAsJsonObject("message").get("content").getAsString().strip();
+      long letters = translation.codePoints().filter(Character::isLetter).count();
+      long inScript = translation.codePoints().filter(c -> Character.isLetter(c) && Character.UnicodeScript.of(c) == script).count();
+      require(letters > 0 && inScript * 2 > letters && !translation.equals(source),
+         "Translation into " + target.code() + " is not in " + script + ": " + translation);
+      System.out.println("Translation into " + target.code() + ": " + translation);
    }
 
    private static void require(boolean condition, String message) {

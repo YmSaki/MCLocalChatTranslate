@@ -64,6 +64,9 @@ public final class OriginalClientGameTest implements FabricClientGameTest {
       context.setScreen(() -> new ModelScreen(null, LocalChatTranslate.settings()));
       context.waitForScreen(ModelScreen.class);
       System.out.println("[LCT integration test] model screen screenshot: " + context.takeScreenshot("model-screen"));
+      context.setScreen(() -> new TargetLanguageScreen(null, LocalChatTranslate.settings()));
+      context.waitForScreen(TargetLanguageScreen.class);
+      System.out.println("[LCT integration test] target language screen screenshot: " + context.takeScreenshot("target-language-screen"));
       context.setScreen(() -> null);
 
       try (TestSingleplayerContext world = context.worldBuilder().create()) {
@@ -71,6 +74,29 @@ public final class OriginalClientGameTest implements FabricClientGameTest {
          context.waitFor(client -> ClientCommandInternals.getActiveDispatcher() != null
             && ClientCommandInternals.getActiveDispatcher().getRoot().getChild("lct") != null);
          System.out.println("[LCT reconstruction test] /lct registered");
+
+         // A fresh config follows the game language, and the test client runs in English: nothing may be translated.
+         context.runOnClient(client -> {
+            if (!TargetLanguage.AUTO.equals(LocalChatTranslate.settings().targetLanguage) || LocalChatTranslate.target().isPresent()) {
+               throw new AssertionError("Fresh config with an English client resolved a target");
+            }
+            client.gui.getChat().addPlayerMessage(Component.literal("[1] TestPlayer: Good morning."), null, GuiMessageTag.system());
+         });
+         context.waitTicks(100);
+         context.runOnClient(client -> {
+            if (!translatedMessages(client).isEmpty()) throw new AssertionError("Translated without a target language");
+         });
+         System.out.println("[LCT integration test] no translation while the target is unresolved");
+
+         context.runOnClient(client -> {
+            ModConfig config = LocalChatTranslate.settings();
+            config.targetLanguage = "ja_jp";
+            try {
+               LocalChatTranslate.saveSettings(config);
+            } catch (java.io.IOException e) {
+               throw new AssertionError(e);
+            }
+         });
 
          context.runOnClient(client -> client.gui.getChat().addPlayerMessage(
             Component.literal("[1] TestPlayer: Hello world."), null, GuiMessageTag.system()));
