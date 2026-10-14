@@ -79,6 +79,7 @@ public final class LocalChatTranslate implements ClientModInitializer {
             boolean lost = this.activeTarget != null;
             this.reset();
             if (lost && this.activeTarget == null && this.config.enabled && client.player != null) {
+               this.targetNoticeShown = true;
                client.gui.getChat().addClientSystemMessage(noTargetMessage(this.config.targetLanguage, true));
             }
          }
@@ -315,6 +316,8 @@ public final class LocalChatTranslate implements ClientModInitializer {
    /** Drops queued and in-flight work; requests made after this use the current target. */
    private void reset() {
       this.activeTarget = targetCode();
+      // Once a target works again, losing it later deserves a new notice, including at the next join.
+      if (this.activeTarget != null) this.targetNoticeShown = false;
       this.generation++;
       this.seenNames.clear();
       this.api.clearQueued();

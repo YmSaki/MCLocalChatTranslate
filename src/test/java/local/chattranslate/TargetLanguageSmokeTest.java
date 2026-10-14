@@ -55,6 +55,10 @@ public final class TargetLanguageSmokeTest {
       require(!ProtectedBody.prepare("こんにちは all", List.of()).hasEnglishCandidate(null), "Japanese text skipped for every target");
       require(!ProtectedBody.prepare("Привет bro", List.of()).hasEnglishCandidate(UnicodeScript.CYRILLIC), "Russian text skipped for Russian");
       require(ProtectedBody.prepare("Hello bro", List.of()).hasEnglishCandidate(UnicodeScript.CYRILLIC), "English text kept for Russian");
+      // A lone letter is a stat symbol, not text in the target language.
+      require(ProtectedBody.prepare("Rift Time: +10s ф", List.of()).hasEnglishCandidate(UnicodeScript.CYRILLIC), "Cyrillic symbol kept for Russian");
+      require(ProtectedBody.prepare("Sea Creature Chance: +4α", List.of()).hasEnglishCandidate(UnicodeScript.GREEK), "Greek symbol kept for Greek");
+      require(!ProtectedBody.prepare("Γεια all", List.of()).hasEnglishCandidate(UnicodeScript.GREEK), "Greek text skipped for Greek");
    }
 
    private static void table() {
