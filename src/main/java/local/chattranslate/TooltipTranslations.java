@@ -214,7 +214,9 @@ final class TooltipTranslations {
                this.api
                   .translateTooltipLine(line, target.get())
                   .whenComplete((result, error) -> Minecraft.getInstance().execute(() -> {
-                     if (requestGeneration == this.generation && entry.visible) {
+                     // Check the target again even if its change has not reached the next client tick.
+                     if (requestGeneration == this.generation && entry.visible
+                        && target.get().code().equals(this.target.get().map(TargetLanguage::code).orElse(null))) {
                         if (error != null) {
                            entry.failed = true;
                         } else {

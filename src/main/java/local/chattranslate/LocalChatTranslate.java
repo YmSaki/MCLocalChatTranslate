@@ -426,7 +426,8 @@ public final class LocalChatTranslate implements ClientModInitializer {
 
                   try {
                      this.api.translate(body, target.get()).whenComplete((result, error) -> client.execute(() -> {
-                        if (requestGeneration == this.generation && this.config.enabled) {
+                        // A completion can run before the tick that notices a game-language change.
+                        if (requestGeneration == this.generation && this.config.enabled && target.get().code().equals(targetCode())) {
                            if (error != null) {
                               this.failures++;
                               this.lastError = errorComponent(error);

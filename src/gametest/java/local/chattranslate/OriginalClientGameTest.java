@@ -111,6 +111,8 @@ public final class OriginalClientGameTest implements FabricClientGameTest {
          System.out.println("[LCT integration test] NPC translated: " +
             context.computeOnClient(client -> translatedMessages(client).get(0)));
 
+         verifyInFlightTargetChange(context, false);
+
          context.runOnClient(client -> {
             ItemStack sword = new ItemStack(Items.DIAMOND_SWORD);
             sword.set(DataComponents.LORE, new ItemLore(List.of(Component.literal("A powerful sword for brave adventurers."))));
@@ -171,6 +173,8 @@ public final class OriginalClientGameTest implements FabricClientGameTest {
          });
          System.out.println("[LCT integration test] game language switch reset tooltip translations");
 
+         verifyInFlightTargetChange(context, true);
+
          // Switching the game language to English leaves no target; the player must be told.
          context.runOnClient(client -> client.getLanguageManager().setSelected("en_us"));
          context.waitTicks(5);
@@ -194,6 +198,68 @@ public final class OriginalClientGameTest implements FabricClientGameTest {
          System.out.println("[LCT integration test] /lct lang sets, rejects and resets the target");
          context.setScreen(() -> null);
       }
+   }
+
+   /** A completed request can reach the client queue before the next target-change tick. */
+   private static void verifyInFlightTargetChange(ClientGameTestContext context, boolean tooltip) {
+      context.runOnClient(client -> {
+         try {
+            TranslationClient api = (TranslationClient) field(instance(), LocalChatTranslate.class, "api");
+            ModConfig saved = LocalChatTranslate.settings();
+            String savedLanguage = client.getLanguageManager().getSelected();
+            try {
+               for (String nextLanguage : List.of("ja_jp", "ko_kr", "en_us")) {
+                  boolean changeTarget = !"ja_jp".equals(nextLanguage);
+                  client.getLanguageManager().setSelected("ja_jp");
+                  ModConfig config = saved.copy();
+                  config.targetLanguage = TargetLanguage.AUTO;
+                  LocalChatTranslate.saveSettings(config);
+                  long before = tooltip ? cachedTranslations() : translatedMessages(client).size();
+                  if (tooltip) {
+                     InventoryScreen screen = (InventoryScreen) client.screen;
+                     Slot slot = screen.getMenu().slots.stream().filter(s -> s.getItem().is(Items.DIAMOND_SWORD))
+                        .findFirst().orElseThrow();
+                     LocalChatTranslate.tooltipHover(screen, slot);
+                     LocalChatTranslate.tooltipLines(List.of(Component.literal("Sword"), Component.literal("A sharp blade.")));
+                     if (!LocalChatTranslate.tooltipKey(screen, slot, new net.minecraft.client.input.KeyEvent(71, 0, 0))) {
+                        throw new AssertionError("Tooltip translation did not start");
+                     }
+                  } else {
+                     client.gui.getChat().addPlayerMessage(
+                        Component.literal("[1] TestPlayer: Hello world."), null, GuiMessageTag.system());
+                  }
+
+                  // Keep the client queue pending until the real translation has finished.
+                  long deadline = System.nanoTime() + java.util.concurrent.TimeUnit.SECONDS.toNanos(35);
+                  while (api.pending() != 0 && System.nanoTime() < deadline) Thread.sleep(10);
+                  if (api.pending() != 0) throw new AssertionError("Translation worker did not finish");
+                  client.getLanguageManager().setSelected(nextLanguage);
+
+                  // Drain completion callbacks without advancing the game tick.
+                  var drained = new java.util.concurrent.atomic.AtomicBoolean();
+                  client.schedule(() -> drained.set(true));
+                  client.managedBlock(drained::get);
+                  long added = (tooltip ? cachedTranslations() : translatedMessages(client).size()) - before;
+                  if (added != (changeTarget ? 0 : 1)) {
+                     String kind = tooltip ? "tooltip" : "chat";
+                     throw new AssertionError(changeTarget
+                        ? "Old-target " + kind + " translation was applied before the target-change tick: " + nextLanguage
+                        : "Control " + kind + " request did not apply its translation");
+                  }
+               }
+            } finally {
+               client.getLanguageManager().setSelected(savedLanguage);
+               LocalChatTranslate.saveSettings(saved);
+            }
+         } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new AssertionError(e);
+         } catch (ReflectiveOperationException | java.io.IOException e) {
+            throw new AssertionError(e);
+         }
+      });
+      System.out.println("[LCT integration test] in-flight " + (tooltip ? "tooltip" : "chat")
+         + " results respect the current target before the next tick");
    }
 
    private static List<String> translatedMessages(Minecraft client) {
