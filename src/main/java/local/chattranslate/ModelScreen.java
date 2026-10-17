@@ -200,7 +200,7 @@ public final class ModelScreen extends Screen {
       }
       if (!rejected.isEmpty()) {
          String names = String.join(", ", rejected.stream().map(p -> p.getFileName().toString()).toList());
-         this.minecraft.setScreen(new net.minecraft.client.gui.screens.AlertScreen(() -> this.minecraft.setScreen(this),
+         ClientUi.setScreen(this.minecraft, new net.minecraft.client.gui.screens.AlertScreen(() -> ClientUi.setScreen(this.minecraft, this),
             Component.translatable(KEY + "dropRejected.title"), Component.translatable(KEY + "dropRejected.message", names)));
       }
    }
@@ -244,7 +244,7 @@ public final class ModelScreen extends Screen {
 
    public void onClose() {
       if (this.minecraft != null) {
-         this.minecraft.setScreen(this.parent);
+         ClientUi.setScreen(this.minecraft, this.parent);
       }
    }
 

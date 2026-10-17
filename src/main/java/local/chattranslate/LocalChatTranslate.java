@@ -73,14 +73,14 @@ public final class LocalChatTranslate implements ClientModInitializer {
       this.tooltips = new TooltipTranslations(this.api, () -> this.config, LocalChatTranslate::target);
       this.startRuntime();
       ClientTickEvents.END_CLIENT_TICK.register((EndTick)client -> {
-         this.tooltips.screenChanged(client.screen);
+         this.tooltips.screenChanged(ClientUi.screen(client));
          // Following the game language means the target can change whenever the language is switched.
          if (!java.util.Objects.equals(targetCode(), this.activeTarget)) {
             boolean lost = this.activeTarget != null;
             this.reset();
             if (lost && this.activeTarget == null && this.config.enabled && client.player != null) {
                this.targetNoticeShown = true;
-               client.gui.getChat().addClientSystemMessage(noTargetMessage(this.config.targetLanguage, true));
+               ClientUi.chat(client).addClientSystemMessage(noTargetMessage(this.config.targetLanguage, true));
             }
          }
       });
@@ -88,12 +88,12 @@ public final class LocalChatTranslate implements ClientModInitializer {
          this.reset();
          if (this.config.enabled && !this.modelNoticeShown && this.runtime.state() == LlamaCppRuntime.RuntimeState.MODEL_MISSING) {
             this.modelNoticeShown = true;
-            client.execute(() -> client.gui.getChat().addClientSystemMessage(Component.translatable(KEY + "chat.modelMissing")));
+            client.execute(() -> ClientUi.chat(client).addClientSystemMessage(Component.translatable(KEY + "chat.modelMissing")));
          }
          client.execute(() -> {
             if (this.config.enabled && !this.targetNoticeShown && target().isEmpty()) {
                this.targetNoticeShown = true;
-               client.gui.getChat().addClientSystemMessage(noTargetMessage(this.config.targetLanguage, true));
+               ClientUi.chat(client).addClientSystemMessage(noTargetMessage(this.config.targetLanguage, true));
             }
          });
       });
@@ -121,7 +121,7 @@ public final class LocalChatTranslate implements ClientModInitializer {
                               .executes(context -> this.toggle(false, ((FabricClientCommandSource)context.getSource())::sendFeedback))
                         ))
                      .then(ClientCommands.literal("settings").executes(context -> {
-                        Minecraft.getInstance().schedule(() -> Minecraft.getInstance().setScreen(new ConfigScreen(null)));
+                        Minecraft.getInstance().schedule(() -> ClientUi.setScreen(Minecraft.getInstance(), new ConfigScreen(null)));
                         return 1;
                      })))
                   .then(ClientCommands.literal("download").executes(context -> {

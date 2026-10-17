@@ -55,7 +55,7 @@ public final class TargetLanguageScreen extends Screen {
 
    public void onClose() {
       if (this.minecraft != null) {
-         this.minecraft.setScreen(this.parent);
+         ClientUi.setScreen(this.minecraft, this.parent);
       }
    }
 

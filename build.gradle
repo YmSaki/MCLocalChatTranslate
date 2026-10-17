@@ -3,7 +3,18 @@ plugins {
 }
 
 import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
 import java.security.MessageDigest
+
+def minecraftTargets = new JsonSlurper().parse(file('gradle/minecraft-versions.json'))
+def target = minecraftTargets[minecraft_version]
+if (target == null) {
+    throw new GradleException("Unsupported Minecraft version ${minecraft_version}; choose ${minecraftTargets.keySet()}")
+}
+ext.fabric_api_version = target.fabric_api
+ext.modmenu_version = target.modmenu
+version = "${mod_version}+${minecraft_version}"
+sourceSets.main.java.srcDir("src/compat/${target.client_ui}/java")
 
 base {
     archivesName = 'localchattranslate'
@@ -69,8 +80,10 @@ tasks.register('generateBundleManifest') {
 
 tasks.named('processResources') {
     dependsOn tasks.named('generateBundleManifest')
-    inputs.property 'version', project.version
-    filesMatching('fabric.mod.json') { expand version: project.version }
+    def metadata = [version: project.version, minecraft_version: minecraft_version,
+                    loader_version: loader_version, fabric_api_version: fabric_api_version]
+    inputs.properties metadata
+    filesMatching('fabric.mod.json') { expand metadata }
     from('bundle') {
         into 'bundled'
         exclude 'model/**'
@@ -149,6 +162,7 @@ fabricApi {
         eula = true
     }
 }
+sourceSets.gametest.java.srcDir("src/compat/${target.client_ui}/gametest")
 
 tasks.matching { it.name == 'runClientGameTest' }.configureEach {
     dependsOn tasks.named('seedGameTestModel')

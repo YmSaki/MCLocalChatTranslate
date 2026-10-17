@@ -1,12 +1,12 @@
 # LocalChatTranslate
 
-LocalChatTranslate is a client-side Fabric MOD for Minecraft 26.1.2 that translates English chat, NPC dialogue, and item descriptions into your language on your own PC. It was written for Hypixel SkyBlock. Translation runs locally with TranslateGemma 4B on a bundled llama.cpp server; no text is sent to an online translation service.
+LocalChatTranslate is a client-side Fabric MOD for Minecraft 26.1, 26.1.2, and 26.2 that translates English chat, NPC dialogue, and item descriptions into your language on your own PC. It was written for Hypixel SkyBlock. Translation runs locally with TranslateGemma 4B on a bundled llama.cpp server; no text is sent to an online translation service.
 
 ## Requirements
 
 - Windows x64 with a working Vulkan driver. Other operating systems are not supported.
-- Minecraft 26.1.2 and Java 25
-- Fabric Loader 0.19.5 or newer and Fabric API 0.155.2 or newer
+- Minecraft 26.1, 26.1.2, or 26.2 and Java 25. Use the JAR matching your exact Minecraft version.
+- Fabric Loader 0.19.5 or newer and Fabric API for your Minecraft version (see [build targets](gradle/minecraft-versions.json)).
 - About 2.6 GB of free disk space for the translation model
 
 ## Installation
@@ -60,6 +60,8 @@ $env:JAVA_HOME = 'path-to-jdk-25'
 .\gradlew.bat verifyRuntimeLifecycle   # starts llama-server, translates, restarts, shuts down
 .\gradlew.bat runClientGameTest        # launches Minecraft and checks chat, NPC, tooltip, settings
 ```
+
+The default target is Minecraft 26.1.2. Add `-Pminecraft_version=26.1` or `-Pminecraft_version=26.2` to select another target; dependencies and compatibility sources are selected from [gradle/minecraft-versions.json](gradle/minecraft-versions.json). Each JAR includes its target in its filename and declares that exact version in its mod metadata. See [RELEASING.md](RELEASING.md) for GitHub and CurseForge publishing.
 
 `src/main/resources/assets/localchattranslate/target_languages.json` maps Minecraft languages to the language names and codes in the TranslateGemma prompt. It is generated from the model's chat template by `reference/scripts/generate-target-languages.py`.
 

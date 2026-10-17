@@ -1,4 +1,6 @@
 # Gradle / build output
+__pycache__/
+*.pyc
 .gradle/
 build/
 out/
