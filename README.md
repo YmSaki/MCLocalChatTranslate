@@ -1,6 +1,6 @@
 # LocalChatTranslate
 
-LocalChatTranslate is a client-side Fabric MOD for Minecraft 26.1.2 that translates English chat, NPC dialogue, and item descriptions into Japanese on your own PC. It was written for Hypixel SkyBlock. Translation runs locally with TranslateGemma 4B on a bundled llama.cpp server; no text is sent to an online translation service.
+LocalChatTranslate is a client-side Fabric MOD for Minecraft 26.1.2 that translates English chat, NPC dialogue, and item descriptions into your language on your own PC. It was written for Hypixel SkyBlock. Translation runs locally with TranslateGemma 4B on a bundled llama.cpp server; no text is sent to an online translation service.
 
 ## Requirements
 
@@ -23,7 +23,15 @@ The model is subject to Google's [Gemma Terms of Use](https://ai.google.dev/gemm
 
 - Translations appear under the original chat line, prefixed with `↳`.
 - Hover over an item and press `G` to translate its description. The key can be changed in Controls.
-- `/lct` shows the status, `/lct on` and `/lct off` toggle translation, `/lct settings` opens the settings screen, `/lct download` starts the model download, and `/lct reload` reloads the config file.
+- `/lct` shows the status, `/lct on` and `/lct off` toggle translation, `/lct settings` opens the settings screen, `/lct download` starts the model download, `/lct lang <code>` sets the target language, and `/lct reload` reloads the config file.
+
+### Choosing the target language
+
+Press **Translate To** (翻訳先) on the settings screen. **Same as Game Language** follows the language selected in Minecraft. Pick a language from the list to translate into it while the game itself stays in another language, for example English. The list shows the Minecraft languages that TranslateGemma can write. The same setting is available as `/lct lang ja_jp` or `/lct lang auto`, using Minecraft's language codes.
+
+English is the source language, so it cannot be the target. With the game in English and **Same as Game Language** selected, nothing is translated until you choose a language. Configs from earlier versions keep translating into Japanese.
+
+Lines that contain Japanese, Chinese, or Korean characters are left untranslated. So are lines that contain letters of the target language's own script, for example Cyrillic when translating into Russian. For targets written in Latin script, such as German or Spanish, a line already in that language cannot be told apart from English and is sent for translation.
 
 The runtime starts in the background. It listens only on `127.0.0.1` with a random port and session key, and it stops when Minecraft exits. Its log is `logs/localchattranslate-llama.log`.
 
@@ -53,7 +61,9 @@ $env:JAVA_HOME = 'path-to-jdk-25'
 .\gradlew.bat runClientGameTest        # launches Minecraft and checks chat, NPC, tooltip, settings
 ```
 
-`build` runs `verifyModelStore`, which tests consent, download through a redirect, resume, checksum rejection, stall recovery, and HTTP errors against a local HTTP server.
+`src/main/resources/assets/localchattranslate/target_languages.json` maps Minecraft languages to the language names and codes in the TranslateGemma prompt. It is generated from the model's chat template by `reference/scripts/generate-target-languages.py`.
+
+`build` runs `verifyTargetLanguage`, which checks target resolution, config migration, and that the Japanese prompt is unchanged. It also runs `verifyModelStore`, which tests consent, download through a redirect, resume, checksum rejection, stall recovery, and HTTP errors against a local HTTP server.
 
 `RECONSTRUCTION.md` explains how the source was recovered from the original 0.4.0 release.
 

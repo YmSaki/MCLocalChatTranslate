@@ -55,6 +55,16 @@ public record ProtectedBody(String original, String detectionText, String reques
       }
    }
 
+   /**
+    * {@link #hasEnglishCandidate()} that also leaves alone text containing letters of the target's script,
+    * for example Cyrillic when translating into Russian. A single such letter is a symbol, like the ф in Hypixel's
+    * "Rift Time: +10s ф", so it takes two. Null adds nothing, as for Latin-script targets.
+    */
+   public boolean hasEnglishCandidate(UnicodeScript targetScript) {
+      return this.hasEnglishCandidate() && (targetScript == null
+         || this.detectionText.codePoints().filter(c -> Character.isLetter(c) && UnicodeScript.of(c) == targetScript).count() < 2);
+   }
+
    public String restore(String response) {
       if (response != null && response.length() <= 16384) {
          if (this.names.isEmpty()) {

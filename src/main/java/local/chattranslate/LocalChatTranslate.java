@@ -1,5 +1,6 @@
 package local.chattranslate;
 
+import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import java.io.IOException;
 import java.net.ConnectException;
@@ -32,6 +33,9 @@ import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.multiplayer.PlayerInfo;
 import net.minecraft.client.multiplayer.chat.GuiMessage;
 import net.minecraft.client.multiplayer.chat.GuiMessageSource;
+import net.minecraft.client.resources.language.LanguageInfo;
+import net.minecraft.client.resources.language.LanguageManager;
+import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.inventory.Slot;
 import org.slf4j.Logger;
@@ -53,6 +57,9 @@ public final class LocalChatTranslate implements ClientModInitializer {
    private long skipped;
    private long nextWarning;
    private boolean modelNoticeShown;
+   private boolean targetNoticeShown;
+   /** Prompt code of the last resolved target; a change drops queued work and cached tooltip translations. */
+   private String activeTarget;
    private Component lastError;
 
    public void onInitializeClient() {
@@ -63,15 +70,32 @@ public final class LocalChatTranslate implements ClientModInitializer {
       this.api = new TranslationClient(this.runtime, new TranslationLog(logPath));
       this.configPath = FabricLoader.getInstance().getConfigDir().resolve("localchattranslate.json");
       this.reload();
-      this.tooltips = new TooltipTranslations(this.api, () -> this.config);
+      this.tooltips = new TooltipTranslations(this.api, () -> this.config, LocalChatTranslate::target);
       this.startRuntime();
-      ClientTickEvents.END_CLIENT_TICK.register((EndTick)client -> this.tooltips.screenChanged(client.screen));
+      ClientTickEvents.END_CLIENT_TICK.register((EndTick)client -> {
+         this.tooltips.screenChanged(client.screen);
+         // Following the game language means the target can change whenever the language is switched.
+         if (!java.util.Objects.equals(targetCode(), this.activeTarget)) {
+            boolean lost = this.activeTarget != null;
+            this.reset();
+            if (lost && this.activeTarget == null && this.config.enabled && client.player != null) {
+               this.targetNoticeShown = true;
+               client.gui.getChat().addClientSystemMessage(noTargetMessage(this.config.targetLanguage, true));
+            }
+         }
+      });
       ClientPlayConnectionEvents.JOIN.register((Join)(handler, sender, client) -> {
          this.reset();
          if (this.config.enabled && !this.modelNoticeShown && this.runtime.state() == LlamaCppRuntime.RuntimeState.MODEL_MISSING) {
             this.modelNoticeShown = true;
             client.execute(() -> client.gui.getChat().addClientSystemMessage(Component.translatable(KEY + "chat.modelMissing")));
          }
+         client.execute(() -> {
+            if (this.config.enabled && !this.targetNoticeShown && target().isEmpty()) {
+               this.targetNoticeShown = true;
+               client.gui.getChat().addClientSystemMessage(noTargetMessage(this.config.targetLanguage, true));
+            }
+         });
       });
       ClientPlayConnectionEvents.DISCONNECT.register((Disconnect)(handler, client) -> {
          this.reset();
@@ -110,6 +134,11 @@ public final class LocalChatTranslate implements ClientModInitializer {
                      this.reset();
                      return this.status(((FabricClientCommandSource)context.getSource())::sendFeedback);
                   }))
+                  .then(ClientCommands.literal("lang").then(ClientCommands.argument("language", StringArgumentType.word())
+                     .suggests((context, builder) -> SharedSuggestionProvider.suggest(
+                        java.util.stream.Stream.concat(java.util.stream.Stream.of(TargetLanguage.AUTO), TargetLanguage.all().keySet().stream()), builder))
+                     .executes(context -> this.setTarget(StringArgumentType.getString(context, "language"),
+                        ((FabricClientCommandSource)context.getSource())::sendFeedback))))
             )
          );
       LOG.info("[LCT] 準備完了 | TranslateGemma 4B | 翻訳={} | 内蔵 llama.cpp | 翻訳ログ={}", this.config.enabled, logPath);
@@ -209,6 +238,61 @@ public final class LocalChatTranslate implements ClientModInitializer {
       return net.minecraft.network.chat.CommonComponents.optionStatus(on);
    }
 
+   /** Target of the saved setting; empty when it follows a game language that cannot be a target. Call on the client thread. */
+   public static Optional<TargetLanguage> target() {
+      return instance == null ? Optional.empty() : resolveTarget(instance.config.targetLanguage);
+   }
+
+   public static Optional<TargetLanguage> resolveTarget(String setting) {
+      return TargetLanguage.resolve(setting, Minecraft.getInstance().getLanguageManager().getSelected());
+   }
+
+   /**
+    * Native name of a Minecraft language as on the vanilla language screen. The region is added only when another
+    * target shares the name, so Português (Brasil) and Português (Portugal) stay apart.
+    */
+   public static String languageName(String minecraftCode) {
+      LanguageManager languages = Minecraft.getInstance().getLanguageManager();
+      LanguageInfo info = languages.getLanguage(minecraftCode);
+      if (info == null) return minecraftCode;
+      boolean shared = TargetLanguage.all().keySet().stream().filter(code -> !code.equals(minecraftCode))
+         .map(languages::getLanguage).anyMatch(other -> other != null && other.name().equals(info.name()));
+      return shared ? info.toComponent().getString() : info.name();
+   }
+
+   /** Script of the target's letters when it is not Latin, so text already written in it is not sent for translation. */
+   static Character.UnicodeScript targetScript(TargetLanguage target) {
+      LanguageInfo info = Minecraft.getInstance().getLanguageManager().getLanguage(target.minecraftCode());
+      return TargetLanguage.nonLatinScript(info == null ? null : info.name());
+   }
+
+   /**
+    * Why nothing is translated: an explicit setting that is not a usable language, or a game language that cannot be a target.
+    * {@code chat} selects the longer chat wording over the settings screen line.
+    */
+   public static Component noTargetMessage(String setting, boolean chat) {
+      String normalized = TargetLanguage.normalize(setting);
+      if (!TargetLanguage.AUTO.equals(normalized)) {
+         return Component.translatable(KEY + (chat ? "chat.unknownTarget" : "config.unknownTarget"), normalized);
+      }
+      return Component.translatable(KEY + (chat ? "chat.noTarget" : "config.noTarget"), gameLanguageName());
+   }
+
+   public static String gameLanguageName() {
+      return languageName(Minecraft.getInstance().getLanguageManager().getSelected());
+   }
+
+   /** Language name of a target setting, or "not set" when it cannot be resolved. */
+   public static Component targetName(String setting) {
+      return resolveTarget(setting).<Component>map(target -> Component.literal(languageName(target.minecraftCode())))
+         .orElse(Component.translatable(KEY + "target.none"));
+   }
+
+   /** Value shown on the settings button: the language, or "Auto (language)" when following the game. */
+   public static Component targetSettingLabel(String setting) {
+      return TargetLanguage.AUTO.equals(TargetLanguage.normalize(setting)) ?Component.translatable(KEY + "target.autoShort", targetName(setting)) : targetName(setting);
+   }
+
    /** File name of the selected GGUF, or TranslateGemma 4B for the default model. */
    public static String modelName() {
       String path = instance.config.modelPath;
@@ -225,7 +309,15 @@ public final class LocalChatTranslate implements ClientModInitializer {
       }
    }
 
+   private static String targetCode() {
+      return target().map(TargetLanguage::code).orElse(null);
+   }
+
+   /** Drops queued and in-flight work; requests made after this use the current target. */
    private void reset() {
+      this.activeTarget = targetCode();
+      // Once a target works again, losing it later deserves a new notice, including at the next join.
+      if (this.activeTarget != null) this.targetNoticeShown = false;
       this.generation++;
       this.seenNames.clear();
       this.api.clearQueued();
@@ -326,14 +418,16 @@ public final class LocalChatTranslate implements ClientModInitializer {
                }
 
                ProtectedBody body = ProtectedBody.prepare(publicChat.body(), names);
-               if (!body.hasEnglishCandidate()) {
+               Optional<TargetLanguage> target = target();
+               if (target.isEmpty() || !body.hasEnglishCandidate(targetScript(target.get()))) {
                   this.skipped++;
                } else {
                   long requestGeneration = this.generation;
 
                   try {
-                     this.api.translate(body).whenComplete((result, error) -> client.execute(() -> {
-                        if (requestGeneration == this.generation && this.config.enabled) {
+                     this.api.translate(body, target.get()).whenComplete((result, error) -> client.execute(() -> {
+                        // A completion can run before the tick that notices a game-language change.
+                        if (requestGeneration == this.generation && this.config.enabled && target.get().code().equals(targetCode())) {
                            if (error != null) {
                               this.failures++;
                               this.lastError = errorComponent(error);
@@ -370,9 +464,29 @@ public final class LocalChatTranslate implements ClientModInitializer {
       return this.status(feedback);
    }
 
+   private int setTarget(String language, Consumer<Component> feedback) {
+      String setting = language.toLowerCase(java.util.Locale.ROOT);
+      if (!TargetLanguage.AUTO.equals(setting) && !TargetLanguage.supported(setting)) {
+         feedback.accept(Component.translatable(KEY + "chat.unknownTarget", language));
+         return 0;
+      }
+      this.config.targetLanguage = setting;
+      this.reset();
+      try {
+         this.config.save(this.configPath);
+      } catch (Exception e) {
+         LOG.warn("Could not save target language", e);
+      }
+
+      return this.status(feedback);
+   }
+
    private int status(Consumer<Component> feedback) {
-      feedback.accept(Component.translatable(KEY + "chat.status", modelName(), onOff(this.config.enabled),
-         onOff(this.config.translateNpc), onOff(this.config.translateTooltips)));
+      feedback.accept(Component.translatable(KEY + "chat.status", modelName(), targetSettingLabel(this.config.targetLanguage),
+         onOff(this.config.enabled), onOff(this.config.translateNpc), onOff(this.config.translateTooltips)));
+      if (this.config.enabled && target().isEmpty()) {
+         feedback.accept(noTargetMessage(this.config.targetLanguage, true));
+      }
       feedback.accept(Component.translatable(KEY + "chat.stats", this.translated, this.api.pending(), this.failures,
          this.candidates, this.skipped));
       feedback.accept(Component.translatable(KEY + "chat.engine", runtimeStatus()));

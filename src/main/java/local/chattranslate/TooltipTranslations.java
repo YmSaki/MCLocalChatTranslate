@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.function.Supplier;
 import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
@@ -22,6 +23,7 @@ final class TooltipTranslations {
    private static final int CACHE_SIZE = 64;
    private final TranslationClient api;
    private final Supplier<ModConfig> settings;
+   private final Supplier<Optional<TargetLanguage>> target;
    private final KeyMapping key = KeyMappingHelper.registerKeyMapping(
       new KeyMapping("key.localchattranslate.tooltip", 71, Category.register(Identifier.fromNamespaceAndPath("localchattranslate", "translation")))
    );
@@ -31,9 +33,10 @@ final class TooltipTranslations {
    private TooltipTranslations.Entry current;
    private long generation;
 
-   TooltipTranslations(TranslationClient api, Supplier<ModConfig> settings) {
+   TooltipTranslations(TranslationClient api, Supplier<ModConfig> settings, Supplier<Optional<TargetLanguage>> target) {
       this.api = api;
       this.settings = settings;
+      this.target = target;
    }
 
    void hover(Screen screen, Slot slot) {
@@ -70,7 +73,8 @@ final class TooltipTranslations {
 
    List<Component> render(List<Component> original) {
       ModConfig config = this.settings.get();
-      if (config.enabled && config.translateTooltips && !original.isEmpty() && original.size() <= 96) {
+      Optional<TargetLanguage> target = this.target.get();
+      if (config.enabled && config.translateTooltips && target.isPresent() && !original.isEmpty() && original.size() <= 96) {
          List<String> signature = original.stream().<String>map(Component::getString).toList();
          if (signature.stream().mapToInt(String::length).sum() > 8192) {
             this.cancel();
@@ -116,7 +120,8 @@ final class TooltipTranslations {
             }
          }
 
-         Component action = Component.translatable(entry.visible ? "localchattranslate.tooltip.original" : "localchattranslate.tooltip.translate");
+         Component action = entry.visible ? Component.translatable("localchattranslate.tooltip.original")
+            : Component.translatable("localchattranslate.tooltip.translate", LocalChatTranslate.languageName(target.get().minecraftCode()));
          if (entry.busy) {
             action = Component.translatable("localchattranslate.tooltip.busy", action);
          } else if (entry.visible && entry.failed) {
@@ -139,6 +144,7 @@ final class TooltipTranslations {
       ModConfig config = this.settings.get();
       if (!config.enabled
          || !config.translateTooltips
+         || this.target.get().isEmpty()
          || this.screen != screen
          || this.slot != slot
          || slot == null
@@ -167,9 +173,9 @@ final class TooltipTranslations {
       return true;
    }
 
-   private static boolean hasCandidates(TooltipTranslations.Entry entry) {
+   private boolean hasCandidates(TooltipTranslations.Entry entry) {
       for (int i = 1; i < entry.lines.size(); i++) {
-         if (canTranslate(entry.lines.get(i))) {
+         if (this.canTranslate(entry.lines.get(i))) {
             return true;
          }
       }
@@ -177,15 +183,16 @@ final class TooltipTranslations {
       return false;
    }
 
-   private static boolean canTranslate(TooltipLine line) {
-      return line.needsTranslation() && !line.body.original().matches("[a-z0-9_.-]+:[a-z0-9_./-]+");
+   private boolean canTranslate(TooltipLine line) {
+      Character.UnicodeScript script = this.target.get().map(LocalChatTranslate::targetScript).orElse(null);
+      return line.needsTranslation(script) && !line.body.original().matches("[a-z0-9_.-]+:[a-z0-9_./-]+");
    }
 
    private void translateNext(TooltipTranslations.Entry entry, int from, long requestGeneration) {
       if (requestGeneration == this.generation && entry.visible) {
          int next = from;
 
-         while (next < entry.lines.size() && (entry.translated.get(next) != null || !canTranslate(entry.lines.get(next)))) {
+         while (next < entry.lines.size() && (entry.translated.get(next) != null || !this.canTranslate(entry.lines.get(next)))) {
             next++;
          }
 
@@ -194,14 +201,22 @@ final class TooltipTranslations {
             entry.complete = !entry.failed;
          } else {
             int index = next;
+            Optional<TargetLanguage> target = this.target.get();
+            if (target.isEmpty()) {
+               entry.failed = true;
+               entry.busy = false;
+               return;
+            }
             entry.busy = true;
             TooltipLine line = entry.lines.get(index);
 
             try {
                this.api
-                  .translateTooltipLine(line)
+                  .translateTooltipLine(line, target.get())
                   .whenComplete((result, error) -> Minecraft.getInstance().execute(() -> {
-                     if (requestGeneration == this.generation && entry.visible) {
+                     // Check the target again even if its change has not reached the next client tick.
+                     if (requestGeneration == this.generation && entry.visible
+                        && target.get().code().equals(this.target.get().map(TargetLanguage::code).orElse(null))) {
                         if (error != null) {
                            entry.failed = true;
                         } else {
