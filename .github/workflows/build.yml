@@ -72,7 +72,7 @@ jobs:
           if [[ "$GITHUB_REF_TYPE" == tag ]]; then
             args+=("-Pmod_version=${GITHUB_REF_NAME#v}")
           fi
-          bash ./gradlew build "${args[@]}" --no-daemon
+          bash ./gradlew build compileGametestJava "${args[@]}" --no-daemon
 
       - uses: actions/upload-artifact@v4
         with:

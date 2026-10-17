@@ -255,7 +255,8 @@ public final class OriginalClientGameTest implements FabricClientGameTest {
          } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             throw new AssertionError(e);
-         } catch (ReflectiveOperationException | java.io.IOException e) {
+         } catch (ReflectiveOperationException | java.io.IOException
+                  | java.util.concurrent.ExecutionException | java.util.concurrent.TimeoutException e) {
             throw new AssertionError(e);
          }
       });
