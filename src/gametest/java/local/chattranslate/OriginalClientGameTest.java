@@ -230,9 +230,10 @@ public final class OriginalClientGameTest implements FabricClientGameTest {
                   }
 
                   // Keep the client queue pending until the real translation has finished.
-                  long deadline = System.nanoTime() + java.util.concurrent.TimeUnit.SECONDS.toNanos(35);
-                  while (api.pending() != 0 && System.nanoTime() < deadline) Thread.sleep(10);
-                  if (api.pending() != 0) throw new AssertionError("Translation worker did not finish");
+                  // Executor statistics can briefly report zero as a task leaves the queue.
+                  // A barrier on the single worker also waits for its completion callbacks.
+                  var workers = (java.util.concurrent.ExecutorService) field(api, TranslationClient.class, "workers");
+                  workers.submit(() -> {}).get(35, java.util.concurrent.TimeUnit.SECONDS);
                   client.getLanguageManager().setSelected(nextLanguage);
 
                   // Drain completion callbacks without advancing the game tick.
