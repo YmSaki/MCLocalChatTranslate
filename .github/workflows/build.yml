@@ -8,15 +8,43 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 env:
   LLAMA_CPP_BUILD: b10964
   LLAMA_CPP_SHA256: 1ee3ad952f4ba71f438bd6d7bebef19e1c7af04adcaa35d08b4ddabb27d4c642
 
 jobs:
-  build:
+  targets:
     runs-on: ubuntu-latest
+    outputs:
+      minecraft: ${{ steps.matrix.outputs.minecraft }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: matrix
+        name: Read supported Minecraft versions
+        run: |
+          python - <<'PY'
+          import json, os, re
+          if os.environ['GITHUB_REF_TYPE'] == 'tag':
+              tag = os.environ['GITHUB_REF_NAME']
+              if not re.fullmatch(r'v\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?', tag):
+                  raise SystemExit('Use a release tag such as v0.5.0-alpha.2, without a Minecraft suffix.')
+          with open('gradle/minecraft-versions.json') as source:
+              versions = list(json.load(source))
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as output:
+              output.write('minecraft=' + json.dumps(versions) + '\n')
+          PY
+      - name: Test release tooling
+        run: python -m unittest discover -s scripts/tests -v
+
+  build:
+    needs: targets
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        minecraft: ${{ fromJSON(needs.targets.outputs.minecraft) }}
     steps:
       - uses: actions/checkout@v4
 
@@ -36,19 +64,48 @@ jobs:
           unzip -q -o "$RUNNER_TEMP/$zip" '*.dll' llama-server.exe -d "$dest"
           ls "$dest"
 
-      - name: Build
-        run: bash ./gradlew assemble --no-daemon
+      - name: Build and verify
+        env:
+          MINECRAFT_VERSION: ${{ matrix.minecraft }}
+        run: |
+          args=("-Pminecraft_version=$MINECRAFT_VERSION")
+          if [[ "$GITHUB_REF_TYPE" == tag ]]; then
+            args+=("-Pmod_version=${GITHUB_REF_NAME#v}")
+          fi
+          bash ./gradlew build "${args[@]}" --no-daemon
 
       - uses: actions/upload-artifact@v4
         with:
-          name: localchattranslate
+          name: localchattranslate-${{ matrix.minecraft }}
           path: build/libs/localchattranslate-*.jar
           if-no-files-found: error
 
-      - name: Publish pre-release
-        if: startsWith(github.ref, 'refs/tags/v')
+  release:
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: localchattranslate-*
+          merge-multiple: true
+          path: release
+      - name: Publish GitHub release
         uses: softprops/action-gh-release@v2
         with:
           prerelease: ${{ contains(github.ref_name, '-') }}
           generate_release_notes: true
-          files: build/libs/localchattranslate-*.jar
+          files: release/localchattranslate-*.jar
+          fail_on_unmatched_files: true
+
+  curseforge:
+    needs: release
+    if: vars.CURSEFORGE_PROJECT_ID != ''
+    uses: ./.github/workflows/curseforge.yml
+    with:
+      tag: ${{ github.ref_name }}
+      dry_run: false
+    secrets:
+      CURSEFORGE_API_TOKEN: ${{ secrets.CURSEFORGE_API_TOKEN }}

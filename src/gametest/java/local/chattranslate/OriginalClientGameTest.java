@@ -36,7 +36,7 @@ public final class OriginalClientGameTest implements FabricClientGameTest {
       context.setScreen(() -> new ConfigScreen(null));
       context.waitForScreen(ConfigScreen.class);
       context.runOnClient(client -> {
-         if (!(client.screen instanceof ConfigScreen)) {
+         if (!(ClientUi.screen(client) instanceof ConfigScreen)) {
             throw new AssertionError("Configuration screen did not open");
          }
       });
@@ -53,7 +53,7 @@ public final class OriginalClientGameTest implements FabricClientGameTest {
          try {
             Field download = ConfigScreen.class.getDeclaredField("download");
             download.setAccessible(true);
-            if (((net.minecraft.client.gui.components.Button) download.get(client.screen)).visible) {
+            if (((net.minecraft.client.gui.components.Button) download.get(ClientUi.screen(client))).visible) {
                throw new AssertionError("Model download button is shown while the runtime is READY");
             }
          } catch (ReflectiveOperationException e) {
@@ -71,7 +71,7 @@ public final class OriginalClientGameTest implements FabricClientGameTest {
       context.setScreen(() -> null);
 
       try (TestSingleplayerContext world = context.worldBuilder().create()) {
-         world.getClientLevel().waitForChunksRender();
+         GameTestCompat.waitForChunksRender(world);
          context.waitFor(client -> ClientCommandInternals.getActiveDispatcher() != null
             && ClientCommandInternals.getActiveDispatcher().getRoot().getChild("lct") != null);
          System.out.println("[LCT reconstruction test] /lct registered");
@@ -81,7 +81,7 @@ public final class OriginalClientGameTest implements FabricClientGameTest {
             if (!TargetLanguage.AUTO.equals(LocalChatTranslate.settings().targetLanguage) || LocalChatTranslate.target().isPresent()) {
                throw new AssertionError("Fresh config with an English client resolved a target");
             }
-            client.gui.getChat().addPlayerMessage(Component.literal("[1] TestPlayer: Good morning."), null, GuiMessageTag.system());
+            ClientUi.chat(client).addPlayerMessage(Component.literal("[1] TestPlayer: Good morning."), null, GuiMessageTag.system());
          });
          context.waitTicks(100);
          context.runOnClient(client -> {
@@ -99,13 +99,13 @@ public final class OriginalClientGameTest implements FabricClientGameTest {
             }
          });
 
-         context.runOnClient(client -> client.gui.getChat().addPlayerMessage(
+         context.runOnClient(client -> ClientUi.chat(client).addPlayerMessage(
             Component.literal("[1] TestPlayer: Hello world."), null, GuiMessageTag.system()));
          context.waitFor(client -> translatedMessages(client).size() >= 1, 1200);
          System.out.println("[LCT integration test] chat translated: " +
             context.computeOnClient(client -> translatedMessages(client).get(0)));
 
-         context.runOnClient(client -> client.gui.getChat().addPlayerMessage(
+         context.runOnClient(client -> ClientUi.chat(client).addPlayerMessage(
             Component.literal("[NPC] Villager: Welcome to the village."), null, GuiMessageTag.system()));
          context.waitFor(client -> translatedMessages(client).size() >= 2, 1200);
          System.out.println("[LCT integration test] NPC translated: " +
@@ -122,7 +122,7 @@ public final class OriginalClientGameTest implements FabricClientGameTest {
          context.setScreen(() -> new InventoryScreen(Minecraft.getInstance().player));
          context.waitForScreen(InventoryScreen.class);
          double[] cursor = context.computeOnClient(client -> {
-            InventoryScreen screen = (InventoryScreen) client.screen;
+            InventoryScreen screen = (InventoryScreen) ClientUi.screen(client);
             Slot itemSlot = screen.getMenu().slots.stream()
                .filter(slot -> slot.getItem().is(Items.DIAMOND_SWORD))
                .findFirst().orElseThrow(() -> new AssertionError("Test item is not in inventory"));
@@ -140,7 +140,7 @@ public final class OriginalClientGameTest implements FabricClientGameTest {
          });
          context.getInput().setCursorPos(cursor[0], cursor[1]);
          context.waitFor(client -> {
-            if (!(client.screen instanceof InventoryScreen screen)) return false;
+            if (!(ClientUi.screen(client) instanceof InventoryScreen screen)) return false;
             try {
                Field hovered = AbstractContainerScreen.class.getDeclaredField("hoveredSlot");
                hovered.setAccessible(true);
@@ -186,13 +186,13 @@ public final class OriginalClientGameTest implements FabricClientGameTest {
          System.out.println("[LCT integration test] notice shown when the target was lost");
 
          context.runOnClient(client -> {
-            ClientCommandInternals.executeCommand("lct lang KO_KR");
+            client.getConnection().sendCommand("lct lang KO_KR");
             if (!"ko_kr".equals(modConfig().targetLanguage) || !"ko".equals(LocalChatTranslate.target().map(TargetLanguage::code).orElse(null))) {
                throw new AssertionError("/lct lang did not set the target: " + modConfig().targetLanguage);
             }
-            ClientCommandInternals.executeCommand("lct lang xx_yy");
+            client.getConnection().sendCommand("lct lang xx_yy");
             if (!"ko_kr".equals(modConfig().targetLanguage)) throw new AssertionError("/lct lang accepted an unknown language");
-            ClientCommandInternals.executeCommand("lct lang auto");
+            client.getConnection().sendCommand("lct lang auto");
             if (!TargetLanguage.AUTO.equals(modConfig().targetLanguage)) throw new AssertionError("/lct lang auto was not saved");
          });
          System.out.println("[LCT integration test] /lct lang sets, rejects and resets the target");
@@ -216,7 +216,7 @@ public final class OriginalClientGameTest implements FabricClientGameTest {
                   LocalChatTranslate.saveSettings(config);
                   long before = tooltip ? cachedTranslations() : translatedMessages(client).size();
                   if (tooltip) {
-                     InventoryScreen screen = (InventoryScreen) client.screen;
+                     InventoryScreen screen = (InventoryScreen) ClientUi.screen(client);
                      Slot slot = screen.getMenu().slots.stream().filter(s -> s.getItem().is(Items.DIAMOND_SWORD))
                         .findFirst().orElseThrow();
                      LocalChatTranslate.tooltipHover(screen, slot);
@@ -225,7 +225,7 @@ public final class OriginalClientGameTest implements FabricClientGameTest {
                         throw new AssertionError("Tooltip translation did not start");
                      }
                   } else {
-                     client.gui.getChat().addPlayerMessage(
+                     ClientUi.chat(client).addPlayerMessage(
                         Component.literal("[1] TestPlayer: Hello world."), null, GuiMessageTag.system());
                   }
 
@@ -270,7 +270,7 @@ public final class OriginalClientGameTest implements FabricClientGameTest {
       try {
          Field messages = ChatComponent.class.getDeclaredField("allMessages");
          messages.setAccessible(true);
-         @SuppressWarnings("unchecked") List<GuiMessage> history = (List<GuiMessage>) messages.get(client.gui.getChat());
+         @SuppressWarnings("unchecked") List<GuiMessage> history = (List<GuiMessage>) messages.get(ClientUi.chat(client));
          return history.stream().map(message -> message.content().getString()).toList();
       } catch (ReflectiveOperationException e) {
          throw new AssertionError(e);

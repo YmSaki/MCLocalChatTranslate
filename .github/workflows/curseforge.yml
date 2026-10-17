@@ -1,0 +1,64 @@
+name: Publish to CurseForge
+
+on:
+  workflow_call:
+    inputs:
+      tag:
+        required: true
+        type: string
+      dry_run:
+        type: boolean
+        default: true
+      minecraft:
+        type: string
+        default: ''
+    secrets:
+      CURSEFORGE_API_TOKEN:
+        required: false
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing GitHub release tag (for example v0.5.0-alpha.2)
+        required: true
+        type: string
+      dry_run:
+        description: Validate files and show upload metadata without uploading
+        type: boolean
+        default: true
+      minecraft:
+        description: Upload only this Minecraft version (blank uploads all release JARs)
+        type: string
+        default: ''
+
+permissions:
+  contents: read
+
+concurrency:
+  group: curseforge-${{ inputs.tag }}
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download GitHub release and changelog
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ inputs.tag }}
+        run: |
+          mkdir -p build/curseforge-release
+          gh release view "$RELEASE_TAG" --json tagName,body,isDraft,isPrerelease > build/curseforge-release.json
+          gh release download "$RELEASE_TAG" --pattern 'localchattranslate-*.jar' --dir build/curseforge-release
+      - name: Validate and upload
+        env:
+          CURSEFORGE_API_TOKEN: ${{ secrets.CURSEFORGE_API_TOKEN }}
+          CURSEFORGE_PROJECT_ID: ${{ vars.CURSEFORGE_PROJECT_ID }}
+          DRY_RUN: ${{ inputs.dry_run }}
+          MINECRAFT_VERSION: ${{ inputs.minecraft }}
+        run: |
+          args=(--release-json build/curseforge-release.json --files-dir build/curseforge-release)
+          if [[ "$DRY_RUN" == true ]]; then args+=(--dry-run); fi
+          if [[ -n "$MINECRAFT_VERSION" ]]; then args+=(--minecraft "$MINECRAFT_VERSION"); fi
+          python scripts/publish_curseforge.py "${args[@]}"

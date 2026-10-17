@@ -49,7 +49,7 @@ public final class ConfigScreen extends Screen {
       }).bounds(x, this.top + 62, (w - 6) / 2, 20).build());
       this.addRenderableWidget(Button.builder(CommonComponents.optionNameValue(Component.translatable(KEY + "target"),
          LocalChatTranslate.targetSettingLabel(this.edited.targetLanguage)),
-         button -> this.minecraft.setScreen(new TargetLanguageScreen(this, this.edited))).bounds(x + (w + 6) / 2, this.top + 62, (w - 6) / 2, 20).build());
+         button -> ClientUi.setScreen(this.minecraft, new TargetLanguageScreen(this, this.edited))).bounds(x + (w + 6) / 2, this.top + 62, (w - 6) / 2, 20).build());
       this.download = this.addRenderableWidget(Button.builder(Component.translatable(KEY + "download"), button -> {
          if (LocalChatTranslate.runtimeState() == LlamaCppRuntime.RuntimeState.MODEL_MISSING) {
             LocalChatTranslate.consentToDownload();
@@ -60,7 +60,7 @@ public final class ConfigScreen extends Screen {
          this.updateDownloadButton();
       }).bounds(x, this.top + 142, (w - 6) / 2, 20).build());
       this.model = this.addRenderableWidget(Button.builder(Component.translatable(KEY + "model"),
-         button -> this.minecraft.setScreen(new ModelScreen(this, this.edited))).bounds(x, this.top + 142, w, 20).build());
+         button -> ClientUi.setScreen(this.minecraft, new ModelScreen(this, this.edited))).bounds(x, this.top + 142, w, 20).build());
       this.logs = this.addRenderableWidget(
          Button.builder(Component.translatable(KEY + "openLogs"), button -> Util.getPlatform().openPath(FabricLoader.getInstance().getGameDir().resolve("logs")))
             .bounds(x, this.top + 142, w, 20)
@@ -129,7 +129,7 @@ public final class ConfigScreen extends Screen {
 
    public void onClose() {
       if (this.minecraft != null) {
-         this.minecraft.setScreen(this.parent);
+         ClientUi.setScreen(this.minecraft, this.parent);
       }
    }
 }
